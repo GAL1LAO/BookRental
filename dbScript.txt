@@ -1,0 +1,98 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8mb3 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Users` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Users` (
+                                                 `short` VARCHAR(4) NOT NULL,
+                                                 `lastName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `firstName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `title` VARCHAR(3) NULL DEFAULT NULL,
+                                                 `mailAddress` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `phoneNumber` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `birthDate` DATE NULL DEFAULT NULL,
+                                                 `password` VARCHAR(80) NOT NULL,
+                                                 `role` VARCHAR(3) NOT NULL,
+                                                 PRIMARY KEY (`short`))
+    ENGINE = InnoDB;
+   
+-- -----------------------------------------------------
+-- Table `mydb`.`Items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Items` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Items` (
+                                                 `ID` INT NOT NULL AUTO_INCREMENT,
+                                                 `type` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `name` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `description` LONGTEXT NULL DEFAULT NULL,
+                                                 `image` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `user_short` VARCHAR(4) NULL DEFAULT NULL,
+                                                 `damages` LONGTEXT NULL DEFAULT NULL,
+                                                 `dateOfPurchase` DATE NOT NULL,
+                                                 `storageSite` VARCHAR(45) NOT NULL,
+                                                 PRIMARY KEY (`ID`),
+                                                 CONSTRAINT `Items_user`
+												 FOREIGN KEY (`user_short`)
+												 REFERENCES `mydb`.`Users` (`short`))
+    ENGINE = InnoDB;
+    
+-- -----------------------------------------------------
+-- Table `mydb`.`Audit`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Audit` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Audit` (
+                                                 `ID` INT NOT NULL AUTO_INCREMENT,
+												 `user_short` VARCHAR(4) NULL DEFAULT NULL,
+                                                 `item_ID` INT NULL DEFAULT NULL,
+												 `date` DATETIME NOT NULL,
+                                                 `type` VARCHAR(3) NULL DEFAULT NULL,
+                                                 `remarks` LONGTEXT NULL DEFAULT NULL,
+                                                 PRIMARY KEY (`ID`),
+                                                 CONSTRAINT `Audit_user`
+												 FOREIGN KEY (`user_short`)
+												 REFERENCES `mydb`.`Users` (`short`),
+                                                 CONSTRAINT `Audit_item`
+												 FOREIGN KEY (`item_ID`)
+												 REFERENCES `mydb`.`Items` (`ID`))
+    ENGINE = InnoDB;
+    
+-- -----------------------------------------------------
+-- Table `mydb`.`Reservations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Reservations` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Reservations` (
+                                                 `ID` INT NOT NULL AUTO_INCREMENT,
+												 `user_short` VARCHAR(4) NULL DEFAULT NULL,
+                                                 `item_ID` INT NULL DEFAULT NULL,
+												 `dateFrom` DATETIME NOT NULL,
+                                                 `dateTo` DATETIME NULL DEFAULT NULL,
+                                                 PRIMARY KEY (`ID`),
+                                                 CONSTRAINT `Reservations_user`
+												 FOREIGN KEY (`user_short`)
+												 REFERENCES `mydb`.`Users` (`short`),
+                                                 CONSTRAINT `Reservations_item`
+												 FOREIGN KEY (`item_ID`)
+												 REFERENCES `mydb`.`Items` (`ID`))
+    ENGINE = InnoDB;
+
+INSERT INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES ('Tes','Test','Test','Hr','test@test.de','01234/12234','1980-10-16','1234','T');
