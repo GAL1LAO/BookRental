@@ -95,4 +95,52 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Reservations` (
 												 REFERENCES `mydb`.`Items` (`ID`))
     ENGINE = InnoDB;
 
-INSERT INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES ('Tes','Test','Test','Hr','test@test.de','01234/12234','1980-10-16','1234','T');
+INSERT INTO `Users` (`short`, `lastName`, `firstName`, `title`, `mailAddress`, `phoneNumber`, `birthDate`, `password`, `role`)
+VALUES
+('abcd', 'Mustermann', 'Max', 'Mr', 'max.mustermann@example.com', '+49123456789', '1980-01-15', 'password1', 'adm'),
+('efgh', 'Musterfrau', 'Anna', 'Mrs', 'anna.musterfrau@example.com', '+49123456788', '1985-03-20', 'password2', 'use'),
+('ijkl', 'Schmidt', 'Peter', 'Dr.', 'peter.schmidt@example.com', '+49123456787', '1972-09-10', 'password3', 'adm'),
+('mnop', 'Müller', 'Lisa', 'Mrs', 'lisa.mueller@example.com', '+49123456786', '1990-07-05', 'password4', 'use'),
+('qrst', 'Becker', 'Thomas', 'Mr', 'thomas.becker@example.com', '+49123456785', '1988-12-28', 'password5', 'adm'),
+('uvwx', 'Schulz', 'Julia', 'Mrs', 'julia.schulz@example.com', '+49123456784', '1982-06-14', 'password6', 'use'),
+('yzab', 'Hofmann', 'Michael', 'Mr', 'michael.hofmann@example.com', '+49123456783', '1976-11-22', 'password7', 'adm'),
+('cdef', 'Wagner', 'Sarah', 'Mrs', 'sarah.wagner@example.com', '+49123456782', '1987-04-30', 'password8', 'use'),
+('ghij', 'Koch', 'Martin', 'Mr', 'martin.koch@example.com', '+49123456781', '1995-02-18', 'password9', 'adm'),
+('klmn', 'Lehmann', 'Laura', 'Mrs', 'laura.lehmann@example.com', '+49123456780', '1983-08-03', 'password10', 'use');
+
+INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `damages`, `dateOfPurchase`, `storageSite`)
+VALUES
+('Book', 'Math Workbook', 'Math workbook for primary school students.', 'math_workbook.jpg', 'abcd', 'None', '2021-01-15', 'Storage Room 1'),
+('Book', 'English Textbook', 'English textbook for Grade 4.', 'english_textbook.jpg', 'efgh', 'Minor wear', '2020-08-20', 'Storage Room 2'),
+('Book', 'Science Workbook', 'Science workbook with interactive experiments.', 'science_workbook.jpg', 'ijkl', 'None', '2021-03-10', 'Storage Room 1'),
+('Book', 'History Textbook', 'History textbook covering ancient civilizations.', 'history_textbook.jpg', 'mnop', 'None', '2019-12-05', 'Storage Room 2'),
+('Book', 'Art Supplies Catalog', 'Catalog of art supplies for creative projects.', 'art_supplies_catalog.jpg', 'qrst', 'Torn pages', '2020-05-25', 'Storage Room 1'),
+('Book', 'Music Textbook', 'Music textbook for learning musical notation.', 'music_textbook.jpg', 'uvwx', 'None', '2021-02-10', 'Storage Room 2'),
+('Book', 'Geography Workbook', 'Geography workbook with maps and quizzes.', 'geography_workbook.jpg', 'yzab', 'Water damage', '2020-09-30', 'Storage Room 1'),
+('Book', 'Physical Education Manual', 'Manual for physical education teachers.', 'pe_manual.jpg', 'cdef', 'None', '2021-04-18', 'Storage Room 2'),
+('Book', 'German Language Workbook', 'Workbook for learning the German language.', 'german_workbook.jpg', 'ghij', 'None', '2020-11-12', 'Storage Room 1'),
+('Book', 'Computer Science Textbook', 'Textbook covering computer science concepts.', 'computer_science_textbook.jpg', 'klmn', 'Missing cover', '2021-07-22', 'Storage Room 2');
+
+
+INSERT INTO `Audit` (`user_short`, `item_ID`, `date`, `type`, `remarks`)
+VALUES
+('abcd', 1, '2023-01-05 10:30:00', 'in', 'Item received in good condition'),
+('efgh', 2, '2023-01-06 14:45:00', 'out', 'Item returned after use'),
+('ijkl', 3, '2023-01-07 11:15:00', 'in', 'Item received without issues'),
+('mnop', 4, '2023-01-08 16:20:00', 'in', 'Item received in perfect condition'),
+('qrst', 5, '2023-01-09 09:30:00', 'out', 'Item returned with minor scratches'),
+('uvwx', 6, '2023-01-10 13:10:00', 'in', 'Item received in good condition'),
+('yzab', 7, '2023-01-11 15:55:00', 'out', 'Item returned without damages'),
+('cdef', 8, '2023-01-12 08:45:00', 'in', 'Item received in working order'),
+('ghij', 9, '2023-01-13 12:40:00', 'in', 'Item received with minor scratches'),
+('klmn', 10, '2023-01-14 17:00:00', 'out', 'Item returned in good condition');
+
+INSERT INTO `Reservations` (`user_short`, `item_ID`, `dateFrom`, `dateTo`)
+VALUES
+('abcd', 1, '2023-02-01 10:00:00', '2023-02-05 12:00:00'),
+('efgh', 2, '2023-02-03 14:00:00', '2023-02-06 16:00:00'),
+('ijkl', 3, '2023-02-05 09:00:00', '2023-02-09 11:00:00'),
+('mnop', 4, '2023-02-07 13:00:00', '2023-02-11 15:00:00'),
+('qrst', 5, '2023-02-09 08:00:00', '2023-02-13 10:00:00'),
+('uvwx', 6, '2023-02-11 12:00:00', '2023-02-15 14:00:00'),
+('yzab', 7, '2023-02-13 07:00:00', '2023-02-17 09:00:00');
