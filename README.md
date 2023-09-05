@@ -4,7 +4,7 @@ Software engineering 3
 Add database connection:
 1) Install mySQL and mySQL workbench
 2) open mySQL workbench
-3) Open new database with user "root" and password "DBADMIN" on localhost
+3) Open new database and add user, password and dbName(should be mydb) into .env file
 4) Copy content of dbScript.txt into mySQL workbench and execute --> in schemas, there now should be database "mydb" including tables
 5) Step 4 needs to be redone, whenever there are changes to the databaseScript
 6) Open project in visual studio code

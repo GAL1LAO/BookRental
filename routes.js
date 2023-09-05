@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-
+require('dotenv').config({path: './.env'});
 const connection = mysql.createPool({
   host     : 'localhost',
-  user     : 'root',
-  password : 'DBADMIN',
-  database : 'mydb'
+  user     : process.env.dbUser,
+  password : process.env.dbPassword,
+  database : process.env.dbName
 });
 
 // Starting our app.
