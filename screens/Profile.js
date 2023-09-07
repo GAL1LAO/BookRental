@@ -29,7 +29,6 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.captionContainer}>
-        <Text style={styles.captionText}>PROFIL</Text>
         <Text style={styles.subCaptionText}>{adress} {userName}</Text>
       </View>
       <ScrollView>
@@ -68,7 +67,7 @@ export default function ProfileScreen() {
           style={styles.line}
         />
         <View style={styles.centerItems}>
-          <Text style={styles.subCaptionText}>
+          <Text style={styles.subCaptionTextLentAndReserved}>
             Ausgeliehen
           </Text>
               {itemList}
@@ -77,7 +76,7 @@ export default function ProfileScreen() {
           style={styles.line}
         />
         <View style={styles.centerItems}>
-          <Text style={styles.subCaptionText}>
+          <Text style={styles.subCaptionTextLentAndReserved}>
             Reserviert
           </Text>
               {itemList}
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   captionContainer: {
-    paddingLeft: 10,
+    paddingLeft: 20,
     paddingTop: 10,
   },
   userDetails: {
@@ -125,6 +124,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
+  subCaptionTextLentAndReserved: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 15
+  },
   text: {
 
   },
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   fakeButton: {
+    borderRadius: 10,
     flexDirection: 'row',
     paddingHorizontal: 15,
     alignItems: 'flex-start',
