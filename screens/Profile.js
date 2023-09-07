@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
   const adress = 'Prof. Dr. Med'
@@ -10,18 +10,19 @@ export default function ProfileScreen() {
 
   let itemList = []
   let items = [{text: 'Deutsch', id: 1}, {text: 'Erdkunde', id: 2}, {text: 'Arbeitsblätter zur Beschäftigung', id: 3}, {text: 'Hippopotomonstrosesquippedaliophobie', id: 4}, {text: 'Hip', id: 5},{text: 'Hip', id: 6},{text: 'Hip', id: 7},{text: 'Hip', id: 8},{text: 'Hip', id: 9},{text: 'Hip', id: 10},]
+  
   items.forEach((item) => {
     itemList.push(
-      <View style={styles.fakeButton} key={item.id}>
-        <View style={styles.fakeButtonText}>
-          <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-            {item.text}
-          </Text>
-        </View>
-        <View style={styles.fakeButtonImage}>
-          <Image source={require('../assets/favicon.png')}/>
-        </View>
-      </View>
+          <TouchableOpacity style={styles.fakeButton} key={item.id} onPress={() => {alert(item.id)}}>
+            <View style={styles.fakeButtonText}>
+                <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+                  {item.text}
+                </Text>
+            </View>
+            <View style={styles.fakeButtonImage}>
+              <Image source={require('../assets/favicon.png')}/>
+            </View>
+          </TouchableOpacity>
     )
   })
 
