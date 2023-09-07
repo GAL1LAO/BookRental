@@ -5,12 +5,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Screens
 import HomeScreen from './screens/Home';
-import RentScreen from './screens/Rent';
+import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
 
 //Screen names
 const homeName = "Home";
-const rentName = "Rent";
+const lendName = "Lend";
 const profileName = "Profile";
 
 
@@ -32,7 +32,7 @@ function MainContainer() {
 
                 if (rn === homeName) {
                     iconName = focused ? 'home' : 'home-outline';
-                } else if (rn === rentName) {
+                } else if (rn === lendName) {
                     iconName = focused ? 'qr-code' : 'qr-code-outline';
                 } else if (rn === profileName) {
                     iconName = focused ? 'person' : 'person-outline';
@@ -44,7 +44,7 @@ function MainContainer() {
         })}>
 
         <Tab.Screen name={homeName} component={HomeScreen} />
-        <Tab.Screen name={rentName} component={RentScreen} />
+        <Tab.Screen name={lendName} component={LendScreen} />
         <Tab.Screen name={profileName} component={ProfileScreen} />
 
 

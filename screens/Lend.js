@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-  export default function RentScreen({navigation}){
+  export default function LendScreen({navigation}){
   return (
     <View style={styles.container}>
-      <Text>Rent</Text>
+      <Text>Lend</Text>
     </View>
   );
 }
