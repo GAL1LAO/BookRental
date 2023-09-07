@@ -13,16 +13,16 @@ export default function ProfileScreen() {
   
   items.forEach((item) => {
     itemList.push(
-          <TouchableOpacity style={styles.fakeButton} key={item.id} onPress={() => {alert(item.id)}}>
-            <View style={styles.fakeButtonText}>
-                <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-                  {item.text}
-                </Text>
-            </View>
-            <View style={styles.fakeButtonImage}>
-              <Image source={require('../assets/favicon.png')}/>
-            </View>
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.fakeButton} key={item.id} onPress={() => {alert(item.id)}}>
+        <View style={styles.fakeButtonText}>
+            <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+              {item.text}
+            </Text>
+        </View>
+        <View style={styles.fakeButtonImage}>
+          <Image source={require('../assets/favicon.png')}/>
+        </View>
+      </TouchableOpacity>
     )
   })
 
@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
   subCaptionText: {
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  text: {
+
   },
   line: {
     marginHorizontal: 10,
