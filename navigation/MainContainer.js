@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const homeName = "Home";
 const lendName = "Leihen";
@@ -16,7 +15,6 @@ const Tab = createBottomTabNavigator();
 
 function MainContainer() {
   return (
-    <SafeAreaProvider>
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName={homeName}
@@ -43,7 +41,6 @@ function MainContainer() {
           <Tab.Screen name={profileName} component={ProfileScreen} />
         </Tab.Navigator>
       </NavigationContainer>
-    </SafeAreaProvider>
   );
 }
 
