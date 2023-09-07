@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-  export default function LendScreen({navigation}){
+  export default function HomeScreen({navigation}){
   return (
     <View style={styles.container}>
-      <Text>Lend</Text>
+      <Text>Home</Text>
     </View>
   );
 }

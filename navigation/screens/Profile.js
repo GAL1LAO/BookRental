@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
   const adress = 'Prof. Dr. Med'
@@ -20,7 +20,7 @@ export default function ProfileScreen() {
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require('../assets/favicon.png')}/>
+          <Image source={require('../../assets/favicon.png')}/>
         </View>
       </TouchableOpacity>
     )

@@ -1,4 +1,4 @@
-import MainContainer from './MainContainer';
+import MainContainer from './navigation/MainContainer';
 
 export default function App() {
   return (
