@@ -9,11 +9,11 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('')
     async function login(){
         if(!password ||password === null){
-            Alert.alert("password empty","Please enter your password")
+            Alert.alert("Passwort leer.","Bitte geben sie ein Passwort ein.")
             return
         }
         if(!short ||short === null){
-            Alert.alert("short empty","Please enter your short")
+            Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
             return
         }
         let result
@@ -31,11 +31,11 @@ export default function LoginScreen() {
             result = serverResponse
         })
         if(result === null || result.length === 0){
-            Alert.alert("Login unsuccessfull","The combination of short and password are not correct, please try again!")
+            Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
             return
         }else{
             //TODO: log in and keep logged in
-            Alert.alert("login succesfull","You have sucessfully been logged in")
+            Alert.alert("Login erfolgreich")
         }
     }
 

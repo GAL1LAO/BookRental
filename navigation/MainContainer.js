@@ -9,7 +9,7 @@ import LoginScreen from './screens/Login';
 
 const homeName = "Home";
 const lendName = "Leihen";
-const profileName = "Profile";
+const profileName = "Profil";
 
 
 const Tab = createBottomTabNavigator();
