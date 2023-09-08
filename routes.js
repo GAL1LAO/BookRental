@@ -11,7 +11,7 @@ const connection = mysql.createPool({
 
 // Starting our app.
 const app = express();
-
+app.use(express.json())
 // Creating a GET route that returns data from the 'users' table.
 app.get('/users', function (req, res) {
     // Connecting to the database.
@@ -27,6 +27,20 @@ app.get('/users', function (req, res) {
     });
   });
 });
+
+app.post('/login', (req, res) => {
+  console.log(req.body)
+  connection.getConnection(function (err, connection) {
+  const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '" AND password = "' +req.body.password + '"' 
+  connection.query(loginQuery, function (error, results, fields) {
+    if (error) throw error;
+    console.log(results)
+    res.send(results)
+  });
+});
+});
+
+
 
 // Starting our server.
 app.listen(3000, () => {
