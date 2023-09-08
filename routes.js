@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const cors = require('cors')
 require('dotenv').config({path: './.env'});
 const connection = mysql.createPool({
   host     : 'localhost',
@@ -11,6 +11,7 @@ const connection = mysql.createPool({
 
 // Starting our app.
 const app = express();
+app.use(cors())
 app.use(express.json())
 // Creating a GET route that returns data from the 'users' table.
 app.get('/users', function (req, res) {
