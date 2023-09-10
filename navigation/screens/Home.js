@@ -49,6 +49,26 @@ export default function HomeScreen({ navigation }) {
     { text: "Hip", id: 10 },
   ]);
 
+  // const [fetchDate, setFetchDate] = useState([]);
+
+  // const url = 'http://'+ process.env.localIP +':3000'
+    
+  // useEffect(() => {
+  //       fetch(url + '/items')
+  //       .then(response => response.json()) 
+  //         .then(serverResponse => {
+  //           console.log(serverResponse)
+  //           result = serverResponse
+  //         })
+  //       // .then((response) => {
+  //       //   // Assuming the API response is an array of objects containing "type" and "user_short"
+  //       //   setFetchDate(response.fetchDate);
+  //       // })
+  //       .catch((error) => {
+  //         console.error('Error fetching data:', error);
+  //       });
+  //   }, []);
+
   // handleOnChangeText = (text) => {
   //   // ? Visible the spinner
   //   this.setState({
