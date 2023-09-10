@@ -66,23 +66,25 @@ export default function HomeScreen({ navigation }) {
   // const { spinnerVisibility } = this.state;
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.fakeButton}
-      onPress={() => {
-        alert(item.id);
-        // Handle the button click here
-        // You can use item.id or item.text to identify the clicked item
-      }}
-    >
-      <View style={styles.fakeButtonText}>
-        <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-          {item.text}
-        </Text>
-      </View>
-      <View style={styles.fakeButtonImage}>
-        <Image source={require("../../assets/favicon.png")} />
-      </View>
-    </TouchableOpacity>
+    <View style={styles.centerItems}>
+      <TouchableOpacity
+        style={styles.fakeButton}
+        onPress={() => {
+          alert(item.id);
+          // Handle the button click here
+          // You can use item.id or item.text to identify the clicked item
+        }}
+      >
+        <View style={styles.fakeButtonText}>
+          <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+            {item.text}
+          </Text>
+        </View>
+        <View style={styles.fakeButtonImage}>
+          <Image source={require("../../assets/favicon.png")} />
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 
   const onSearch = (text) => {
@@ -116,14 +118,13 @@ export default function HomeScreen({ navigation }) {
         </View>
       </TouchableOpacity>
 
-      <View style={styles.centerItems}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          //showsHorizontalScrollIndicator={false}
-        />
-      </View>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.flatList}
+        //showsHorizontalScrollIndicator={false}
+      />
     </View>
   );
 }
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
   },
   centerItems: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
   },
   fakeButton: {
@@ -188,6 +188,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
   },
+  flatList:{
+    width: "100%",
+  }
 
   // subCaptionTextLentAndReserved: {
   //   fontWeight: "bold",
