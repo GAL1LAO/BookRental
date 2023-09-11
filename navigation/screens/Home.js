@@ -79,6 +79,7 @@ export default function HomeScreen({ navigation }) {
 
       // Set 'data' once with the 'books' array
       setData(books);
+      setOldData(books);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
