@@ -9,7 +9,7 @@ import {
 // import { TextInput } from "react-native-web";
 
 import SearchBar from "react-native-dynamic-search-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function HomeScreen({ navigation }) {
   // const data = [
@@ -24,18 +24,18 @@ export default function HomeScreen({ navigation }) {
   //   { text: "Hip", id: 9 },
   //   { text: "Hip", id: 10 },
   // ];
-  const [data, setData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
+  // const [data, setData] = useState([
+  //   { text: "Deutsch", id: 1 },
+  //   { text: "Erdkunde", id: 2 },
+  //   { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
+  //   { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
+  //   { text: "Hip", id: 5 },
+  //   { text: "Hip", id: 6 },
+  //   { text: "Hip", id: 7 },
+  //   { text: "Hip", id: 8 },
+  //   { text: "Hip", id: 9 },
+  //   { text: "Hip", id: 10 },
+  // ]);
   const [oldData, setOldData] = useState([
     { text: "Deutsch", id: 1 },
     { text: "Erdkunde", id: 2 },
@@ -49,25 +49,96 @@ export default function HomeScreen({ navigation }) {
     { text: "Hip", id: 10 },
   ]);
 
-  // const [fetchDate, setFetchDate] = useState([]);
+  const [fetchData, setFetchData] = useState([]); // Use a different state variable name
 
-  // const url = 'http://'+ process.env.localIP +':3000'
-    
-  // useEffect(() => {
-  //       fetch(url + '/items')
-  //       .then(response => response.json()) 
-  //         .then(serverResponse => {
-  //           console.log(serverResponse)
-  //           result = serverResponse
-  //         })
-  //       // .then((response) => {
-  //       //   // Assuming the API response is an array of objects containing "type" and "user_short"
-  //       //   setFetchDate(response.fetchDate);
-  //       // })
-  //       .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   }, []);
+  const url = 'http://' + process.env.localIP + ':3000';
+  
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+    console.log("fetching data");
+    // fetch(url + '/items')
+    //   .then(response => response.json())
+    //   .then(serverResponse => {
+    //     console.log("server response: ", serverResponse);
+    //     // Update the state with the fetched data
+    //     setFetchData(serverResponse); // Use setFetchData to update the state
+    //   })
+    try {
+      // Fetch the book data
+      const response = await fetch(url + '/itemsList');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // Parse the response data
+      const fetchData = await response.json();
+      console.log("server response: ", fetchData);
+
+      // Create the 'books' array with 'name' and 'ID' properties
+      const books = fetchData.map(book => ({ text: book.name, id: book.ID }));
+
+      // Set 'data' once with the 'books' array
+      setData(books);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+    fetchDataAsync();
+  }, []);
+  
+
+// // console.log("result")
+console.log(fetchData)
+// // console.log("------")
+// // console.log("fetchData")
+// console.log(fetchDate)
+
+const books = fetchData.map(book => ({
+  ID : book.ID,
+  type: book.type,
+  name: book.name,
+  user_short: book.user_short,
+}));
+
+console.log(books);
+
+const [data, setData] = useState([]); // Initialize with an empty array
+
+useEffect(() => {
+  const fetchDataAsync = async () => {
+
+
+
+  
+    // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
+  const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
+  
+  // Set 'data' once with the 'books' array
+  setData(books);
+  };
+  fetchDataAsync();
+}, []);
+
+console.log(data);
+
+// async function getItems(){
+//   let result
+//   await fetch(url + '/items',{
+//       method: 'GET',
+//     })
+//     .then(response => response.json()) 
+//     .then(serverResponse => {
+//       console.log(serverResponse)
+//       result = serverResponse
+//   })
+//   if(result === null || result.length === 0){
+//       Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
+//       return
+//   }else{
+//       //TODO: log in and keep logged in
+//       Alert.alert("Login erfolgreich")
+//   }
+// }
 
   // handleOnChangeText = (text) => {
   //   // ? Visible the spinner
