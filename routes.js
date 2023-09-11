@@ -28,6 +28,7 @@ app.get('/users', function (req, res) {
   });
 });
 
+
 app.post('/login', (req, res) => {
   console.log(req.body)
   connection.getConnection(function (err, connection) {
@@ -39,7 +40,6 @@ app.post('/login', (req, res) => {
   });
 });
 });
-
 
 
 // Starting our server.

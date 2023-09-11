@@ -66,6 +66,7 @@ export default function ProfileScreen() {
         <View
           style={styles.line}
         />
+        
         <View style={styles.centerItems}>
           <Text style={styles.subCaptionTextLentAndReserved}>
             Ausgeliehen
