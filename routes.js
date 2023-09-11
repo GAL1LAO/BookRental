@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require('cors')
 require('dotenv').config({path: './.env'});
 const connection = mysql.createPool({
@@ -17,7 +17,6 @@ app.use(express.json())
 app.get('/users', function (req, res) {
     // Connecting to the database.
     connection.getConnection(function (err, connection) {
-
     // Executing the MySQL query (select all data from the 'users' table).
     connection.query('SELECT * FROM Users', function (error, results, fields) {
       // If some error occurs, we throw an error.
