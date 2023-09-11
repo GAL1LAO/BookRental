@@ -31,7 +31,7 @@ export default function ProfileScreen() {
       <View style={styles.captionContainer}>
         <Text style={styles.subCaptionText}>{adress} {userName}</Text>
       </View>
-      
+      <ScrollView>
         <View style={styles.userDetails}>
           <View style={styles.column1}>
             <Text style={styles.text}>Rolle:</Text>  
@@ -66,7 +66,7 @@ export default function ProfileScreen() {
         <View
           style={styles.line}
         />
-        <ScrollView>
+        
         <View style={styles.centerItems}>
           <Text style={styles.subCaptionTextLentAndReserved}>
             Ausgeliehen
