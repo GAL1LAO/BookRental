@@ -5,10 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
+import LoginScreen from './screens/Login';
 
 const homeName = "Home";
 const lendName = "Leihen";
-const profileName = "Profile";
+const profileName = "Profil";
 
 
 const Tab = createBottomTabNavigator();
@@ -38,7 +39,12 @@ function MainContainer() {
         })}>
           <Tab.Screen name={homeName} component={HomeScreen} />
           <Tab.Screen name={lendName} component={LendScreen} />
-          <Tab.Screen name={profileName} component={ProfileScreen} />
+          <Tab.Screen name={profileName} component={ProfileScreen}/>
+          <Tab.Screen 
+            name="Login" 
+            component={LoginScreen}
+            options={{title: 'Login'}}
+          />  
         </Tab.Navigator>
       </NavigationContainer>
   );

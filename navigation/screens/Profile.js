@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingVertical: 15,
     width: '90%',
-    alignItems: 'center',
     backgroundColor: '#3EB489',
   },
   fakeButtonText: {
