@@ -50,7 +50,7 @@ export default function HomeScreen({ navigation }) {
   ]);
 
   const [fetchData, setFetchData] = useState([]); // Use a different state variable name
-
+  const [data, setData] = useState([]);
   const url = 'http://' + process.env.localIP + ':3000';
   
   useEffect(() => {
@@ -102,22 +102,22 @@ const books = fetchData.map(book => ({
 
 console.log(books);
 
-const [data, setData] = useState([]); // Initialize with an empty array
+ // Initialize with an empty array
 
-useEffect(() => {
-  const fetchDataAsync = async () => {
+// useEffect(() => {
+//   const fetchDataAsync = async () => {
 
 
 
   
-    // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
-  const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
+//     // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
+//   const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
   
-  // Set 'data' once with the 'books' array
-  setData(books);
-  };
-  fetchDataAsync();
-}, []);
+//   // Set 'data' once with the 'books' array
+//   setData(books);
+//   };
+//   fetchDataAsync();
+// }, []);
 
 console.log(data);
 
