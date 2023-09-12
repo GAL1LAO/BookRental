@@ -36,18 +36,7 @@ export default function HomeScreen({ navigation }) {
   //   { text: "Hip", id: 9 },
   //   { text: "Hip", id: 10 },
   // ]);
-  const [oldData, setOldData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
+  const [oldData, setOldData] = useState([]);
 
   const [fetchData, setFetchData] = useState([]); // Use a different state variable name
   const [data, setData] = useState([]);
