@@ -7,6 +7,7 @@ import {
   FlatList,
 } from "react-native";
 // import { TextInput } from "react-native-web";
+// https://reactnativeelements.com/docs/components/searchbar
 
 import SearchBar from "react-native-dynamic-search-bar";
 import React, { useState, useEffect } from "react";
