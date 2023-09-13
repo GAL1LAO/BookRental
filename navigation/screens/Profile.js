@@ -1,6 +1,8 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
+  const serverUrl = 'http://'+ process.env.localIP +':3000'
   const adress = 'Prof. Dr. Med'
   const userName = 'Max Mustermann'
   const role = 'Schulleiter'
@@ -9,14 +11,35 @@ export default function ProfileScreen() {
   const birthDate = '01.11.1478'
 
   let itemList = []
-  let items = [{text: 'Deutsch', id: 1}, {text: 'Erdkunde', id: 2}, {text: 'Arbeitsblätter zur Beschäftigung', id: 3}, {text: 'Hippopotomonstrosesquippedaliophobie', id: 4}, {text: 'Hip', id: 5},{text: 'Hip', id: 6},{text: 'Hip', id: 7},{text: 'Hip', id: 8},{text: 'Hip', id: 9},{text: 'Hip', id: 10},]
+  const [isLoading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
+
+  const getItems = async () => {
+    try {
+      const response = await fetch(serverUrl + '/items')
+      const json = await response.json();
+      setItems(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getItems()
+  }, [])
   
+  
+
+  console.log(items)
+
   items.forEach((item) => {
     itemList.push(
-      <TouchableOpacity style={styles.fakeButton} key={item.id} onPress={() => {alert(item.id)}}>
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-              {item.text}
+              {item.name}
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
@@ -31,6 +54,9 @@ export default function ProfileScreen() {
       <View style={styles.captionContainer}>
         <Text style={styles.subCaptionText}>{adress} {userName}</Text>
       </View>
+      {isLoading ? (
+        <ActivityIndicator/>
+      ) : ( 
       <ScrollView>
         <View style={styles.userDetails}>
           <View style={styles.column1}>
@@ -66,7 +92,7 @@ export default function ProfileScreen() {
         <View
           style={styles.line}
         />
-        
+      
         <View style={styles.centerItems}>
           <Text style={styles.subCaptionTextLentAndReserved}>
             Ausgeliehen
@@ -83,6 +109,7 @@ export default function ProfileScreen() {
               {itemList}
         </View>
       </ScrollView>
+      )}
     </View>
   );
 }
