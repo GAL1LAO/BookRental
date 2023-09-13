@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  TextInput,
 } from "react-native";
-// import { TextInput } from "react-native-web";
-// https://reactnativeelements.com/docs/components/searchbar
-
-import SearchBar from "react-native-dynamic-search-bar";
 import React, { useState, useEffect } from "react";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function HomeScreen({ navigation }) {
   // const data = [
@@ -185,21 +184,20 @@ console.log(data);
     <View style={styles.container}>
       {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
        */}
-      <SearchBar
-        placeholder="Search here"
-        onPress={() => alert("onPress")}
-        onChangeText={(text) => onSearch(text)} //console.log(text)}
-        style={styles.searchBox}
-      />
+      <View  style={styles.searchBar}>
+        <TextInput style={{width: '100%'}}
+          placeholder="Suche"
+          onChangeText={(text) => onSearch(text)}
+        />
+      </View>
       <TouchableOpacity  style={styles.filterBar}>
         <View style={styles.filterBarText}>
-        <Text>Filter auswählen</Text>
+        <Text>Filter</Text>
         </View>
         <View>
           {/* <Image source={require("../../assets/favicon.png")}/> */}
         </View>
       </TouchableOpacity>
-
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -241,14 +239,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "20%",
   },
-  searchBox: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    borderWidth: 1,
-  },
   filterBar: {
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -272,7 +262,23 @@ const styles = StyleSheet.create({
   },
   flatList:{
     width: "100%",
-  }
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff'
+  },
+  searchBar: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: "flex-start",
+    width: "90%",
+   
+  },
 
   // subCaptionTextLentAndReserved: {
   //   fontWeight: "bold",
