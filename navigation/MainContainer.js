@@ -40,11 +40,6 @@ function MainContainer() {
           <Tab.Screen name={homeName} component={HomeScreen} />
           <Tab.Screen name={lendName} component={LendScreen} />
           <Tab.Screen name={profileName} component={ProfileScreen}/>
-          <Tab.Screen 
-            name="Login" 
-            component={LoginScreen}
-            options={{title: 'Login'}}
-          />  
         </Tab.Navigator>
       </NavigationContainer>
   );
