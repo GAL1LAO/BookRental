@@ -25,7 +25,13 @@ export default function App() {
             ...prevState,
             isSignout: false,
             userToken: action.token,
-            role: action.role
+            role: action.role,
+            lastName: action.lastName,
+            firstName: action.firstName,
+            title: action.title,
+            mailAddress: action.mailAddress,
+            phoneNumber: action.phoneNumber,
+            birthDate: action.birthDate,
           };
         case 'SIGN_OUT':
           return {
@@ -95,7 +101,7 @@ export default function App() {
             return
         }else{
             //TODO: keep logged in
-            dispatch({ type: 'SIGN_IN', token: short, role:result[0].role });
+            dispatch({ type: 'SIGN_IN', token: short, role:result[0].role, lastName:result[0].lastName, firstName:result[0].firstName, title:result[0].title, mailAddress:result[0].mailAddress, phoneNumber:result[0].phoneNumber, birthDate:result[0].birthDate });
         }
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }), //TODO: use signOut
@@ -104,7 +110,13 @@ export default function App() {
   );
   const userContext = {
     userToken : state.userToken,
-    role : state.role
+    role : state.role,
+    lastName: state.lastName,
+    firstName: state.firstName,
+    title: state.title,
+    mailAddress: state.mailAddress,
+    phoneNumber: state.phoneNumber,
+    birthDate: state.birthDate
   }
 
   return (
