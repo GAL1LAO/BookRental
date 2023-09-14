@@ -5,15 +5,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
+import AdminScreen from './screens/Admin';
+import { UserContext } from '../App';
 
 const homeName = "Home";
 const lendName = "Leihen";
 const profileName = "Profil";
+const adminName = "Admin";
 
 
 const Tab = createBottomTabNavigator();
 
 function MainContainer() {
+  const {role} = React.useContext(UserContext)
   return (
       <NavigationContainer>
         <Tab.Navigator
@@ -32,13 +36,20 @@ function MainContainer() {
                     iconName = focused ? 'qr-code' : 'qr-code-outline';
                 } else if (rn === profileName) {
                     iconName = focused ? 'person' : 'person-outline';
-                } 
+                } else if (rn = adminName) {
+                  iconName = focused ? 'pencil' : 'pencil-outline'
+                }
                 return <Ionicons name={iconName} size={size} color={color} />;
             },
         })}>
           <Tab.Screen name={homeName} component={HomeScreen} />
           <Tab.Screen name={lendName} component={LendScreen} />
           <Tab.Screen name={profileName} component={ProfileScreen}/>
+          {role == "adm" ? (
+            <Tab.Screen name ={adminName} component={AdminScreen}></Tab.Screen>
+          ) : (
+            <></>
+          )}
         </Tab.Navigator>
       </NavigationContainer>
   );
