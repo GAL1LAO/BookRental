@@ -13,7 +13,6 @@ const lendName = "Leihen";
 const profileName = "Profil";
 const adminName = "Admin";
 
-
 const Tab = createBottomTabNavigator();
 
 function MainContainer() {

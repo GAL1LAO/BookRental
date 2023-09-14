@@ -56,6 +56,17 @@ app.get('/items', async (req, res) => {
     });
   });
 });
+
+app.post('/itemsForUser', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const itemForUserQuery = 'SELECT * FROM Items WHERE user_short = "' + req.body.short + '"'
+    connection.query(itemForUserQuery, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
+      res.send(results)
+    });
+  });
+});
   
 //   try {
 //     const items = await db.Item.findAll({

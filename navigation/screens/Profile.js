@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { UserContext } from '../../App';
 
 export default function ProfileScreen() {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -10,14 +11,28 @@ export default function ProfileScreen() {
   const phoneNumber = '0176 12345678'
   const birthDate = '01.11.1478'
 
+  const {userToken} = React.useContext(UserContext)
+
   let itemList = []
+  let reservedItemList = []
+
   const [isLoading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [reservedItems, setReservedItems] = useState([]);
+
 
   const getItems = async () => {
     try {
-      const response = await fetch(serverUrl + '/items')
+      const response = await fetch(serverUrl + '/itemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
+      console.log(response)
       const json = await response.json();
+      console.log(json)
       setItems(json);
     } catch (error) {
       console.error(error);
@@ -106,7 +121,7 @@ export default function ProfileScreen() {
           <Text style={styles.subCaptionTextLentAndReserved}>
             Reserviert
           </Text>
-              {itemList}
+              {reservedItemList}
         </View>
       </ScrollView>
       )}

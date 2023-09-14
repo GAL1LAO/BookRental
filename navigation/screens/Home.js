@@ -8,7 +8,6 @@ import {
 } from "react-native";
 // import { TextInput } from "react-native-web";
 
-import SearchBar from "react-native-dynamic-search-bar";
 import React, { useState } from "react";
 
 export default function HomeScreen({ navigation }) {
@@ -123,12 +122,6 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
        */}
-      <SearchBar
-        placeholder="Search here"
-        onPress={() => alert("onPress")}
-        onChangeText={(text) => onSearch(text)} //console.log(text)}
-        style={styles.searchBox}
-      />
       <TouchableOpacity  style={styles.filterBar}>
         <View style={styles.filterBarText}>
         <Text>Filter auswählen</Text>
