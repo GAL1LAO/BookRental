@@ -24,10 +24,19 @@ export default function ProfileScreen() {
         "short": userToken,
         })
       })
-      console.log(response)
       const json = await response.json();
-      console.log(json)
       setItems(json);
+
+      const reservedResponse = await fetch(serverUrl + '/reservedItemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
+      console.log(reservedResponse)
+      const reservedJson = await reservedResponse.json();
+      setReservedItems(reservedJson);
     } catch (error) {
       console.error(error);
     } finally {
@@ -40,11 +49,23 @@ export default function ProfileScreen() {
   }, [])
   
   
-
-  console.log(items)
-
   items.forEach((item) => {
     itemList.push(
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
+        <View style={styles.fakeButtonText}>
+            <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+              {item.name}
+            </Text>
+        </View>
+        <View style={styles.fakeButtonImage}>
+          <Image source={require('../../assets/favicon.png')}/>
+        </View>
+      </TouchableOpacity>
+    )
+  })
+
+  reservedItems.forEach((item) => {
+    reservedItemList.push(
       <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
