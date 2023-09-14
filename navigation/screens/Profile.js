@@ -4,14 +4,8 @@ import { UserContext } from '../../App';
 
 export default function ProfileScreen() {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
-  const adress = 'Prof. Dr. Med'
-  const userName = 'Max Mustermann'
-  const role = 'Schulleiter'
-  const mail = 'max.mustermann@bestegrundschule.de'
-  const phoneNumber = '0176 12345678'
-  const birthDate = '01.11.1478'
 
-  const {userToken} = React.useContext(UserContext)
+  const {userToken, title, lastName, firstName, role, mailAddress, phoneNumber, birthDate} = React.useContext(UserContext)
 
   let itemList = []
   let reservedItemList = []
@@ -67,7 +61,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.captionContainer}>
-        <Text style={styles.subCaptionText}>{adress} {userName}</Text>
+        <Text style={styles.subCaptionText}>{title} {firstName} {lastName}</Text>
       </View>
       {isLoading ? (
         <ActivityIndicator/>
@@ -86,7 +80,7 @@ export default function ProfileScreen() {
             <Text style={styles.text}>E-Mail:</Text>
           </View>
           <View style={styles.column2}>
-            <Text style={styles.text}>{mail}</Text>
+            <Text style={styles.text}>{mailAddress}</Text>
           </View>
         </View><View style={styles.userDetails}>
           <View style={styles.column1}>
