@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
-import LoginScreen from './screens/Login';
 
 const homeName = "Home";
 const lendName = "Leihen";
