@@ -10,7 +10,6 @@ const homeName = "Home";
 const lendName = "Leihen";
 const profileName = "Profil";
 
-
 const Tab = createBottomTabNavigator();
 
 function MainContainer() {
