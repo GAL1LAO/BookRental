@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
-const cors = require('cors')
+const cors = require('cors');
+const dayjs = require('dayjs');
 require('dotenv').config({path: './.env'});
 const connection = mysql.createPool({
   host     : 'localhost',
@@ -52,6 +53,28 @@ app.get('/itemsList', async (req, res) => {
       if (error) throw error;
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results)
+    });
+  });
+});
+
+app.post('/itemsForUser', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const itemForUserQuery = 'SELECT * FROM Items WHERE user_short = "' + req.body.short + '"'
+    connection.query(itemForUserQuery, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
+      res.send(results)
+    });
+  });
+});
+
+app.post('/reservedItemsForUser', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const itemForUserQuery = 'SELECT i.ID, i.name, i.type, r.ID AS reservationID FROM Items i INNER JOIN Reservations r ON i.ID = r.item_ID WHERE r.user_short = "' + req.body.short +  '" AND r.dateFrom >="' + dayjs().format('YYYY-MM-DD') + '"'
+    connection.query(itemForUserQuery, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
       res.send(results)
     });
   });

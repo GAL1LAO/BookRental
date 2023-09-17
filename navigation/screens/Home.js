@@ -184,12 +184,14 @@ console.log(data);
     <View style={styles.container}>
       {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
        */}
+
       <View  style={styles.searchBar}>
         <TextInput style={{width: '100%'}}
           placeholder="Suche"
           onChangeText={(text) => onSearch(text)}
         />
       </View>
+
       <TouchableOpacity  style={styles.filterBar}>
         <View style={styles.filterBarText}>
         <Text>Filter</Text>

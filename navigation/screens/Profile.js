@@ -1,22 +1,75 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { UserContext } from '../../App';
 
 export default function ProfileScreen() {
-  const adress = 'Prof. Dr. Med'
-  const userName = 'Max Mustermann'
-  const role = 'Schulleiter'
-  const mail = 'max.mustermann@bestegrundschule.de'
-  const phoneNumber = '0176 12345678'
-  const birthDate = '01.11.1478'
+  const serverUrl = 'http://'+ process.env.localIP +':3000'
+
+  const {userToken, title, lastName, firstName, role, mailAddress, phoneNumber, birthDate} = React.useContext(UserContext)
 
   let itemList = []
-  let items = [{text: 'Deutsch', id: 1}, {text: 'Erdkunde', id: 2}, {text: 'Arbeitsblätter zur Beschäftigung', id: 3}, {text: 'Hippopotomonstrosesquippedaliophobie', id: 4}, {text: 'Hip', id: 5},{text: 'Hip', id: 6},{text: 'Hip', id: 7},{text: 'Hip', id: 8},{text: 'Hip', id: 9},{text: 'Hip', id: 10},]
+  let reservedItemList = []
+
+  const [isLoading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
+  const [reservedItems, setReservedItems] = useState([]);
+
+
+  const getItems = async () => {
+    try {
+      const response = await fetch(serverUrl + '/itemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
+      const json = await response.json();
+      setItems(json);
+
+      const reservedResponse = await fetch(serverUrl + '/reservedItemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
+      console.log(reservedResponse)
+      const reservedJson = await reservedResponse.json();
+      setReservedItems(reservedJson);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getItems()
+  }, [])
+  
   
   items.forEach((item) => {
     itemList.push(
-      <TouchableOpacity style={styles.fakeButton} key={item.id} onPress={() => {alert(item.id)}}>
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-              {item.text}
+              {item.name}
+            </Text>
+        </View>
+        <View style={styles.fakeButtonImage}>
+          <Image source={require('../../assets/favicon.png')}/>
+        </View>
+      </TouchableOpacity>
+    )
+  })
+
+  reservedItems.forEach((item) => {
+    reservedItemList.push(
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
+        <View style={styles.fakeButtonText}>
+            <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+              {item.name}
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
@@ -29,8 +82,11 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.captionContainer}>
-        <Text style={styles.subCaptionText}>{adress} {userName}</Text>
+        <Text style={styles.subCaptionText}>{title} {firstName} {lastName}</Text>
       </View>
+      {isLoading ? (
+        <ActivityIndicator/>
+      ) : ( 
       <ScrollView>
         <View style={styles.userDetails}>
           <View style={styles.column1}>
@@ -45,7 +101,7 @@ export default function ProfileScreen() {
             <Text style={styles.text}>E-Mail:</Text>
           </View>
           <View style={styles.column2}>
-            <Text style={styles.text}>{mail}</Text>
+            <Text style={styles.text}>{mailAddress}</Text>
           </View>
         </View><View style={styles.userDetails}>
           <View style={styles.column1}>
@@ -66,7 +122,7 @@ export default function ProfileScreen() {
         <View
           style={styles.line}
         />
-        
+      
         <View style={styles.centerItems}>
           <Text style={styles.subCaptionTextLentAndReserved}>
             Ausgeliehen
@@ -80,9 +136,10 @@ export default function ProfileScreen() {
           <Text style={styles.subCaptionTextLentAndReserved}>
             Reserviert
           </Text>
-              {itemList}
+              {reservedItemList}
         </View>
       </ScrollView>
+      )}
     </View>
   );
 }

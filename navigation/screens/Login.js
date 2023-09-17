@@ -2,42 +2,12 @@ import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
-
+import { AuthContext } from '../../App';
 export default function LoginScreen() {
+    const { signIn } = React.useContext(AuthContext);
     const serverUrl = 'http://'+ process.env.localIP +':3000'
     const [short, setShort] = useState('');
     const [password, setPassword] = useState('')
-    async function login(){
-        if(!password ||password === null){
-            Alert.alert("Passwort leer.","Bitte geben sie ein Passwort ein.")
-            return
-        }
-        if(!short ||short === null){
-            Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
-            return
-        }
-        let result
-        await fetch(serverUrl + '/login',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-            body: JSON.stringify({ 
-                "short": short,
-                "password": password
-            })
-          })
-          .then(response => response.json()) 
-          .then(serverResponse => {
-            console.log(serverResponse)
-            result = serverResponse
-        })
-        if(result === null || result.length === 0){
-            Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
-            return
-        }else{
-            //TODO: log in and keep logged in
-            Alert.alert("Login erfolgreich")
-        }
-    }
 
     return (
         <View style={styles.container}>
@@ -56,10 +26,11 @@ export default function LoginScreen() {
                     style={styles.input}
                     placeholder="Passwort"
                     underlineColorAndroid="transparent"
+                    secureTextEntry
                     onChangeText={password =>setPassword(password)}
                 />
             </View>
-            <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await login()}>
+            <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signIn(short,password)}>
                 <Text style={styles.subCaptionTextWhite}>
                     Einloggen
                 </Text>
