@@ -79,6 +79,21 @@ app.post('/reservedItemsForUser', async (req, res) => {
     });
   });
 });
+
+app.get('/items', async (req, res) => {
+  // Connecting to the database.
+  // Connecting to the database.
+  connection.getConnection(function (err, connection) {
+    // Executing the MySQL query (select all data from the 'users' table).
+    connection.query('SELECT * FROM Items', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results)
+    });
+  });
+});
   
 //   try {
 //     const items = await db.Item.findAll({

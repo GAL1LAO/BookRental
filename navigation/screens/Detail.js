@@ -4,12 +4,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
 
 export default function DetailScreen({ route }) {
-  const itemType = 'Prof. Dr. Med'
-  const itemName = 'Max Mustermann'
-  const role = 'Schulleiter'
-  const mail = 'max.mustermann@bestegrundschule.de'
-  const phoneNumber = '0176 12345678'
-  const birthDate = '01.11.1478' 
+  const itemType = 'KISTE'
+  const itemName = 'SACHKUNDE1'
+  const dateOfPurchase = '2021-01-15'
+  const storageSite = 'Storage Room 1'
+  const user_short = 'abcd'
+  const damages = 'Torn pages' 
+  const code = 'R3#pT$7vXaKq9G@U5mW*6zYfN8p2eR$1' 
   
 
   let { itemId } = route.params;
@@ -18,6 +19,7 @@ export default function DetailScreen({ route }) {
   const [data, setData] = useState([]);
   const url = 'http://' + process.env.localIP + ':3000';
   
+  console.log("itemId: ", itemId);
   useEffect(() => {
     const fetchDataAsync = async () => {
     console.log("fetching data");
@@ -48,7 +50,8 @@ export default function DetailScreen({ route }) {
   };
     fetchDataAsync();
   }, []);
-//   console.log("data: ", data);
+   console.log("data: ", data);
+   console.log("Test")
 //   const selectedItem = data.find(item => item.ID === itemId);
 //   console.log("selectedItem: ", selectedItem);  
 
@@ -60,43 +63,69 @@ export default function DetailScreen({ route }) {
       {/* Other details of the item can be displayed here */}
       
       <View style={styles.captionContainer}>
-        <Text style={styles.subCaptionText}>{itemType} {itemName}</Text>
+        <Text style={styles.captionText}>{itemType} {itemName}</Text>
       </View>
       <ScrollView>
+      {/* TODO: PHOTO HINZUFÜGEN? */}
+       <View style={styles.fakeButtonImage}>
+       <Ionicons style={styles.inputIcon} name="cube"/>
+        </View> 
+        {/* <View style={styles.fakeButtonImage}>
+          <Image source={require('../../assets/favicon.png')}/>
+        </View> */} 
         <View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Rolle:</Text>  
-          </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{role}</Text>
-          </View>
-        </View>
-        <View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>E-Mail:</Text>
-          </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{mail}</Text>
-          </View>
-        </View><View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Telefonnummer:</Text>
-          </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{phoneNumber}</Text>
-          </View>
-        </View>
-        <View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Geburtsdatum:</Text>
-          </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{birthDate}</Text>
-          </View>
+        <Text style={styles.text}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
         </View>
         <View
           style={styles.line}
         />
+        <View style={styles.userDetails}>
+          <View style={styles.column1}>
+            <Text style={styles.text}>Anschaffungsdatum:</Text>  
+          </View>
+          <View style={styles.column2}>
+            <Text style={styles.text}>{dateOfPurchase}</Text>
+          </View>
+        </View>
+        <View style={styles.userDetails}>
+          <View style={styles.column1}>
+            <Text style={styles.text}>Aufbewahrungsort:</Text>
+          </View>
+          <View style={styles.column2}>
+            <Text style={styles.text}>{storageSite}</Text>
+          </View>
+        </View><View style={styles.userDetails}>
+          <View style={styles.column1}>
+            <Text style={styles.text}>Ausgeliehen von:</Text>
+          </View>
+          <View style={styles.column2}>
+            <Text style={styles.text}>{user_short}</Text>
+          </View>
+        </View>
+        
+        <View
+          style={styles.line}
+        />
+        <View style={styles.titelAndText}>
+          <View style={styles.row1}>
+            <Text style={styles.subCaptionText}>Schaden:</Text>
+          </View>
+          <View style={styles.row2}>
+            <Text style={styles.text}>{damages}</Text>
+          </View>
+        </View>
+
+        <View
+          style={styles.line}
+        />
+        <View style={styles.titelAndText}>
+          <View style={styles.row1}>
+            <Text style={styles.subCaptionText}>Code für manuelle Eingabe beim Ausleihen:</Text>
+          </View>
+          <View style={styles.row2}>
+            <Text style={styles.text}>{code}</Text>
+          </View>
+        </View>
       </ScrollView>
     </View>
   ); 
@@ -129,6 +158,22 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingTop: 10,
       },
+      titelAndText: {
+        flexDirection: 'column',
+        paddingLeft: 10,
+        paddingTop: 10,
+        alignItems: 'flex-start'
+      },
+      row1: {
+        // height: '40%',
+        // paddingLeft: 10,
+        // paddingTop: 10,
+      },
+      row2: {
+        // height: '60%',
+        // paddingLeft: 10,
+         paddingTop: 10,
+      },
       centerItems: {
         flex: 1,
         backgroundColor: '#fff',
@@ -140,6 +185,22 @@ const styles = StyleSheet.create({
       },
       subCaptionText: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 15,
+      },
+      inputIcon: {
+        padding: 10,
+        size: '1000%', 
+        color: "#000",
+    },
+    fakeButtonImage: {
+        alignItems: 'center',
+        width: '100%',
+        color: "#000",
+      },
+      line: {
+        marginHorizontal: 10,
+        marginVertical: 20,
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
       },
     });  
