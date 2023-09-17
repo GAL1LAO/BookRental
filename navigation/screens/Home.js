@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  TextInput,
 } from "react-native";
-// import { TextInput } from "react-native-web";
+import React, { useState, useEffect } from "react";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import React, { useState } from "react";
 
 export default function HomeScreen({ navigation }) {
   // const data = [
@@ -23,50 +24,111 @@ export default function HomeScreen({ navigation }) {
   //   { text: "Hip", id: 9 },
   //   { text: "Hip", id: 10 },
   // ];
-  const [data, setData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
-  const [oldData, setOldData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
+  // const [data, setData] = useState([
+  //   { text: "Deutsch", id: 1 },
+  //   { text: "Erdkunde", id: 2 },
+  //   { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
+  //   { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
+  //   { text: "Hip", id: 5 },
+  //   { text: "Hip", id: 6 },
+  //   { text: "Hip", id: 7 },
+  //   { text: "Hip", id: 8 },
+  //   { text: "Hip", id: 9 },
+  //   { text: "Hip", id: 10 },
+  // ]);
+  const [oldData, setOldData] = useState([]);
 
-  // const [fetchDate, setFetchDate] = useState([]);
+  const [fetchData, setFetchData] = useState([]); // Use a different state variable name
+  const [data, setData] = useState([]);
+  const url = 'http://' + process.env.localIP + ':3000';
+  
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+    console.log("fetching data");
+    // fetch(url + '/items')
+    //   .then(response => response.json())
+    //   .then(serverResponse => {
+    //     console.log("server response: ", serverResponse);
+    //     // Update the state with the fetched data
+    //     setFetchData(serverResponse); // Use setFetchData to update the state
+    //   })
+    try {
+      // Fetch the book data
+      const response = await fetch(url + '/itemsList');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-  // const url = 'http://'+ process.env.localIP +':3000'
-    
-  // useEffect(() => {
-  //       fetch(url + '/items')
-  //       .then(response => response.json()) 
-  //         .then(serverResponse => {
-  //           console.log(serverResponse)
-  //           result = serverResponse
-  //         })
-  //       // .then((response) => {
-  //       //   // Assuming the API response is an array of objects containing "type" and "user_short"
-  //       //   setFetchDate(response.fetchDate);
-  //       // })
-  //       .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   }, []);
+      // Parse the response data
+      const fetchData = await response.json();
+      console.log("server response: ", fetchData);
+
+      // Create the 'books' array with 'name' and 'ID' properties
+      const books = fetchData.map(book => ({ text: book.name, id: book.ID }));
+
+      // Set 'data' once with the 'books' array
+      setData(books);
+      setOldData(books);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+    fetchDataAsync();
+  }, []);
+  
+
+// // console.log("result")
+console.log(fetchData)
+// // console.log("------")
+// // console.log("fetchData")
+// console.log(fetchDate)
+
+const books = fetchData.map(book => ({
+  ID : book.ID,
+  type: book.type,
+  name: book.name,
+  user_short: book.user_short,
+}));
+
+console.log(books);
+
+ // Initialize with an empty array
+
+// useEffect(() => {
+//   const fetchDataAsync = async () => {
+
+
+
+  
+//     // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
+//   const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
+  
+//   // Set 'data' once with the 'books' array
+//   setData(books);
+//   };
+//   fetchDataAsync();
+// }, []);
+
+console.log(data);
+
+// async function getItems(){
+//   let result
+//   await fetch(url + '/items',{
+//       method: 'GET',
+//     })
+//     .then(response => response.json()) 
+//     .then(serverResponse => {
+//       console.log(serverResponse)
+//       result = serverResponse
+//   })
+//   if(result === null || result.length === 0){
+//       Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
+//       return
+//   }else{
+//       //TODO: log in and keep logged in
+//       Alert.alert("Login erfolgreich")
+//   }
+// }
 
   // handleOnChangeText = (text) => {
   //   // ? Visible the spinner
@@ -122,15 +184,22 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
        */}
+
+      <View  style={styles.searchBar}>
+        <TextInput style={{width: '100%'}}
+          placeholder="Suche"
+          onChangeText={(text) => onSearch(text)}
+        />
+      </View>
+
       <TouchableOpacity  style={styles.filterBar}>
         <View style={styles.filterBarText}>
-        <Text>Filter auswählen</Text>
+        <Text>Filter</Text>
         </View>
         <View>
           {/* <Image source={require("../../assets/favicon.png")}/> */}
         </View>
       </TouchableOpacity>
-
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -172,14 +241,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "20%",
   },
-  searchBox: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    borderWidth: 1,
-  },
   filterBar: {
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -203,7 +264,23 @@ const styles = StyleSheet.create({
   },
   flatList:{
     width: "100%",
-  }
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff'
+  },
+  searchBar: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: "flex-start",
+    width: "90%",
+   
+  },
 
   // subCaptionTextLentAndReserved: {
   //   fontWeight: "bold",

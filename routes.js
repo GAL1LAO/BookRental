@@ -43,12 +43,12 @@ app.post('/login', (req, res) => {
 });
 
 
-app.get('/items', async (req, res) => {
+app.get('/itemsList', async (req, res) => {
   // Connecting to the database.
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    connection.query('SELECT * FROM Items', function (error, results, fields) {
+    connection.query('SELECT ID, type, name, user_short FROM Items', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 
