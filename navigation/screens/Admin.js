@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-web';
+import { TouchableOpacity } from 'react-native';
 
   export default function AdminScreen({navigation}){
     function giveOut(){
