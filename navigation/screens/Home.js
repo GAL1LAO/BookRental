@@ -151,7 +151,8 @@ console.log(data);
       <TouchableOpacity
         style={styles.fakeButton}
         onPress={() => {
-          alert(item.id);
+          alert(item.id)
+          navigation.navigate("Detail", { itemId: item.id });
           // Handle the button click here
           // You can use item.id or item.text to identify the clicked item
         }}
