@@ -31,6 +31,7 @@ export default function LoginScreen() {
                 />
             </View>
             <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signIn(short,password)}>
+                <Ionicons style={styles.inputIcon} name="log-in" size={20} color="#000"/>
                 <Text style={styles.subCaptionTextWhite}>
                     Einloggen
                 </Text>
@@ -48,20 +49,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: '5%',
     },
     fakeButton: {
-        marginTop: 20,
+        marginBottom: 10,
         borderRadius: 10,
-        paddingVertical: 5,
-        marginVertical: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
         backgroundColor: '#3EB489',
     },
     subCaptionTextWhite: {
+        flex: 1,
+        paddingTop: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        paddingLeft: 0,
         fontWeight: 'bold',
         fontSize: 30,
         color: 'white'
     },
     inputContainer: {
+        padding: 5,
         marginBottom: 10,
         borderRadius: 10,
         flexDirection: 'row',
