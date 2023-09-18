@@ -26,7 +26,7 @@ function HomeStack() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{headerShown: false}}
+          
         />
         <Stack.Screen name="Detail" component={DetailScreen}/>
       </Stack.Navigator>
@@ -59,7 +59,7 @@ function MainContainer() {
                 return <Ionicons name={iconName} size={size} color={color} />;
             },
         })}>
-          <Tab.Screen name={homeName} component={HomeStack} />
+          <Tab.Screen name={homeName} component={HomeStack} options={{headerShown: false}}/>
           <Tab.Screen name={lendName} component={LendScreen} />
           <Tab.Screen name={profileName} component={ProfileScreen}/>
           {role == "adm" ? (
