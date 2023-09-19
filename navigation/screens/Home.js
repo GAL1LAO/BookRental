@@ -151,18 +151,21 @@ console.log("data " + data);
         }}
       >
         <View style={styles.fakeButtonText}>
-          <Text style={[
-            styles.subCaptionTextWhite,
-            item.user_short ? { color: 'red' } : null, // Apply red color if user_short is not empty
-          ]}
-          numberOfLines={1}
-        >
+        <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
             {item.name}
           </Text>
         </View>
-        <View style={styles.fakeButtonImage}>
-          <Image source={require("../../assets/favicon.png")} />
-        </View>
+          <View style={styles.fakeButtonImage}>
+        {/* Conditionally render the icon with red color if user_short is not empty */}
+        <Ionicons
+          style={[
+            styles.inputIcon,
+            item.user_short ? { color: 'red' } : null,
+          ]}
+          size={50}
+          name={item.type === 'Book' ? 'book-sharp' : 'cube'}
+        />
+      </View>
       </TouchableOpacity>
     </View>
   );
@@ -280,6 +283,12 @@ const styles = StyleSheet.create({
     width: "90%",
    
   },
+  inputIcon: {
+    padding: 10,
+    size: '1000%', 
+    color: "#000",
+},
+
 
   // subCaptionTextLentAndReserved: {
   //   fontWeight: "bold",
