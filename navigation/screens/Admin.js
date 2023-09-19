@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -74,7 +74,7 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
             }
             for(const field in itemData){
                 if(field != damages && (itemData[field] == null || !itemData[field])){
-                    Alert.alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer: " + field)
+                    alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer: " + field)
                     return
                 }
             }
@@ -194,7 +194,7 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
             }
             for(const field in userData){
                 if(userData[field] == null || !userData[field]){
-                    Alert.alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer" + field)
+                    alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer" + field)
                     return
                 }
             }
@@ -211,7 +211,7 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
                 result = serverResponse
             })
             if(result.existingUser){
-                Alert.alert("Benutzer existiert bereits")
+                alert("Benutzer existiert bereits")
                 return
             }
             //TODO: send Email

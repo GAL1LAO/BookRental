@@ -1,9 +1,7 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MainContainer from './navigation/MainContainer';
 import LoginScreen from './navigation/screens/Login';
-import React, {useState} from 'react';
+import React from 'react';
 import LoadingScreen from './navigation/screens/LoadingScreen';
-import { Alert } from 'react-native';
 
 export const AuthContext = React.createContext();
 export const UserContext = React.createContext()
@@ -18,6 +16,7 @@ export default function App() {
           return {
             ...prevState,
             userToken: action.token,
+            role: action.role,
             isLoading: false,
           };
         case 'SIGN_IN':
@@ -50,7 +49,8 @@ export default function App() {
   React.useEffect(() => {//TODO: not used yet, maybe needed to 'keep logged in'
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken;
+      let userToken = 'abcd';//TODO: reset
+      let role = 'adm'
       try {
         // Restore token stored in `SecureStore` or any other encrypted storage
         // userToken = await SecureStore.getItemAsync('userToken');
@@ -62,7 +62,7 @@ export default function App() {
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken, role: role });
     };
     bootstrapAsync();
   }, []);
@@ -75,11 +75,11 @@ export default function App() {
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
         if(!password ||password === null){
-          Alert.alert("Passwort leer.","Bitte geben sie ein Passwort ein.")
+          alert("Passwort leer.","Bitte geben sie ein Passwort ein.")
           return
         }
         if(!short ||short === null){
-            Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
+            alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
             return
         }
         let result
@@ -97,7 +97,7 @@ export default function App() {
             result = serverResponse
         })
         if(result === null || result.length === 0){
-            Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
+            alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
             return
         }else{
             //TODO: keep logged in
