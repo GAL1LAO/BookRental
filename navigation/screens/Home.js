@@ -64,7 +64,7 @@ export default function HomeScreen({ navigation }) {
       console.log("server response: ", fetchData);
 
       // Create the 'books' array with 'name' and 'ID' properties
-      const books = fetchData.map(book => ({ text: book.name, id: book.ID }));
+      const books = fetchData.map(book => ({ ID: book.ID, type: book.type, name: book.name, user_short: book.user_short }));
 
       // Set 'data' once with the 'books' array
       setData(books);
@@ -82,15 +82,9 @@ console.log(fetchData)
 // // console.log("------")
 // // console.log("fetchData")
 // console.log(fetchDate)
+console.log("------" + data)
 
-const books = fetchData.map(book => ({
-  ID : book.ID,
-  type: book.type,
-  name: book.name,
-  user_short: book.user_short,
-}));
 
-console.log(books);
 
  // Initialize with an empty array
 
@@ -109,7 +103,7 @@ console.log(books);
 //   fetchDataAsync();
 // }, []);
 
-console.log(data);
+console.log("data " + data);
 
 // async function getItems(){
 //   let result
@@ -151,14 +145,19 @@ console.log(data);
       <TouchableOpacity
         style={styles.fakeButton}
         onPress={() => {
-          alert(item.id);
+          alert(item.ID);
           // Handle the button click here
           // You can use item.id or item.text to identify the clicked item
         }}
       >
         <View style={styles.fakeButtonText}>
-          <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-            {item.text}
+          <Text style={[
+            styles.subCaptionTextWhite,
+            item.user_short ? { color: 'red' } : null, // Apply red color if user_short is not empty
+          ]}
+          numberOfLines={1}
+        >
+            {item.name}
           </Text>
         </View>
         <View style={styles.fakeButtonImage}>
@@ -174,7 +173,7 @@ console.log(data);
     } 
     else {
       let tempList = data.filter((item) => {
-        return item.text.toLowerCase().indexOf(text.toLowerCase()) > -1;
+        return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
       });
       setData(tempList);
     }
@@ -203,7 +202,7 @@ console.log(data);
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.ID.toString()}
         style={styles.flatList}
         //showsHorizontalScrollIndicator={false}
       />
