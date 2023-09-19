@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Alert, ScrollView, Image } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
@@ -68,11 +68,11 @@ export default function DetailScreen({ route }) {
       <ScrollView>
       {/* TODO: PHOTO HINZUFÜGEN? */}
        <View style={styles.fakeButtonImage}>
-       <Ionicons style={styles.inputIcon} name="cube"/>
+       <Ionicons style={styles.inputIcon} size={50} name="cube"/>
         </View> 
         {/* <View style={styles.fakeButtonImage}>
           <Image source={require('../../assets/favicon.png')}/>
-        </View> */} 
+        </View>  */}
         <View style={styles.userDetails}>
         <Text style={styles.text}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
         </View>
