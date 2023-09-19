@@ -72,6 +72,25 @@ app.post('/addUser', async (req, res) => {
   });
 });
 
+app.post('/addItem', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const addItemQuery = 'Insert INTO Items (type, name, description, image, damages, dateOfPurchase, storageSite) VALUES("'
+    + req.body.type +'","'
+    + req.body.name+'","'
+    + req.body.description+'","'
+    + req.body.image+'","'
+    + req.body.damages+'","'
+    + req.body.dateOfPurchase+'","'
+    + req.body.storageSite+'")'
+    console.log(addItemQuery)
+    connection.query(addItemQuery, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
+      res.send(results)
+    });
+  });
+});
+
 
 app.get('/itemsList', async (req, res) => {
   // Connecting to the database.

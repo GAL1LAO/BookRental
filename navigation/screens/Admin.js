@@ -55,6 +55,41 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
     }
 
     function AddItemScreen(){
+        const [type, setType] = useState('');
+        const [name, setName] = useState('')
+        const [description, setDescription] = useState('');
+        const [image, setImage] = useState('')
+        const [damages, setDamages] = useState('');
+        const [dateOfPurchase, setDateOfPurchase] = useState('')
+        const [storageSite, setStorageSite] = useState('');
+        async function addItem(){
+            const itemData = {
+                type : type,
+                name : name,
+                description : description,
+                image : image,
+                damages : damages,
+                dateOfPurchase : dateOfPurchase,
+                storageSite : storageSite,
+            }
+            for(const field in itemData){
+                if(field != damages && (itemData[field] == null || !itemData[field])){
+                    Alert.alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer: " + field)
+                    return
+                }
+            }
+            console.log(itemData)
+            await fetch(serverUrl + '/addItem',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+                body: JSON.stringify(itemData)
+              })
+              .then(response => response.json()) 
+              .then(serverResponse => {
+                console.log(serverResponse)
+            })
+            dispatch({type : 'Home'})//to return back at the end*/
+        }
         return(
             <View style={styles.container}>
                 <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'Home'})}}>
@@ -62,8 +97,76 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
                         Zurück zur Übersicht
                     </Text>
                 </TouchableOpacity>
-                <Text>Add Items</Text>
-            </View> 
+                <Text>Add item</Text>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Typ"
+                        underlineColorAndroid="transparent"
+                        onChangeText={type =>setType(type)} //TODO: Selection
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Name"
+                        underlineColorAndroid="transparent"
+                        onChangeText={name =>setName(name)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Beschreibung"
+                        underlineColorAndroid="transparent"
+                        onChangeText={description =>setDescription(description)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Bild"
+                        underlineColorAndroid="transparent"
+                        onChangeText={image =>setImage(image)}//TODO: addition of real images
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Schäden"
+                        underlineColorAndroid="transparent"
+                        onChangeText={damages =>setDamages(damages)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Kaufsdatum"
+                        underlineColorAndroid="transparent"
+                        onChangeText={dateOfPurchase =>setDateOfPurchase(dateOfPurchase)}//TODO: change to date picker
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Lagerort"
+                        underlineColorAndroid="transparent"
+                        onChangeText={storageSite =>setStorageSite(storageSite)}
+                    />
+                </View>
+                <TouchableOpacity style={styles.fakeButton} type='submit' onPress={async() => await addItem()}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Item hinzufügen
+                    </Text>
+                </TouchableOpacity>
+            </View>
         )
     }
 
