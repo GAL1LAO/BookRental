@@ -1,27 +1,243 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-  export default function AdminScreen({navigation}){
-    function giveOut(){
-        console.log('test is clicked')
+const serverUrl = 'http://'+ process.env.localIP +':3000'
+  export default function AdminScreen({}){
+
+
+    const [state, dispatch] = React.useReducer(
+        (prevState, action) => {
+          switch (action.type) {
+            case 'Home':
+              return {
+                screen: 0,
+              };
+            case 'AddItem':
+              return {
+                screen : 1
+              };
+            case 'AddUser':
+              return {
+               screen : 2
+              };
+            case 'ViewDamages':
+            return {
+            screen : 3
+            };
+          }
+        },
+        {
+          screen: 0
+        }
+      );
+
+    function AdminHomeScreen(){
+        return(
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'AddItem'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Items hinzufügen
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'AddUser'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Benutzer hinzufügen
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'ViewDamages'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Ausleihen und Schäden ansehen
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    function AddItemScreen(){
+        return(
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'Home'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Zurück zur Übersicht
+                    </Text>
+                </TouchableOpacity>
+                <Text>Add Items</Text>
+            </View> 
+        )
+    }
+
+    function AddUserScreen(){
+        const [short, setShort] = useState('');
+        const [password, setPassword] = useState('')
+        const [lastName, setLastName] = useState('');
+        const [firstName, setFirstName] = useState('')
+        const [title, setTitle] = useState('');
+        const [mailAddress, setMailAddress] = useState('')
+        const [phoneNumber, setPhoneNumber] = useState('');
+        const [birthDate, setBirthDate] = useState('')    
+        const [role, setRole] = useState('')
+        async function addUser(){
+            const userData = {
+                short : short,
+                password : password,
+                lastName : lastName,
+                firstName : firstName,
+                title : title,
+                mailAddress : mailAddress,
+                phoneNumber : phoneNumber,
+                birthDate : birthDate,
+                role : role
+            }
+            for(const field in userData){
+                if(userData[field] == null || !userData[field]){
+                    Alert.alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer" + field)
+                    return
+                }
+            }
+            console.log(userData)
+            let result
+            await fetch(serverUrl + '/addUser',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+                body: JSON.stringify(userData)
+              })
+              .then(response => response.json()) 
+              .then(serverResponse => {
+                console.log(serverResponse)
+                result = serverResponse
+            })
+            if(result.existingUser){
+                Alert.alert("Benutzer existiert bereits")
+                return
+            }
+            //TODO: send Email
+            dispatch({type : 'Home'})//to return back at the end*/
+        }
+        return(
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'Home'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Zurück zur Übersicht
+                    </Text>
+                </TouchableOpacity>
+                <Text>Add user</Text>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Kürzel"
+                        underlineColorAndroid="transparent"
+                        onChangeText={short =>setShort(short)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Anrede"
+                        underlineColorAndroid="transparent"
+                        onChangeText={title =>setTitle(title)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Vorname"
+                        underlineColorAndroid="transparent"
+                        onChangeText={firstName =>setFirstName(firstName)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nachname"
+                        underlineColorAndroid="transparent"
+                        onChangeText={lastName =>setLastName(lastName)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        underlineColorAndroid="transparent"
+                        onChangeText={mailAddress =>setMailAddress(mailAddress)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Telefonnummer"
+                        underlineColorAndroid="transparent"
+                        onChangeText={phoneNumber =>setPhoneNumber(phoneNumber)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Geburtstag"
+                        underlineColorAndroid="transparent"
+                        onChangeText={birthDate =>setBirthDate(birthDate)}//TODO: change to date picker
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Rolle"
+                        underlineColorAndroid="transparent"
+                        onChangeText={role =>setRole(role)} //TODOD: change to role picker
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Passwort"
+                        underlineColorAndroid="transparent"
+                        secureTextEntry
+                        onChangeText={password =>setPassword(password)}
+                    />
+                </View>
+                <TouchableOpacity style={styles.fakeButton} type='submit' onPress={async() => await addUser()}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Benutzer hinzufügen
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    function ViewDamageScreen(){
+        return( 
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {dispatch({type : 'Home'})}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Zurück zur Übersicht
+                    </Text>
+                </TouchableOpacity>
+                <Text>ViewDamages</Text>
+            </View>
+)
     }
   return (
     <View style={styles.container}>
-    <TouchableOpacity style={styles.fakeButton} onPress={giveOut()}>
-        <Text style={styles.subCaptionTextWhite}>
-            Items hinzufügen
-        </Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.fakeButton} onPress={giveOut()}>
-        <Text style={styles.subCaptionTextWhite}>
-            Benutzer hinzufügen
-        </Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.fakeButton} onPress={giveOut()}>
-        <Text style={styles.subCaptionTextWhite}>
-            Ausleihen und Schäden ansehen
-        </Text>
-    </TouchableOpacity>
+        {state.screen == 0 ? (
+            <AdminHomeScreen/>
+        ) : state.screen == 1 ?(
+            <AddItemScreen/>
+        ) : state.screen == 2 ?(
+            <AddUserScreen/>
+        ) : state.screen == 3 ? (
+            <ViewDamageScreen/>
+        ) : (
+            <></>
+        )}
     </View>
   );
 }
