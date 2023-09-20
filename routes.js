@@ -51,23 +51,24 @@ app.post('/addUser', async (req, res) => {
       if(existingUserResults.length>0){
         res.send({existingUser : true})
         return
+      }else{
+        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
+        + req.body.short +'","'
+        + req.body.lastName+'","'
+        + req.body.firstName+'","'
+        + req.body.title+'","'
+        + req.body.mailAddress+'","'
+        + req.body.phoneNumber+'","'
+        + req.body.birthDate+'","'
+        + req.body.password+'","'
+        + req.body.role+'")'
+        console.log(addUserQuery)
+        connection.query(addUserQuery, function (error, results, fields) {
+          if (error) throw error;
+          console.log(results)
+          res.send(results)
+        });
       }
-    });
-    const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
-    + req.body.short +'","'
-    + req.body.lastName+'","'
-    + req.body.firstName+'","'
-    + req.body.title+'","'
-    + req.body.mailAddress+'","'
-    + req.body.phoneNumber+'","'
-    + req.body.birthDate+'","'
-    + req.body.password+'","'
-    + req.body.role+'")'
-    console.log(addUserQuery)
-    connection.query(addUserQuery, function (error, results, fields) {
-      if (error) throw error;
-      console.log(results)
-      res.send(results)
     });
   });
 });
