@@ -9,6 +9,9 @@ import AdminScreen from './screens/Admin';
 import DetailScreen from './screens/Detail';
 import App, { UserContext } from '../App';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AddUserScreen from './screens/AddUser';
+import AddItemScreen from './screens/AddItem';
+import ViewDamageScreen from './screens/ViewDamages';
 
 
 
@@ -46,6 +49,21 @@ function ProfileStack() {
   );
 }
 
+function AdminStack() {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen
+          name="Admin"
+          component={AdminScreen}
+          
+        />
+        <Stack.Screen name="AddUser" component={AddUserScreen}/>
+        <Stack.Screen name="AddItem" component={AddItemScreen}/>
+        <Stack.Screen name="ViewDamages" component={ViewDamageScreen}/>
+      </Stack.Navigator>
+  );
+}
+
 
 function MainContainer() {
   const {role} = React.useContext(UserContext)
@@ -77,7 +95,7 @@ function MainContainer() {
           <Tab.Screen name={lendName} component={LendScreen} />
           <Tab.Screen name={profileName} component={ProfileStack}/>
           {role == "adm" ? (
-            <Tab.Screen name ={adminName} component={AdminScreen}></Tab.Screen>
+            <Tab.Screen name ={adminName} component={AdminStack}></Tab.Screen>
           ) : (
             <></>
           )}

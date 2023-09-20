@@ -1,28 +1,22 @@
+import { color } from '@rneui/base';
+import dayjs from 'dayjs';
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-  export default function AdminScreen({navigation}){
-
-  return (
-    <View style={styles.container}>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddItem')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Items hinzufügen
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddUser')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Benutzer hinzufügen
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('ViewDamages')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Ausleihen und Schäden ansehen
-            </Text>
-        </TouchableOpacity>
-    </View>
-  );
+const serverUrl = 'http://'+ process.env.localIP +':3000'
+export default function ViewDamageScreen({navigation}){
+    return( 
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('Admin')}}>
+                <Text style={styles.subCaptionTextWhite}>
+                    Zurück zur Übersicht
+                </Text>
+            </TouchableOpacity>
+            <Text>ViewDamages</Text>
+        </View>
+)
 }
 
 const styles = StyleSheet.create({
