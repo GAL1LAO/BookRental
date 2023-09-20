@@ -129,6 +129,7 @@ export default function ProfileScreen() {
           </Text>
               {itemList}
         </View>
+        <View style={{margin: 10}}/>
         <View
           style={styles.line}
         />
