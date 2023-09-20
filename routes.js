@@ -80,15 +80,15 @@ app.post('/reservedItemsForUser', async (req, res) => {
   });
 });
 
-app.get('/items', async (req, res) => {
+app.post('/itemById', async (req, res) => {
   // Connecting to the database.
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    connection.query('SELECT * FROM Items', function (error, results, fields) {
+    connection.query('SELECT i.type, i.name, i.description, i.image, i.damages, i.dateOfPurchase, i.storageSite, u.title, u.firstName, u.lastName FROM Items i INNER JOIN users u on i.user_short = u.short WHERE id = "' + req.body.id + '"', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
-
+      console.log(results)
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
     });

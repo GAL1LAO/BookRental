@@ -2,131 +2,110 @@ import { StyleSheet, Text, TextInput, View, Alert, ScrollView, Image } from 'rea
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
+import { ActivityIndicator } from 'react-native';
+import dayjs from 'dayjs';
 
 export default function DetailScreen({ route }) {
-  const itemType = 'KISTE'
-  const itemName = 'SACHKUNDE1'
-  const dateOfPurchase = '2021-01-15'
-  const storageSite = 'Storage Room 1'
-  const user_short = 'abcd'
-  const damages = 'Torn pages' 
-  const code = 'R3#pT$7vXaKq9G@U5mW*6zYfN8p2eR$1' 
-  
-
   let { itemId } = route.params;
-
-  const [fetchData, setFetchData] = useState([]); // Use a different state variable name
+  const code = 'askjdakufiuawd' //TODO: add to db
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const url = 'http://' + process.env.localIP + ':3000';
   
-  console.log("itemId: ", itemId);
-  useEffect(() => {
-    const fetchDataAsync = async () => {
-    console.log("fetching data");
-    // fetch(url + '/items')
-    //   .then(response => response.json())
-    //   .then(serverResponse => {
-    //     console.log("server response: ", serverResponse);
-    //     // Update the state with the fetched data
-    //     setFetchData(serverResponse); // Use setFetchData to update the state
-    //   })
+  const getItems = async () => {
     try {
-      // Fetch the book data
-      const response = await fetch(url + '/items');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      // Parse the response data
-      const fetchData = await response.json();
-      console.log("server response: ", fetchData);
-
-      // Set 'data' once with the 'books' array
-      setData(fetchData);
-      console.log("data: ", data);
+      const response = await fetch(url + '/itemById',  { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+          "id": itemId,
+        })
+      })
+      const json = await response.json();
+      console.log(json)
+      setData(json[0]);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
-    fetchDataAsync();
-  }, []);
-   console.log("data: ", data);
-   console.log("Test")
-//   const selectedItem = data.find(item => item.ID === itemId);
-//   console.log("selectedItem: ", selectedItem);  
+  useEffect(() => {
+    getItems()
+  }, [])
 
-  // You can now use 'itemId' in your component
-  // For example, to display it in a Text component:
   return (
-    <View style={styles.container}>
-      <Text>Item ID: {itemId}</Text>
-      {/* Other details of the item can be displayed here */}
-      
-      <View style={styles.captionContainer}>
-        <Text style={styles.captionText}>{itemType} {itemName}</Text>
-      </View>
-      <ScrollView>
-      {/* TODO: PHOTO HINZUFÜGEN? */}
-       <View style={styles.fakeButtonImage}>
-       <Ionicons style={styles.inputIcon} size={50} name="cube"/>
-        </View> 
-        {/* <View style={styles.fakeButtonImage}>
-          <Image source={require('../../assets/favicon.png')}/>
-        </View>  */}
-        <View style={styles.userDetails}>
-        <Text style={styles.text}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
+    <View>
+      {isLoading ? (
+        <ActivityIndicator/>
+      ) : (
+      <View style={styles.container}>
+        <View style={styles.captionContainer}>
+          <Text style={styles.captionText}>{data.type} {data.name}</Text>
         </View>
-        <View
-          style={styles.line}
-        />
-        <View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Anschaffungsdatum:</Text>  
+        <ScrollView>
+        {/* TODO: PHOTO HINZUFÜGEN? */}
+        <View style={styles.fakeButtonImage}>
+        <Ionicons style={styles.inputIcon} size={50} name="cube"/>
+          </View> 
+          {/* <View style={styles.fakeButtonImage}>
+            <Image source={require('../../assets/favicon.png')}/>
+          </View>  */}
+          <View style={styles.userDetails}>
+          <Text style={styles.text}>{data.description}</Text>
           </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{dateOfPurchase}</Text>
+          <View
+            style={styles.line}
+          />
+          <View style={styles.userDetails}>
+            <View style={styles.column1}>
+              <Text style={styles.text}>Anschaffungsdatum:</Text>  
+            </View>
+            <View style={styles.column2}>
+              <Text style={styles.text}>{dayjs(data.dateOfPurchase).format('DD.MM.YYYY')}</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Aufbewahrungsort:</Text>
+          <View style={styles.userDetails}>
+            <View style={styles.column1}>
+              <Text style={styles.text}>Aufbewahrungsort:</Text>
+            </View>
+            <View style={styles.column2}>
+              <Text style={styles.text}>{data.storageSite}</Text>
+            </View>
+          </View><View style={styles.userDetails}>
+            <View style={styles.column1}>
+              <Text style={styles.text}>Ausgeliehen von:</Text>
+            </View>
+            <View style={styles.column2}>
+              <Text style={styles.text}>{data.title} {data.firstName} {data.lastName}</Text>
+            </View>
           </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{storageSite}</Text>
+          
+          <View
+            style={styles.line}
+          />
+          <View style={styles.titelAndText}>
+            <View style={styles.row1}>
+              <Text style={styles.subCaptionText}>Schaden:</Text>
+            </View>
+            <View style={styles.row2}>
+              <Text style={styles.text}>{data.damages}</Text>
+            </View>
           </View>
-        </View><View style={styles.userDetails}>
-          <View style={styles.column1}>
-            <Text style={styles.text}>Ausgeliehen von:</Text>
-          </View>
-          <View style={styles.column2}>
-            <Text style={styles.text}>{user_short}</Text>
-          </View>
-        </View>
-        
-        <View
-          style={styles.line}
-        />
-        <View style={styles.titelAndText}>
-          <View style={styles.row1}>
-            <Text style={styles.subCaptionText}>Schaden:</Text>
-          </View>
-          <View style={styles.row2}>
-            <Text style={styles.text}>{damages}</Text>
-          </View>
-        </View>
 
-        <View
-          style={styles.line}
-        />
-        <View style={styles.titelAndText}>
-          <View style={styles.row1}>
-            <Text style={styles.subCaptionText}>Code für manuelle Eingabe beim Ausleihen:</Text>
+          <View
+            style={styles.line}
+          />
+          <View style={styles.titelAndText}>
+            <View style={styles.row1}>
+              <Text style={styles.subCaptionText}>Code für manuelle Eingabe beim Ausleihen:</Text>
+            </View>
+            <View style={styles.row2}>
+              <Text style={styles.text}>{code}</Text>
+            </View>
           </View>
-          <View style={styles.row2}>
-            <Text style={styles.text}>{code}</Text>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>)}
     </View>
   ); 
 }
