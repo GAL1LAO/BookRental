@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -178,7 +179,9 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
         const [title, setTitle] = useState('');
         const [mailAddress, setMailAddress] = useState('')
         const [phoneNumber, setPhoneNumber] = useState('');
-        const [birthDate, setBirthDate] = useState('')    
+        const [day, setDay] = useState('')    
+        const [month, setMonth] = useState('')    
+        const [year, setYear] = useState('')    
         const [role, setRole] = useState('')
         async function addUser(){
             const userData = {
@@ -189,7 +192,7 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
                 title : title,
                 mailAddress : mailAddress,
                 phoneNumber : phoneNumber,
-                birthDate : birthDate,
+                birthDate : dayjs(year+"-"+month+'-'+day).format('YYYY-MM-DD'),
                 role : role
             }
             for(const field in userData){
@@ -283,9 +286,21 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
                     <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
                     <TextInput
                         style={styles.input}
-                        placeholder="Geburtstag"
+                        placeholder="Tag"
                         underlineColorAndroid="transparent"
-                        onChangeText={birthDate =>setBirthDate(birthDate)}//TODO: change to date picker
+                        onChangeText={birthDate =>setDay(birthDate)}//TODO: change to date picker
+                    />
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Monat"
+                    underlineColorAndroid="transparent"
+                    onChangeText={birthDate =>setMonth(birthDate)}//TODO: change to date picker
+                    />
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Jahr"
+                    underlineColorAndroid="transparent"
+                    onChangeText={birthDate =>setYear(birthDate)}//TODO: change to date picker
                     />
                 </View>
                 <View style={styles.inputContainer}>
