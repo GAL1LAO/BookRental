@@ -221,17 +221,6 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
-       */}
-
-      {/* <TouchableOpacity  style={styles.filterBar}>
-        <View style={styles.filterBarText}>
-        <Text>Filter</Text>
-        </View>
-        <View>
-          {/* <Image source={require("../../assets/favicon.png")}/> 
-        </View>
-      </TouchableOpacity> */}
       <View style={styles.searchBar}>
         <TextInput
           style={{ width: "100%" }}
@@ -239,39 +228,27 @@ export default function HomeScreen({ navigation }) {
           onChangeText={(text) => onSearch(text)}
         />
       </View>
-      <TouchableOpacity style={styles.filterBar}>
-        <View style={styles.filterBarText}>
-          <DropDownPicker
-            // items={[
-            //   { label: "All", value: "All" },
-            //   { label: "Only Books", value: "Only Books" },
-            //   { label: "Only Boxes", value: "Only Boxes" },
-            //   { label: "Not Borrowed", value: "Not Borrowed" },
-            //   { label: "Borrowed", value: "Borrowed" },
-            // ]}
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            // defaultValue={filterOption}
-            // containerStyle={{ height: 40 }}
-            // style={{ backgroundColor: "#fafafa" }}
-            // itemStyle={{
-            //   justifyContent: "flex-start",
-            // }}
-            // dropDownStyle={{ backgroundColor: "#fafafa" }}
-            onChangeValue={(item) => {setFilterOption(item);}}
-          />
-        </View>
-      </TouchableOpacity>
-      <View/>
+      <DropDownPicker containerStyle={styles.filter}
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        // defaultValue={filterOption}
+        // containerStyle={{ height: 40 }}
+        // style={{ backgroundColor: "#fafafa" }}
+        // itemStyle={{
+        //   justifyContent: "flex-start",
+        // }}
+        // dropDownStyle={{ backgroundColor: "#fafafa" }}
+        onChangeValue={(item) => {setFilterOption(item);}}
+      />
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.ID.toString()}
-        style={styles.flatList}
+        style={[styles.flatList, {zIndex: 0}]}
         //showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -279,6 +256,12 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  loginContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -344,6 +327,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     alignItems: "flex-start",
+    width: "90%",
+  },
+  filter: {
+    marginVertical: 10,
     width: "90%",
   },
   inputIcon: {
