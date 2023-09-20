@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { UserContext } from '../../App';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import dayjs from 'dayjs';
 
 export default function ProfileScreen({navigation}) {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -135,7 +136,7 @@ export default function ProfileScreen({navigation}) {
             <Text style={styles.text}>Geburtsdatum:</Text>
           </View>
           <View style={styles.column2}>
-            <Text style={styles.text}>{birthDate}</Text>
+            <Text style={styles.text}>{dayjs(birthDate).format("DD.MM.YYYY")}</Text>
           </View>
         </View>
         <View
