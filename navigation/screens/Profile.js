@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { UserContext } from '../../App';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ProfileScreen() {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -58,7 +59,14 @@ export default function ProfileScreen() {
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require('../../assets/favicon.png')}/>
+          <Ionicons
+            style={[
+              styles.inputIcon,
+              item.user_short ? { color: 'red' } : null,
+            ]}
+            size={50}
+            name={item.type === 'Book' ? 'book-sharp' : 'cube'}
+          />        
         </View>
       </TouchableOpacity>
     )
@@ -129,7 +137,6 @@ export default function ProfileScreen() {
           </Text>
               {itemList}
         </View>
-        <View style={{margin: 10}}/>
         <View
           style={styles.line}
         />
@@ -171,8 +178,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   centerItems: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
   },
   captionText: {
@@ -199,21 +204,22 @@ const styles = StyleSheet.create({
   },
   fakeButton: {
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 15,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     marginVertical: 5,
     paddingVertical: 15,
-    width: '90%',
-    backgroundColor: '#3EB489',
+    width: "90%",
+    alignItems: "center",
+    backgroundColor: "#3EB489",
   },
   fakeButtonText: {
-    alignItems: 'flex-start',
-    width: '80%',
+    alignItems: "flex-start",
+    width: "80%",
   },
   fakeButtonImage: {
-    alignItems: 'flex-end',
-    width: '20%',
+    alignItems: "flex-end",
+    width: "20%",
   },
   subCaptionTextWhite: {
     fontWeight: 'bold',
