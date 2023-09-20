@@ -228,7 +228,9 @@ export default function HomeScreen({ navigation }) {
           onChangeText={(text) => onSearch(text)}
         />
       </View>
-      <DropDownPicker containerStyle={styles.filter}
+      <DropDownPicker 
+        containerStyle={styles.filter}
+        style={{borderColor: "#ccc"}}
         open={open}
         value={value}
         items={items}
@@ -256,12 +258,6 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  loginContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: '5%',
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -291,21 +287,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "20%",
   },
-  filterBar: {
-    paddingHorizontal: 20,
-    paddingVertical: 200,
-    marginVertical: 10,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    width: "90%",
-  },
-  filterBarText: {
-    alignItems: "flex-start",
-    width: "80%",
-  },
   subCaptionTextWhite: {
     fontWeight: "bold",
     fontSize: 30,
@@ -332,6 +313,7 @@ const styles = StyleSheet.create({
   filter: {
     marginVertical: 10,
     width: "90%",
+    borderColor: "#ccc",
   },
   inputIcon: {
     padding: 10,
