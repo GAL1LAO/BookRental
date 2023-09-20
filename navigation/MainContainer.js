@@ -33,6 +33,20 @@ function HomeStack() {
   );
 }
 
+function ProfileStack() {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          
+        />
+        <Stack.Screen name="Detail" component={DetailScreen}/>
+      </Stack.Navigator>
+  );
+}
+
+
 function MainContainer() {
   const {role} = React.useContext(UserContext)
   return (
@@ -61,7 +75,7 @@ function MainContainer() {
         })}>
           <Tab.Screen name={homeName} component={HomeStack} options={{headerShown: false}}/>
           <Tab.Screen name={lendName} component={LendScreen} />
-          <Tab.Screen name={profileName} component={ProfileScreen}/>
+          <Tab.Screen name={profileName} component={ProfileStack}/>
           {role == "adm" ? (
             <Tab.Screen name ={adminName} component={AdminScreen}></Tab.Screen>
           ) : (
