@@ -42,6 +42,56 @@ app.post('/login', (req, res) => {
 });
 });
 
+app.post('/addUser', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const existingUserQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"'
+    connection.query(existingUserQuery, function (error, existingUserResults, fields) {
+      if (error) throw error;
+      console.log(existingUserResults)
+      if(existingUserResults.length>0){
+        res.send({existingUser : true})
+        return
+      }else{
+        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
+        + req.body.short +'","'
+        + req.body.lastName+'","'
+        + req.body.firstName+'","'
+        + req.body.title+'","'
+        + req.body.mailAddress+'","'
+        + req.body.phoneNumber+'","'
+        + req.body.birthDate+'","'
+        + req.body.password+'","'
+        + req.body.role+'")'
+        console.log(addUserQuery)
+        connection.query(addUserQuery, function (error, results, fields) {
+          if (error) throw error;
+          console.log(results)
+          res.send(results)
+        });
+      }
+    });
+  });
+});
+
+app.post('/addItem', async (req, res) => {
+  connection.getConnection(function (err, connection) {
+    const addItemQuery = 'Insert INTO Items (type, name, description, image, damages, dateOfPurchase, storageSite) VALUES("'
+    + req.body.type +'","'
+    + req.body.name+'","'
+    + req.body.description+'","'
+    + req.body.image+'","'
+    + req.body.damages+'","'
+    + req.body.dateOfPurchase+'","'
+    + req.body.storageSite+'")'
+    console.log(addItemQuery)
+    connection.query(addItemQuery, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
+      res.send(results)
+    });
+  });
+});
+
 
 app.get('/itemsList', async (req, res) => {
   // Connecting to the database.

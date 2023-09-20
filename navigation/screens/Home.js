@@ -8,8 +8,8 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Ionicons from "react-native-vector-icons/Ionicons";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function HomeScreen({ navigation }) {
   // const data = [
@@ -40,95 +40,88 @@ export default function HomeScreen({ navigation }) {
 
   const [fetchData, setFetchData] = useState([]); // Use a different state variable name
   const [data, setData] = useState([]);
-  const url = 'http://' + process.env.localIP + ':3000';
-  
+  const url = "http://" + process.env.localIP + ":3000";
+
   useEffect(() => {
     const fetchDataAsync = async () => {
-    console.log("fetching data");
-    // fetch(url + '/items')
-    //   .then(response => response.json())
-    //   .then(serverResponse => {
-    //     console.log("server response: ", serverResponse);
-    //     // Update the state with the fetched data
-    //     setFetchData(serverResponse); // Use setFetchData to update the state
-    //   })
-    try {
-      // Fetch the book data
-      const response = await fetch(url + '/itemsList');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      console.log("fetching data");
+      // fetch(url + '/items')
+      //   .then(response => response.json())
+      //   .then(serverResponse => {
+      //     console.log("server response: ", serverResponse);
+      //     // Update the state with the fetched data
+      //     setFetchData(serverResponse); // Use setFetchData to update the state
+      //   })
+      try {
+        // Fetch the book data
+        const response = await fetch(url + "/itemsList");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        // Parse the response data
+        const fetchData = await response.json();
+        console.log("server response: ", fetchData);
+
+        // Create the 'books' array with 'name' and 'ID' properties
+        const books = fetchData.map((book) => ({
+          ID: book.ID,
+          type: book.type,
+          name: book.name,
+          user_short: book.user_short,
+        }));
+
+        // Set 'data' once with the 'books' array
+        setData(books);
+        setOldData(books);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-
-      // Parse the response data
-      const fetchData = await response.json();
-      console.log("server response: ", fetchData);
-
-      // Create the 'books' array with 'name' and 'ID' properties
-      const books = fetchData.map(book => ({ text: book.name, id: book.ID }));
-
-      // Set 'data' once with the 'books' array
-      setData(books);
-      setOldData(books);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+    };
     fetchDataAsync();
   }, []);
-  
 
-// // console.log("result")
-console.log(fetchData)
-// // console.log("------")
-// // console.log("fetchData")
-// console.log(fetchDate)
+  // // console.log("result")
+  console.log(fetchData);
+  // // console.log("------")
+  // // console.log("fetchData")
+  // console.log(fetchDate)
+  console.log("------" + data);
 
-const books = fetchData.map(book => ({
-  ID : book.ID,
-  type: book.type,
-  name: book.name,
-  user_short: book.user_short,
-}));
+  // Initialize with an empty array
 
-console.log(books);
+  // useEffect(() => {
+  //   const fetchDataAsync = async () => {
 
- // Initialize with an empty array
+  //     // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
+  //   const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
 
-// useEffect(() => {
-//   const fetchDataAsync = async () => {
+  //   // Set 'data' once with the 'books' array
+  //   setData(books);
+  //   };
+  //   fetchDataAsync();
+  // }, []);
 
+  console.log("data " + data);
 
-
-  
-//     // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
-//   const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
-  
-//   // Set 'data' once with the 'books' array
-//   setData(books);
-//   };
-//   fetchDataAsync();
-// }, []);
-
-console.log(data);
-
-// async function getItems(){
-//   let result
-//   await fetch(url + '/items',{
-//       method: 'GET',
-//     })
-//     .then(response => response.json()) 
-//     .then(serverResponse => {
-//       console.log(serverResponse)
-//       result = serverResponse
-//   })
-//   if(result === null || result.length === 0){
-//       Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
-//       return
-//   }else{
-//       //TODO: log in and keep logged in
-//       Alert.alert("Login erfolgreich")
-//   }
-// }
+  // async function getItems(){
+  //   let result
+  //   await fetch(url + '/items',{
+  //       method: 'GET',
+  //     })
+  //     .then(response => response.json())
+  //     .then(serverResponse => {
+  //       console.log(serverResponse)
+  //       result = serverResponse
+  //   })
+  //   if(result === null || result.length === 0){
+  //       Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
+  //       return
+  //   }else{
+  //       //TODO: log in and keep logged in
+  //       Alert.alert("Login erfolgreich")
+  //   }
+  // }
 
   // handleOnChangeText = (text) => {
   //   // ? Visible the spinner
@@ -159,11 +152,19 @@ console.log(data);
       >
         <View style={styles.fakeButtonText}>
           <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-            {item.text}
+            {item.name}
           </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require("../../assets/favicon.png")} />
+          {/* Conditionally render the icon with red color if user_short is not empty */}
+          <Ionicons
+            style={[
+              styles.inputIcon,
+              item.user_short ? { color: "red" } : null,
+            ]}
+            size={50}
+            name={item.type === "Book" ? "book-sharp" : "cube"}
+          />
         </View>
       </TouchableOpacity>
     </View>
@@ -172,40 +173,83 @@ console.log(data);
   const onSearch = (text) => {
     if (text == "") {
       setData(oldData);
-    } 
-    else {
+    } else {
       let tempList = data.filter((item) => {
-        return item.text.toLowerCase().indexOf(text.toLowerCase()) > -1;
+        return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
       });
       setData(tempList);
     }
   };
+  const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
+
+  const filterData = () => {
+    console.log("filtering data");
+    switch (filterOption) {
+      case "Only Books":
+        setData(oldData.filter((item) => item.type === "Book"));
+        break;
+      case "Only Boxes":
+        setData(oldData.filter((item) => item.type !== "Book"));
+        break;
+      case "Not Borrowed":
+        setData(oldData.filter((item) => !item.user_short));
+        break;
+      case "Borrowed":
+        setData(oldData.filter((item) => item.user_short));
+        break;
+      default:
+        setData(oldData); // Default option, show all data
+        break;
+    }
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [filterOption]);
+  
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+      { label: "All", value: "All" },
+      { label: "Only Books", value: "Only Books" },
+      { label: "Only Boxes", value: "Only Boxes" },
+      { label: "Not Borrowed", value: "Not Borrowed" },
+      { label: "Borrowed", value: "Borrowed" },
+    ]);
+  
+  
+
 
   return (
     <View style={styles.container}>
-      {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
-       */}
-
-      <View  style={styles.searchBar}>
-        <TextInput style={{width: '100%'}}
+      <View style={styles.searchBar}>
+        <TextInput
+          style={{ width: "100%" }}
           placeholder="Suche"
           onChangeText={(text) => onSearch(text)}
         />
       </View>
-
-      <TouchableOpacity  style={styles.filterBar}>
-        <View style={styles.filterBarText}>
-        <Text>Filter</Text>
-        </View>
-        <View>
-          {/* <Image source={require("../../assets/favicon.png")}/> */}
-        </View>
-      </TouchableOpacity>
+      <DropDownPicker containerStyle={styles.filter}
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        // defaultValue={filterOption}
+        // containerStyle={{ height: 40 }}
+        // style={{ backgroundColor: "#fafafa" }}
+        // itemStyle={{
+        //   justifyContent: "flex-start",
+        // }}
+        // dropDownStyle={{ backgroundColor: "#fafafa" }}
+        onChangeValue={(item) => {setFilterOption(item);}}
+      />
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.flatList}
+        keyExtractor={(item) => item.ID.toString()}
+        style={[styles.flatList, {zIndex: 0}]}
         //showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -213,6 +257,12 @@ console.log(data);
 }
 
 const styles = StyleSheet.create({
+  loginContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -244,7 +294,7 @@ const styles = StyleSheet.create({
   },
   filterBar: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 200,
     marginVertical: 10,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -252,7 +302,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     width: "90%",
-   
   },
   filterBarText: {
     alignItems: "flex-start",
@@ -263,13 +312,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
   },
-  flatList:{
+  flatList: {
     width: "100%",
   },
   searchContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   searchBar: {
     paddingHorizontal: 20,
@@ -280,7 +329,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: "flex-start",
     width: "90%",
-   
+  },
+  filter: {
+    marginVertical: 10,
+    width: "90%",
+  },
+  inputIcon: {
+    padding: 10,
+    size: "1000%",
+    color: "#FFFFFF",
   },
 
   // subCaptionTextLentAndReserved: {

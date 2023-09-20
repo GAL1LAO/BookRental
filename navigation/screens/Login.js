@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
@@ -11,30 +11,33 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.inputContainer}>
-                <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Benutzername"
-                    underlineColorAndroid="transparent"
-                    onChangeText={short =>setShort(short)}
-                />
+            <View style={styles.loginContainer}>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Benutzername"
+                        underlineColorAndroid="transparent"
+                        onChangeText={short =>setShort(short)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Ionicons style={styles.inputIcon} name="lock-closed" size={20} color="#000"/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Passwort"
+                        underlineColorAndroid="transparent"
+                        secureTextEntry
+                        onChangeText={password =>setPassword(password)}
+                    />
+                </View>
+                <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signIn(short,password)}>
+                    <Ionicons style={styles.inputIcon} name="log-in" size={20} color="#000"/>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Einloggen
+                    </Text>
+                </TouchableOpacity>
             </View>
-            <View style={styles.inputContainer}>
-                <Ionicons style={styles.inputIcon} name="lock-closed" size={20} color="#000"/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Passwort"
-                    underlineColorAndroid="transparent"
-                    secureTextEntry
-                    onChangeText={password =>setPassword(password)}
-                />
-            </View>
-            <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signIn(short,password)}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Einloggen
-                </Text>
-            </TouchableOpacity>
         </View>
     );
 }
@@ -47,21 +50,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: '5%',
     },
-    fakeButton: {
-        marginTop: 20,
-        borderRadius: 10,
-        paddingVertical: 5,
-        marginVertical: 5,
+    loginContainer: {
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: '5%',
+    },
+    fakeButton: {
+        marginBottom: 10,
+        borderRadius: 10,
         width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#3EB489',
     },
     subCaptionTextWhite: {
+        flex: 1,
+        paddingTop: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        paddingLeft: 0,
         fontWeight: 'bold',
         fontSize: 30,
         color: 'white'
     },
     inputContainer: {
+        padding: 5,
         marginBottom: 10,
         borderRadius: 10,
         flexDirection: 'row',
