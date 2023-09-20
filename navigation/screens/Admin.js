@@ -1,3 +1,4 @@
+import { color } from '@rneui/base';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
@@ -344,7 +345,7 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
 )
     }
   return (
-    <View style={styles.container}>
+    <View style={styles.outerContainer}>
         {state.screen == 0 ? (
             <AdminHomeScreen/>
         ) : state.screen == 1 ?(
@@ -361,12 +362,16 @@ const serverUrl = 'http://'+ process.env.localIP +':3000'
 }
 
 const styles = StyleSheet.create({
+    outerContainer: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         backgroundColor: '#246EE9',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: '5%',
+        
     },
     fakeButton: {
         marginTop: 20,
@@ -376,6 +381,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         backgroundColor: '#3EB489',
+        padding: 10
     },
     subCaptionTextWhite: {
         fontWeight: 'bold',
@@ -389,6 +395,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
+        width: '100%',
     },
     inputIcon: {
         padding: 10,
