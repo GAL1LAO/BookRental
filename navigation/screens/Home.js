@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   inputIcon: {
     padding: 10,
     size: '1000%', 
-    color: "#000",
+    color: "#FFFFFF",
 },
 
 

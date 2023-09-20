@@ -49,8 +49,8 @@ export default function App() {
   React.useEffect(() => {//TODO: not used yet, maybe needed to 'keep logged in'
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken = 'abcd';//TODO: reset
-      let role = 'adm'
+      let userToken = null;//TODO: reset
+      let role = null
       try {
         // Restore token stored in `SecureStore` or any other encrypted storage
         // userToken = await SecureStore.getItemAsync('userToken');
