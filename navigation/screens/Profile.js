@@ -3,7 +3,7 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacit
 import { UserContext } from '../../App';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
 
   const {userToken, title, lastName, firstName, role, mailAddress, phoneNumber, birthDate} = React.useContext(UserContext)
@@ -52,7 +52,9 @@ export default function ProfileScreen() {
   
   items.forEach((item) => {
     itemList.push(
-      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {
+        navigation.navigate("Detail", { itemId: item.ID });
+      }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
               {item.name}
@@ -74,14 +76,23 @@ export default function ProfileScreen() {
 
   reservedItems.forEach((item) => {
     reservedItemList.push(
-      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {
+        navigation.navigate("Detail", { itemId: item.ID });
+      }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
               {item.name}
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require('../../assets/favicon.png')}/>
+          <Ionicons
+              style={[
+                styles.inputIcon,
+                item.user_short ? { color: 'red' } : null,
+              ]}
+              size={50}
+              name={item.type === 'Book' ? 'book-sharp' : 'cube'}
+          />              
         </View>
       </TouchableOpacity>
     )
