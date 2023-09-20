@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 
 export default function DetailScreen({ route }) {
   let { itemId } = route.params;
-  const code = 'askjdakufiuawd' //TODO: add to db
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const url = 'http://' + process.env.localIP + ':3000';
@@ -101,7 +100,7 @@ export default function DetailScreen({ route }) {
               <Text style={styles.subCaptionText}>Code für manuelle Eingabe beim Ausleihen:</Text>
             </View>
             <View style={styles.row2}>
-              <Text style={styles.text}>{code}</Text>
+              <Text style={styles.text}>{data.qrCode}</Text>
             </View>
           </View>
         </ScrollView>

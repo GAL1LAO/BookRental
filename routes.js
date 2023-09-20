@@ -101,7 +101,6 @@ app.get('/itemsList', async (req, res) => {
     connection.query('SELECT ID, type, name, user_short FROM Items', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
-
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
     });
@@ -135,9 +134,11 @@ app.post('/itemById', async (req, res) => {
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    connection.query('SELECT i.type, i.name, i.description, i.image, i.damages, i.dateOfPurchase, i.storageSite, u.title, u.firstName, u.lastName FROM Items i INNER JOIN users u on i.user_short = u.short WHERE id = "' + req.body.id + '"', function (error, results, fields) {
-      // If some error occurs, we throw an error.
+    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription) FROM damages WHERE item_ID = 1) AS damages FROM Items i INNER JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
+    console.log(itemsQuery)
+    connection.query(itemsQuery, function (error, results, fields) {
       if (error) throw error;
+      // If some error occurs, we throw an error.
       console.log(results)
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
