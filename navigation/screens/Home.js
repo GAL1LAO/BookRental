@@ -10,12 +10,14 @@ import {
 import React, { useState, useEffect } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
+import { RefreshControl } from "react-native";
 
 export default function HomeScreen({ navigation }) {
   const [oldData, setOldData] = useState([]);
   const [fetchData, setFetchData] = useState([]); // Use a different state variable name
   const [data, setData] = useState([]);
   const url = "http://" + process.env.localIP + ":3000";
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const fetchDataAsync = async () => {
@@ -49,6 +51,38 @@ export default function HomeScreen({ navigation }) {
     };
     fetchDataAsync();
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true); // Set refreshing to true to show the loading indicator
+    // Fetch new data here, similar to your existing fetchDataAsync logic
+    const fetchDataAsync = async () => {
+      try {
+        const response = await fetch(url + "/itemsList");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+  
+        const fetchData = await response.json();
+  
+        const books = fetchData.map((book) => ({
+          ID: book.ID,
+          type: book.type,
+          name: book.name,
+          user_short: book.user_short,
+        }));
+  
+        setData(books);
+        setOldData(books);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setRefreshing(false); // Set refreshing to false to hide the loading indicator
+      }
+    };
+  
+    fetchDataAsync();
+  };
+  
 
   const renderItem = ({ item }) => (
     <View style={styles.centerItems}>
@@ -157,6 +191,12 @@ export default function HomeScreen({ navigation }) {
         renderItem={renderItem}
         keyExtractor={(item) => item.ID.toString()}
         style={styles.flatList}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} // Define the onRefresh function
+          />
+        }
       />
     </View>
   );
