@@ -13,6 +13,7 @@ import AddUserScreen from './screens/AddUser';
 import AddItemScreen from './screens/AddItem';
 import ViewDamageScreen from './screens/ViewDamages';
 import UserAdministrationScreen from './screens/UserAdministration';
+import UserDetailScreen from './screens/UserDetail';
 
 
 
@@ -73,6 +74,7 @@ function UserAdministrationStack() {
           component={UserAdministrationScreen}
         />
         <Stack.Screen name="AddUser" component={AddUserScreen}/>
+        <Stack.Screen name="UserDetail" component={UserDetailScreen}/>
       </Stack.Navigator>
   );
 }

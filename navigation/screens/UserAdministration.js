@@ -46,8 +46,8 @@ export default function UserAdministrationScreen({navigation}){
     data.forEach((user) => {
     userList.push(
         <TouchableOpacity style={styles.fakeButton} key={user.short} onPress={() => {
-        //navigation.navigate("Detail", { itemId: item.ID });
-        alert(user.short)
+            navigation.navigate("UserDetail", { short: user.short });
+            alert(user.short)
         }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>

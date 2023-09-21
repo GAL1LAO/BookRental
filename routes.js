@@ -42,6 +42,17 @@ app.post('/login', (req, res) => {
 });
 });
 
+app.post('/userByShort', (req, res) => {
+  connection.getConnection(function (err, connection) {
+  const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"' 
+  connection.query(loginQuery, function (error, results, fields) {
+    if (error) throw error;
+    console.log(results)
+    res.send(results)
+  });
+});
+})
+
 app.post('/addUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const existingUserQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"'
