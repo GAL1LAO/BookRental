@@ -75,19 +75,32 @@ app.post('/addUser', async (req, res) => {
 
 app.post('/addItem', async (req, res) => {
   connection.getConnection(function (err, connection) {
-    const addItemQuery = 'Insert INTO Items (type, name, description, image, damages, dateOfPurchase, storageSite) VALUES("'
+    const addItemQuery = 'Insert INTO Items (type, name, description, image, dateOfPurchase, storageSite) VALUES("'
     + req.body.type +'","'
     + req.body.name+'","'
     + req.body.description+'","'
     + req.body.image+'","'
-    + req.body.damages+'","'
     + req.body.dateOfPurchase+'","'
     + req.body.storageSite+'")'
     console.log(addItemQuery)
+    let result
     connection.query(addItemQuery, function (error, results, fields) {
       if (error) throw error;
       console.log(results)
-      res.send(results)
+      if(results && req.body.damages && req.body.damages != null){
+        let itemID = results.insertId
+        let date = dayjs().format('YYYY-MM-DD')
+        let addDamagesQuery = 'INSERT INTO Damages (item_ID, damageDescription, date) VALUES '
+        let splitDamages = req.body.damages.split('\n')
+        for(const damage of splitDamages){
+          addDamagesQuery = addDamagesQuery + '("' +itemID + '","' + damage + '","' + date + '"),'
+        }
+        addDamagesQuery = addDamagesQuery.substring(0,addDamagesQuery.length-1)
+        connection.query(addDamagesQuery, function (error, results, fields) {
+          if (error) throw error;
+          console.log(results)
+        });
+        }
     });
   });
 });
@@ -134,7 +147,7 @@ app.post('/itemById', async (req, res) => {
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = 1) AS damages FROM Items i INNER JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
+    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
     console.log(itemsQuery)
     connection.query(itemsQuery, function (error, results, fields) {
       if (error) throw error;

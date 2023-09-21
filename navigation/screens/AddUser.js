@@ -154,7 +154,7 @@ export default function AddUserScreen({navigation}){
                 />
             </View>
             <View style={styles.buttonAlignment}>
-            <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await addItem()}>
+            <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await addUser()}>
                 <Text style={styles.subCaptionTextWhite}>
                     Hinzufügen
                 </Text>

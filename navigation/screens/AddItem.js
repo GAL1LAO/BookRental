@@ -88,6 +88,7 @@ export default function AddItemScreen({navigation}){
                     style={styles.input}
                     placeholder="Schäden"
                     underlineColorAndroid="transparent"
+                    multiline={true}
                     onChangeText={damages =>setDamages(damages)}
                 />
             </View>
