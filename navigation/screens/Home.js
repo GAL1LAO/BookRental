@@ -140,22 +140,23 @@ export default function HomeScreen({ navigation }) {
           onChangeText={(text) => onSearch(text)}
         />
       </View>
-      <DropDownPicker 
-        containerStyle={styles.filter}
-        style={{borderColor: "#ccc"}}
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        onChangeValue={(item) => {setFilterOption(item);}}
-      />
+      <View style={styles.filter}>
+        <DropDownPicker 
+          style={{borderColor: "#ccc"}}
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          onChangeValue={(item) => {setFilterOption(item);}}
+        />
+      </View>
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.ID.toString()}
-        style={[styles.flatList, {zIndex: 0}]}
+        style={styles.flatList}
       />
     </View>
   );
@@ -215,9 +216,10 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   filter: {
+    zIndex: 1, 
+    elevation: 2,
     marginVertical: 10,
     width: "90%",
-    borderColor: "#ccc",
   },
   inputIcon: {
     padding: 10,
