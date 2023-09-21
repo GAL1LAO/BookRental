@@ -52,7 +52,7 @@ export default function DetailScreen({ route }) {
             <Image source={require('../../assets/favicon.png')}/>
           </View>  */}
           <View style={styles.userDetails}>
-          <Text style={styles.text}>{data.description}</Text>
+          <Text style={styles.userDetails}>{data.description}</Text>
           </View>
           <View
             style={styles.line}
@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
       },
       column1: {
-        width: '40%',
+        width: '50%',
         paddingLeft: 10,
         paddingTop: 10,
       },
       column2: {
-        width: '60%',
+        width: '50%',
         paddingLeft: 10,
         paddingTop: 10,
       },

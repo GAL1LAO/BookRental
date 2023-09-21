@@ -89,7 +89,6 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={styles.fakeButton}
         onPress={() => {
-          alert(item.ID)
           navigation.navigate("Detail", { itemId: item.ID });
           // Handle the button click here
           // You can use item.id or item.text to identify the clicked item

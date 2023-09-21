@@ -19,6 +19,7 @@ export default function LoginScreen() {
                         placeholder="Benutzername"
                         underlineColorAndroid="transparent"
                         onChangeText={short =>setShort(short)}
+                        onSubmitEditing={async () => await signIn(short, password)}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -29,6 +30,7 @@ export default function LoginScreen() {
                         underlineColorAndroid="transparent"
                         secureTextEntry
                         onChangeText={password =>setPassword(password)}
+                        onSubmitEditing={async () => await signIn(short, password)}
                     />
                 </View>
                 <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signIn(short,password)}>
