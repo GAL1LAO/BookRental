@@ -1,8 +1,9 @@
 import { color } from '@rneui/base';
 import dayjs from 'dayjs';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -14,6 +15,31 @@ export default function AddItemScreen({navigation}){
     const [damages, setDamages] = useState('');
     const [dateOfPurchase, setDateOfPurchase] = useState('')
     const [storageSite, setStorageSite] = useState('');
+
+    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
+
+    const filterData = () => {
+      switch (filterOption) {
+        case "Kiste":
+            setType("Kiste");
+          break;
+        case "Buch":
+            setType("Buch");
+
+      }
+    };
+  
+    useEffect(() => {
+      filterData();
+    }, [filterOption]);
+    
+      const [open, setOpen] = useState(false);
+      const [value, setValue] = useState(null);
+      const [items, setItems] = useState([
+        { label: "Kiste", value: "Kiste" },
+        { label: "Buch", value: "Buch" },
+      ]);
+
     async function addItem(){
         const itemData = {
             type : type,
@@ -30,6 +56,7 @@ export default function AddItemScreen({navigation}){
                 return
             }
         }
+        itemData.dateOfPurchase = dayjs(itemData.dateOfPurchase).format('YYYY-DD-MM')
         console.log(itemData)
         await fetch(serverUrl + '/addItem',{
             method: 'POST',
@@ -46,13 +73,16 @@ export default function AddItemScreen({navigation}){
         <View style={styles.container}>
            
             <Text>Add item</Text>
-            <View style={styles.inputContainer}>
-                <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Typ"
-                    underlineColorAndroid="transparent"
-                    onChangeText={type =>setType(type)} //TODO: Selection
+            <View style={styles.filter}>
+                <DropDownPicker 
+                style={{borderColor: "#ccc"}}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                onChangeValue={(item) => {setFilterOption(item);}}
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -189,29 +219,35 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignItems: 'flex-start',
     width: '100%',
-  },
-  column1: {
-    width: '50%',
-    padding: 10,
-    marginTop: 20,
-    marginRight: 10,
+    },
+    column1: {
+        width: '50%',
+        padding: 10,
+        marginTop: 20,
+        marginRight: 10,
         borderRadius: 10,
         paddingVertical: 5,
         marginVertical: 5,
         alignItems: 'center',
         backgroundColor: '#3EB489',
         padding: 10
-  },
-  column2: {
-    width: '50%',
-    padding: 10, 
-    marginTop: 20,
-    marginLeft: 10,
+    },
+    column2: {
+        width: '50%',
+        padding: 10, 
+        marginTop: 20,
+        marginLeft: 10,
         borderRadius: 10,
         paddingVertical: 5,
         marginVertical: 5,
         alignItems: 'center',
         backgroundColor: 'red',
         padding: 10
-  },
+    },
+    filter: {
+        zIndex: 1, 
+        elevation: 2,
+        marginVertical: 10,
+        width: '100%',
+    },
 });
