@@ -53,6 +53,25 @@ app.post('/userByShort', (req, res) => {
 });
 })
 
+app.post('/editUser', (req, res) => {
+  connection.getConnection(function (err, connection) {
+  const loginQuery = 'UPDATE Users SET '+
+  'title = "' + req.body.title + '",'+
+  'firstName = "' + req.body.firstName + '",'+
+  'lastName = "' + req.body.lastName + '",'+
+  'mailAddress = "' + req.body.mailAddress + '",'+
+  'phoneNumber = "' + req.body.phoneNumber + '",'+
+  'birthDate = "' + req.body.birthDate + '",'+
+  'role = "' + req.body.role + '"'+
+  'WHERE short = "' + req.body.short + '"' 
+  connection.query(loginQuery, function (error, results, fields) {
+    if (error) throw error;
+    console.log(results)
+    res.send(results)
+  });
+});
+})
+
 app.post('/addUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const existingUserQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"'
