@@ -52,7 +52,7 @@ export default function DetailScreen({ route }) {
             <Image source={require('../../assets/favicon.png')}/>
           </View>  */}
           <View style={styles.userDetails}>
-          <Text style={styles.text}>{data.description}</Text>
+          <Text style={styles.userDetails}>{data.description}</Text>
           </View>
           <View
             style={styles.line}
