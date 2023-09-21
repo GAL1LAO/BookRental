@@ -1,13 +1,84 @@
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
+import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View, Text, FlatList, RefreshControl, ActivityIndicator, ScrollView } from "react-native"
+const serverUrl = 'http://'+ process.env.localIP +':3000'
 
 export default function UserAdministrationScreen({navigation}){
+    const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    let userList=[]
+
+    const fetchDataAsync = async () => {
+        console.log("fetching data");
+        try {
+          // Fetch the book data
+          const response = await fetch(serverUrl + "/users");
+          console.log("response: ", response);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+  
+          // Parse the response data
+          const dataJson = await response.json();
+          setData(dataJson)
+          console.log("server response: ", dataJson);
+  
+          // Create the 'users' array with 'name' and 'ID' properties
+          /*const users = dataJson.map((user) => ({
+            short: user.short,
+            title: user.title,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          }));
+  
+          // Set 'data' once with the 'books' array
+          setData(users);*/
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }finally{
+            setLoading(false)
+        }
+      };  
+
+    useEffect(() => {
+        fetchDataAsync();
+      }, []);
+      console.log(data)
+    data.forEach((user) => {
+    userList.push(
+        <TouchableOpacity style={styles.fakeButton} key={user.short} onPress={() => {
+        //navigation.navigate("Detail", { itemId: item.ID });
+        alert(user.short)
+        }}>
+        <View style={styles.fakeButtonText}>
+            <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+                {user.title} {user.firstName} {user.lastName}
+            </Text>
+        </View>
+        </TouchableOpacity>
+    )
+    })
+
     return(
         <View>
-            <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddUser')}}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Benutzer hinzufügen
-                </Text>
-            </TouchableOpacity>
+            {isLoading ? (
+                <ActivityIndicator/>
+            ) : (
+            <View>
+                <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddUser')}}>
+                        <Text style={styles.subCaptionTextWhite}>
+                            Benutzer hinzufügen
+                        </Text>
+                </TouchableOpacity>
+                <ScrollView>
+                    <View style={styles.centerItems}>
+                    <Text style={styles.subCaptionTextLentAndReserved}>
+                        Benutzer
+                    </Text>
+                        {userList}
+                    </View>
+                </ScrollView>
+            </View>
+            )}
         </View>
     )
 }
@@ -99,5 +170,70 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'red',
         padding: 10
+  },
+  flatList: {
+    width: "100%",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  centerItems: {
+    flex: 1,
+    alignItems: "center",
+  },
+  fakeButton: {
+    borderRadius: 10,
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    alignItems: "flex-start",
+    marginVertical: 5,
+    paddingVertical: 15,
+    width: "90%",
+    alignItems: "center",
+    backgroundColor: "#3EB489",
+  },
+  fakeButtonText: {
+    alignItems: "flex-start",
+    width: "80%",
+  },
+  fakeButtonImage: {
+    alignItems: "flex-end",
+    width: "20%",
+  },
+  subCaptionTextWhite: {
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "white",
+  },
+  flatList: {
+    width: "100%",
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+  },
+  searchBar: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: "flex-start",
+    width: "90%",
+  },
+  filter: {
+    zIndex: 1, 
+    elevation: 2,
+    marginVertical: 10,
+    width: "90%",
+  },
+  inputIcon: {
+    padding: 10,
+    color: "#FFFFFF",
   },
 });

@@ -28,7 +28,7 @@ export default function ProfileScreen({navigation}) {
         })
       })
       const json = await response.json();
-      setItems(json);
+      (json);
 
       const reservedResponse = await fetch(serverUrl + '/reservedItemsForUser', { 
         method: 'POST',
