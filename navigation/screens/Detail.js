@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
       },
       column1: {
-        width: '40%',
+        width: '50%',
         paddingLeft: 10,
         paddingTop: 10,
       },
       column2: {
-        width: '60%',
+        width: '50%',
         paddingLeft: 10,
         paddingTop: 10,
       },
