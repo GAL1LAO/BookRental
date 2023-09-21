@@ -1,28 +1,15 @@
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
 
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-
-  export default function AdminScreen({navigation}){
-
-  return (
-    <View style={styles.container}>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddItem')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Items hinzufügen
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('UserAdministration')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Nutzerverwaltung
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('ViewDamages')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Ausleihen und Schäden ansehen
-            </Text>
-        </TouchableOpacity>
-    </View>
-  );
+export default function UserAdministrationScreen({navigation}){
+    return(
+        <View>
+            <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddUser')}}>
+                <Text style={styles.subCaptionTextWhite}>
+                    Benutzer hinzufügen
+                </Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

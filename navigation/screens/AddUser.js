@@ -159,7 +159,7 @@ export default function AddUserScreen({navigation}){
                     Hinzufügen
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('Admin')}}>
+            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('UserAdministration')}}>
                 <Text style={styles.subCaptionTextWhite}>
                     Abbrechen
                 </Text>

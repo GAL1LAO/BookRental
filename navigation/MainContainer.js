@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddUserScreen from './screens/AddUser';
 import AddItemScreen from './screens/AddItem';
 import ViewDamageScreen from './screens/ViewDamages';
+import UserAdministrationScreen from './screens/UserAdministration';
 
 
 
@@ -57,9 +58,21 @@ function AdminStack() {
           component={AdminScreen}
           
         />
-        <Stack.Screen name="AddUser" component={AddUserScreen}/>
+        <Stack.Screen name="UserAdministration" component={UserAdministrationStack} options={{headerShown: false}}/>
         <Stack.Screen name="AddItem" component={AddItemScreen}/>
         <Stack.Screen name="ViewDamages" component={ViewDamageScreen}/>
+      </Stack.Navigator>
+  );
+}
+
+function UserAdministrationStack() {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen
+          name="UserAdministration"
+          component={UserAdministrationScreen}
+        />
+        <Stack.Screen name="AddUser" component={AddUserScreen}/>
       </Stack.Navigator>
   );
 }
