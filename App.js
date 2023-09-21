@@ -83,6 +83,7 @@ export default function App() {
             return
         }
         let result
+        console.log("fetching??")
         await fetch(serverUrl + '/login',{
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},

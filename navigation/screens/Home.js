@@ -12,32 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function HomeScreen({ navigation }) {
-  // const data = [
-  //   { text: "Deutsch", id: 1 },
-  //   { text: "Erdkunde", id: 2 },
-  //   { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-  //   { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-  //   { text: "Hip", id: 5 },
-  //   { text: "Hip", id: 6 },
-  //   { text: "Hip", id: 7 },
-  //   { text: "Hip", id: 8 },
-  //   { text: "Hip", id: 9 },
-  //   { text: "Hip", id: 10 },
-  // ];
-  // const [data, setData] = useState([
-  //   { text: "Deutsch", id: 1 },
-  //   { text: "Erdkunde", id: 2 },
-  //   { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-  //   { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-  //   { text: "Hip", id: 5 },
-  //   { text: "Hip", id: 6 },
-  //   { text: "Hip", id: 7 },
-  //   { text: "Hip", id: 8 },
-  //   { text: "Hip", id: 9 },
-  //   { text: "Hip", id: 10 },
-  // ]);
   const [oldData, setOldData] = useState([]);
-
   const [fetchData, setFetchData] = useState([]); // Use a different state variable name
   const [data, setData] = useState([]);
   const url = "http://" + process.env.localIP + ":3000";
@@ -45,16 +20,10 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     const fetchDataAsync = async () => {
       console.log("fetching data");
-      // fetch(url + '/items')
-      //   .then(response => response.json())
-      //   .then(serverResponse => {
-      //     console.log("server response: ", serverResponse);
-      //     // Update the state with the fetched data
-      //     setFetchData(serverResponse); // Use setFetchData to update the state
-      //   })
       try {
         // Fetch the book data
         const response = await fetch(url + "/itemsList");
+        console.log("response: ", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -80,64 +49,6 @@ export default function HomeScreen({ navigation }) {
     };
     fetchDataAsync();
   }, []);
-
-  // // console.log("result")
-  console.log(fetchData);
-  // // console.log("------")
-  // // console.log("fetchData")
-  // console.log(fetchDate)
-  console.log("------" + data);
-
-  // Initialize with an empty array
-
-  // useEffect(() => {
-  //   const fetchDataAsync = async () => {
-
-  //     // Fetch the book data and create the 'books' array with 'name' and 'ID' properties
-  //   const books = await fetchData.map(book => ({ text: book.name, id: book.ID }));
-
-  //   // Set 'data' once with the 'books' array
-  //   setData(books);
-  //   };
-  //   fetchDataAsync();
-  // }, []);
-
-  console.log("data " + data);
-
-  // async function getItems(){
-  //   let result
-  //   await fetch(url + '/items',{
-  //       method: 'GET',
-  //     })
-  //     .then(response => response.json())
-  //     .then(serverResponse => {
-  //       console.log(serverResponse)
-  //       result = serverResponse
-  //   })
-  //   if(result === null || result.length === 0){
-  //       Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
-  //       return
-  //   }else{
-  //       //TODO: log in and keep logged in
-  //       Alert.alert("Login erfolgreich")
-  //   }
-  // }
-
-  // handleOnChangeText = (text) => {
-  //   // ? Visible the spinner
-  //   this.setState({
-  //     searchText: text,
-  //     spinnerVisibility: true,
-  //   });
-
-  //   // ? After you've done to implement your use-case
-  //   // ? Do not forget to set false to spinner's visibility
-  //   // this.setState({
-  //   //   spinnerVisibility: false,
-  //   // });
-  // };
-
-  // const { spinnerVisibility } = this.state;
 
   const renderItem = ({ item }) => (
     <View style={styles.centerItems}>
@@ -238,13 +149,6 @@ export default function HomeScreen({ navigation }) {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        // defaultValue={filterOption}
-        // containerStyle={{ height: 40 }}
-        // style={{ backgroundColor: "#fafafa" }}
-        // itemStyle={{
-        //   justifyContent: "flex-start",
-        // }}
-        // dropDownStyle={{ backgroundColor: "#fafafa" }}
         onChangeValue={(item) => {setFilterOption(item);}}
       />
       <FlatList
@@ -252,7 +156,6 @@ export default function HomeScreen({ navigation }) {
         renderItem={renderItem}
         keyExtractor={(item) => item.ID.toString()}
         style={[styles.flatList, {zIndex: 0}]}
-        //showsHorizontalScrollIndicator={false}
       />
     </View>
   );
@@ -318,13 +221,7 @@ const styles = StyleSheet.create({
   },
   inputIcon: {
     padding: 10,
-    size: "1000%",
     color: "#FFFFFF",
   },
 
-  // subCaptionTextLentAndReserved: {
-  //   fontWeight: "bold",
-  //   fontSize: 20,
-  //   marginBottom: 15,
-  // },
 });

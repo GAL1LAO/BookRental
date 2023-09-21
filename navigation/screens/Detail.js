@@ -13,6 +13,7 @@ export default function DetailScreen({ route }) {
   
   const getItems = async () => {
     try {
+      console.log("fetching data???????");
       const response = await fetch(url + '/itemById',  { 
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
@@ -34,11 +35,11 @@ export default function DetailScreen({ route }) {
   }, [])
 
   return (
-    <View>
+    <View style={styles.container}> 
       {isLoading ? (
         <ActivityIndicator/>
       ) : (
-      <View style={styles.container}>
+      <View >
         <View style={styles.captionContainer}>
           <Text style={styles.captionText}>{data.type} {data.name}</Text>
         </View>
@@ -143,13 +144,9 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
       },
       row1: {
-        // height: '40%',
-        // paddingLeft: 10,
-        // paddingTop: 10,
       },
       row2: {
-        // height: '60%',
-        // paddingLeft: 10,
+
          paddingTop: 10,
       },
       centerItems: {
@@ -166,8 +163,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
       },
       inputIcon: {
-        padding: 10,
-        size: '1000%', 
+        padding: 10, 
         color: "#000",
     },
     fakeButtonImage: {
@@ -180,5 +176,8 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         borderBottomColor: 'black',
         borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+      text: {
+        
       },
     });  

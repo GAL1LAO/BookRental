@@ -93,9 +93,9 @@ function MainContainer() {
         })}>
           <Tab.Screen name={homeName} component={HomeStack} options={{headerShown: false}}/>
           <Tab.Screen name={lendName} component={LendScreen} />
-          <Tab.Screen name={profileName} component={ProfileStack}/>
+          <Tab.Screen name={profileName} component={ProfileStack} options={{headerShown: false}}/>
           {role == "adm" ? (
-            <Tab.Screen name ={adminName} component={AdminStack}></Tab.Screen>
+            <Tab.Screen name ={adminName} component={AdminStack} options={{headerShown: false}}></Tab.Screen>
           ) : (
             <></>
           )}
