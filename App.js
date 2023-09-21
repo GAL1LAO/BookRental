@@ -76,7 +76,7 @@ export default function App() {
             Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
             return
         }
-        let result
+        let result;
         await fetch(serverUrl + '/login',{
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
