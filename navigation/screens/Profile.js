@@ -28,7 +28,7 @@ export default function ProfileScreen({navigation}) {
         })
       })
       const json = await response.json();
-      (json);
+      setItems(json);
 
       const reservedResponse = await fetch(serverUrl + '/reservedItemsForUser', { 
         method: 'POST',
@@ -53,6 +53,8 @@ export default function ProfileScreen({navigation}) {
   
   
   items.forEach((item) => {
+    console.log('items')
+    console.log(item)
     itemList.push(
       <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {
         navigation.navigate("Detail", { itemId: item.ID });
