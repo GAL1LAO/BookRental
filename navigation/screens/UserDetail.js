@@ -136,16 +136,18 @@ export default function UserDetailScreen({ route }) {
             <TextInput style={styles.text} value={role} onChangeText={title=>{setRole(title)}}/>
             </View>
           </View>
-          <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await editUser()}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Updaten
-                </Text>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={[styles.column1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
+              <Text style={styles.subCaptionTextWhite}>
+                  Updaten
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('User Administration')}}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Abbrechen
-                </Text>
+            <TouchableOpacity style={[styles.column2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
+              <Text style={styles.subCaptionTextWhite}>
+                  Abbrechen
+              </Text>
             </TouchableOpacity>
+          </View>
         </ScrollView>)}
     </View>
   ); 
@@ -155,8 +157,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
       },
       captionContainer: {
         paddingLeft: 20,
@@ -164,19 +164,41 @@ const styles = StyleSheet.create({
       },
       userDetails: {
         flexDirection: 'row',
-        paddingLeft: 10,
+        paddingLeft: '10%',
         paddingTop: 10,
         alignItems: 'flex-start'
       },
+      buttonRow: {
+        flexDirection: 'row',
+        paddingTop: 10,
+        marginLeft:'10%',
+        alignItems: 'flex-start'
+      },
+      fakeButtonGreen: {
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#3EB489',
+      },
+      fakeButtonRed: {
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: 'red',
+      },
       column1: {
-        width: '50%',
+        width: '45%',
         paddingLeft: 10,
         paddingTop: 10,
+        marginRight:5,
+        marginLeft: -5
       },
       column2: {
-        width: '50%',
+        color: 'red',
+        width: '45%',
         paddingLeft: 10,
         paddingTop: 10,
+        marginRight:5
       },
       titelAndText: {
         flexDirection: 'column',
@@ -218,7 +240,9 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: StyleSheet.hairlineWidth,
       },
-      text: {
-        
-      },
+      subCaptionTextWhite: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white'
+      }
     });  
