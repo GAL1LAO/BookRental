@@ -1,9 +1,24 @@
+import React from 'react';
 import { Text, View } from 'react-native';
+import GreenButton from '../lib/Button';
 
-  export default function LendScreen({navigation}){
-  return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text>Lend</Text>
-    </View>
-  );
+export default function LendScreen({navigation}){
+    return (
+        <View className="flex-1 p-4 bg-white">
+            <GreenButton
+                title={"QR Code scannen"}
+                accessibilityLabel={"QR Code scannen"}
+                onPress={() => {
+                    navigation.navigate('Home');
+                }}
+            />
+            <GreenButton
+                title={"Manuelle Eingabe"}
+                accessibilityLabel={"Manuelle Eingabe"}
+                onPress={() => {
+                    navigation.navigate('Home');
+                }}
+            />
+        </View>
+    );
 }
