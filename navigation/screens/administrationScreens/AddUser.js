@@ -78,7 +78,7 @@ export default function AddUserScreen({navigation}){
             return
         }
         //TODO: send Email
-        navigation.navigate('User Administration')//to return back to userAdmin
+        navigation.navigate('Nutzer Administration')//to return back to userAdmin
     }
     return(
         <View style={styles.container}>  
@@ -88,6 +88,7 @@ export default function AddUserScreen({navigation}){
                 open={open}
                 value={value}
                 items={items}
+                placeholder="Filter auswählen"
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
@@ -185,7 +186,7 @@ export default function AddUserScreen({navigation}){
                         Hinzufügen
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('User Administration')}}>
+                <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('Nutzer Administration')}}>
                     <Text style={styles.subCaptionTextWhite}>
                         Abbrechen
                     </Text>

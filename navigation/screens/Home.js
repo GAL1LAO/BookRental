@@ -154,11 +154,11 @@ export default function HomeScreen({ navigation }) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
-      { label: "All", value: "All" },
-      { label: "Only Books", value: "Only Books" },
-      { label: "Only Boxes", value: "Only Boxes" },
-      { label: "Not Borrowed", value: "Not Borrowed" },
-      { label: "Borrowed", value: "Borrowed" },
+      { label: "Alle", value: "All" },
+      { label: "Bücger", value: "Only Books" },
+      { label: "Kisten", value: "Only Boxes" },
+      { label: "Verfügbar", value: "Not Borrowed" },
+      { label: "Ausgeliehen", value: "Borrowed" },
     ]);
   
   
@@ -179,9 +179,11 @@ export default function HomeScreen({ navigation }) {
           open={open}
           value={value}
           items={items}
+          placeholder="Filter auswählen"
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
+          
           onChangeValue={(item) => {setFilterOption(item);}}
         />
       </View>

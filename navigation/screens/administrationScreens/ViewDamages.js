@@ -80,8 +80,8 @@ const serverUrl = "http://" + process.env.localIP + ":3000";
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
-        <Text style={styles.columnHeader}>Gemeldete Zeit</Text>
-        <Text style={styles.columnHeader}>Itemname</Text>
+        <Text style={styles.columnHeader}>Meldedatum</Text>
+        <Text style={styles.columnHeader}>Gegenstand</Text>
         <Text style={styles.columnHeader}>Schäden</Text>
         {/* <Text style={styles.columnHeader}>Gemeldet</Text> */}
       </View>

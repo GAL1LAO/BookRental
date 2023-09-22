@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
       },
       captionContainer: {
+        alignItems: 'center',
         paddingLeft: 20,
         paddingTop: 10,
       },

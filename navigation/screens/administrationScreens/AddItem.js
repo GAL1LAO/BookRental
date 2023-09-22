@@ -77,6 +77,7 @@ export default function AddItemScreen({navigation}){
                 open={open}
                 value={value}
                 items={items}
+                placeholder="Filter auswählen"
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}

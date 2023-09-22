@@ -152,11 +152,11 @@ import {
       const [open, setOpen] = useState(false);
       const [value, setValue] = useState(null);
       const [items, setItems] = useState([
-        { label: "All", value: "All" },
-        { label: "Only Books", value: "Only Books" },
-        { label: "Only Boxes", value: "Only Boxes" },
-        { label: "Not Borrowed", value: "Not Borrowed" },
-        { label: "Borrowed", value: "Borrowed" },
+        { label: "Alles", value: "All" },
+        { label: "Bücher", value: "Only Books" },
+        { label: "Kisten", value: "Only Boxes" },
+        { label: "Verfügbar", value: "Not Borrowed" },
+        { label: "Ausgeliehen", value: "Borrowed" },
       ]);
     
     
@@ -185,6 +185,7 @@ import {
             open={open}
             value={value}
             items={items}
+            placeholder="Filter auswählen"
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}

@@ -11,14 +11,14 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
                 Itemverwaltung
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('User Administration')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('Nutzer Administration')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Nutzerverwaltung
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('View Damages')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('Schäden')}}>
             <Text style={styles.subCaptionTextWhite}>
-                Ausleihen und Schäden ansehen
+                Schäden
             </Text>
         </TouchableOpacity>
     </View>

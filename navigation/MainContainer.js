@@ -44,7 +44,7 @@ function ProfileStack() {
   return (
     <Stack.Navigator>
         <Stack.Screen
-          name="Profile"
+          name="Profil"
           component={ProfileScreen}
           
         />
@@ -61,9 +61,9 @@ function AdminStack() {
           component={AdminScreen}
           
         />
-        <Stack.Screen name="User Administration" component={UserAdministrationStack} options={{headerShown: false}}/>
+        <Stack.Screen name="Nutzer Administration" component={UserAdministrationStack} options={{headerShown: false}}/>
         <Stack.Screen name="Item Administration" component={ItemAdministrationStack} options={{headerShown: false}}/>
-        <Stack.Screen name="View Damages" component={ViewDamageScreen}/>
+        <Stack.Screen name="Schäden" component={ViewDamageScreen}/>
       </Stack.Navigator>
   );
 }
@@ -72,7 +72,7 @@ function UserAdministrationStack() {
   return (
     <Stack.Navigator>
         <Stack.Screen
-          name="User Administration"
+          name="Nutzer Administration"
           component={UserAdministrationScreen}
         />
         <Stack.Screen name="Add User" component={AddUserScreen}/>
