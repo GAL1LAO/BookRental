@@ -1,8 +1,9 @@
 import { color } from '@rneui/base';
 import dayjs from 'dayjs';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const serverUrl = 'http://'+ process.env.localIP +':3000'
@@ -18,6 +19,30 @@ export default function AddUserScreen({navigation}){
     const [month, setMonth] = useState('')    
     const [year, setYear] = useState('')    
     const [role, setRole] = useState('')
+
+    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
+
+    const filterData = () => {
+      switch (filterOption) {
+        case "adm":
+            setRole("adm");
+          break;
+        case "use":
+            setRole("use");
+
+      }
+    };
+  
+    useEffect(() => {
+      filterData();
+    }, [filterOption]);
+    
+      const [open, setOpen] = useState(false);
+      const [value, setValue] = useState(null);
+      const [items, setItems] = useState([
+        { label: "Administrator", value: "adm" },
+        { label: "Benutzer", value: "use" },
+      ]);
     async function addUser(){
         const userData = {
             short : short,
@@ -53,10 +78,22 @@ export default function AddUserScreen({navigation}){
             return
         }
         //TODO: send Email
-        dispatch({type : 'Home'})//to return back at the end*/
+        navigation.navigate('User Administration')//to return back to userAdmin
     }
     return(
-        <View style={styles.container}>        
+        <View style={styles.container}>  
+            <View style={styles.filter}>
+                <DropDownPicker 
+                style={{borderColor: "#ccc"}}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                onChangeValue={(item) => {setFilterOption(item);}}
+                />
+            </View>      
             <View style={styles.inputContainer}>
                 <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
                 <TextInput
@@ -130,15 +167,6 @@ export default function AddUserScreen({navigation}){
                 placeholder="Jahr"
                 underlineColorAndroid="transparent"
                 onChangeText={birthDate =>setYear(birthDate)}//TODO: change to date picker
-                />
-            </View>
-            <View style={styles.inputContainer}>
-                <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Rolle"
-                    underlineColorAndroid="transparent"
-                    onChangeText={role =>setRole(role)} //TODOD: change to role picker
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -251,4 +279,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'red',
   },
+  filter: {
+    zIndex: 1, 
+    elevation: 2,
+    marginVertical: 10,
+    width: '100%',
+},
 });
