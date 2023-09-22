@@ -6,9 +6,9 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 
   return (
     <View style={styles.container}>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddItem')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('ItemAdministration')}}>
             <Text style={styles.subCaptionTextWhite}>
-                Items hinzufügen
+                Itemverwaltung
             </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('UserAdministration')}}>
