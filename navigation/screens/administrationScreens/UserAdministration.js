@@ -59,25 +59,27 @@ export default function UserAdministrationScreen({navigation}){
 
     return(
       <ScrollView>
-        <View style={styles.centerItems}>
-          <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddUser')}}>
-            <Text style={styles.subCaptionTextWhite}>
-                Benutzer hinzufügen
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={styles.line}
-        />
         {isLoading ? (
           <ActivityIndicator/>
         ) : (
+        <View>
+          <View style={styles.centerItems}>
+            <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddUser')}}>
+              <Text style={styles.subCaptionTextWhite}>
+                  Benutzer hinzufügen
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={styles.line}
+          />
           <View style={styles.centerItems}>
             <Text style={styles.subCaptionText}>
                 Benutzer
             </Text>
             {userList}
           </View>
+        </View>
         )}
       </ScrollView>
 

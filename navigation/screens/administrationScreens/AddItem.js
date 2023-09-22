@@ -71,8 +71,6 @@ export default function AddItemScreen({navigation}){
     }
     return(
         <View style={styles.container}>
-           
-            <Text>Add item</Text>
             <View style={styles.filter}>
                 <DropDownPicker 
                 style={{borderColor: "#ccc"}}
@@ -222,27 +220,24 @@ const styles = StyleSheet.create({
     },
     column1: {
         width: '50%',
-        padding: 10,
         marginTop: 20,
-        marginRight: 10,
         borderRadius: 10,
         paddingVertical: 5,
         marginVertical: 5,
         alignItems: 'center',
         backgroundColor: '#3EB489',
-        padding: 10
-    },
-    column2: {
+        marginRight: 5,
+        marginLeft: -5
+      },
+      column2: {
         width: '50%',
-        padding: 10, 
         marginTop: 20,
-        marginLeft: 10,
         borderRadius: 10,
         paddingVertical: 5,
         marginVertical: 5,
+        marginLeft: 5,
         alignItems: 'center',
         backgroundColor: 'red',
-        padding: 10
     },
     filter: {
         zIndex: 1, 

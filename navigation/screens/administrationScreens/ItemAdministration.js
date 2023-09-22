@@ -164,11 +164,14 @@ import {
   
     return (
       <View style={styles.container}>
-         <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddItem')}}>
+         <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddItem')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Items hinzufügen
             </Text>
         </TouchableOpacity>
+        <View
+            style={styles.line}
+        />
         <View style={styles.searchBar}>
           <TextInput
             style={{ width: "100%" }}
@@ -267,6 +270,22 @@ import {
       padding: 10,
       color: "#FFFFFF",
     },
-  
+    line: {
+      marginHorizontal: 10,
+      marginVertical: 20,
+      borderBottomColor: 'black',
+      width: '95%',
+      borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+    fakeButtonAdd: {
+      marginTop: 20,
+      borderRadius: 10,
+      paddingVertical: 15,
+      marginVertical: 5,
+      alignItems: 'center',
+      width: '90%',
+      backgroundColor: '#3EB489',
+      padding: 10
+  },
   });
   

@@ -56,9 +56,7 @@ export default function AddUserScreen({navigation}){
         dispatch({type : 'Home'})//to return back at the end*/
     }
     return(
-        <View style={styles.container}>
-           
-            <Text>Add user</Text>
+        <View style={styles.container}>        
             <View style={styles.inputContainer}>
                 <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
                 <TextInput
@@ -252,6 +250,5 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     alignItems: 'center',
     backgroundColor: 'red',
-    
   },
 });
