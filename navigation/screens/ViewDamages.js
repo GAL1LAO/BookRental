@@ -66,7 +66,7 @@ const serverUrl = "http://" + process.env.localIP + ":3000";
 
   const renderRow = ({ item }) => (
     <View style={styles.tableRow}>
-      <Text style={styles.tableCell}>{item.damageDate}</Text>
+      <Text style={styles.tableCell}>{dayjs(item.damageDate).format("DD.MM.YYYY")}</Text>
       <Text style={styles.tableCell}>{item.itemName}</Text>
       <Text style={styles.tableCell}>{item.damageDescription}</Text>
       {/* <Text style={styles.tableCell}>{item.itemDescription}</Text> */}
