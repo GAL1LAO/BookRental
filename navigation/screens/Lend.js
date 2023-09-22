@@ -9,7 +9,7 @@ export default function LendScreen({navigation}){
                 title={"QR Code scannen"}
                 accessibilityLabel={"QR Code scannen"}
                 onPress={() => {
-                    navigation.navigate('Home');
+                    navigation.navigate('QRScanner');
                 }}
             />
             <GreenButton
