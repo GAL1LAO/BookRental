@@ -1,13 +1,16 @@
 import MainContainer from './navigation/MainContainer';
 import LoginScreen from './navigation/screens/Login';
-import React from 'react';
+import React, { useState } from 'react';
 import LoadingScreen from './navigation/screens/LoadingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const AuthContext = React.createContext();
 export const UserContext = React.createContext()
 
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const serverUrl = 'http://'+ process.env.localIP +':3000'
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -15,9 +18,16 @@ export default function App() {
         case 'RESTORE_TOKEN':
           return {
             ...prevState,
+            isLoading: false,
+            isSignout: false,
             userToken: action.token,
             role: action.role,
-            isLoading: false,
+            lastName: action.lastName,
+            firstName: action.firstName,
+            title: action.title,
+            mailAddress: action.mailAddress,
+            phoneNumber: action.phoneNumber,
+            birthDate: action.birthDate,
           };
         case 'SIGN_IN':
           return {
@@ -38,6 +48,13 @@ export default function App() {
             isSignout: true,
             userToken: null,
           };
+        case 'NO_TOKEN' : 
+          return{
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+            isLoading: false,
+          }
       }
     },
     {
@@ -46,26 +63,37 @@ export default function App() {
       userToken: null,
     }
   );
-  React.useEffect(() => {//TODO: not used yet, maybe needed to 'keep logged in'
+  React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken = null;//TODO: reset
-      let role = null
-      try {
-        // Restore token stored in `SecureStore` or any other encrypted storage
-        // userToken = await SecureStore.getItemAsync('userToken');
-      } catch (e) {
-        // Restoring token failed
+      let userToken = await AsyncStorage.getItem("token")
+      console.log(userToken)
+      userToken = JSON.parse(userToken)
+      console.log(userToken)
+      if(userToken){
+        let result
+        await fetch(serverUrl + '/userByShort',{
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({ 
+              "short": userToken,
+          })
+        })
+        .then(response => response.json()) 
+        .then(serverResponse => {
+          console.log(serverResponse)
+          result = serverResponse[0]
+      })
+      console.log(result)
+        dispatch({ type: 'RESTORE_TOKEN', token: userToken, role: result.role, title: result.title, firstName: result.firstName, lastName: result.lastName, mailAddress: result.mailAddress, phoneNumber: result.phoneNumber, birthDate: result.birthDate });
+      }else{
+        dispatch({ type : 'NO_TOKEN'})
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken, role: role });
     };
     bootstrapAsync();
   }, []);
+  console.log(state.userToken)
+  console.log(state.isLoading)
   const authContext = React.useMemo(
     () => ({
       signIn: async (short, password) => {
@@ -102,6 +130,7 @@ export default function App() {
             return
         }else{
             //TODO: keep logged in
+            AsyncStorage.setItem('token', JSON.stringify(short))
             dispatch({ type: 'SIGN_IN', token: short, role:result[0].role, lastName:result[0].lastName, firstName:result[0].firstName, title:result[0].title, mailAddress:result[0].mailAddress, phoneNumber:result[0].phoneNumber, birthDate:result[0].birthDate });
         }
       },
