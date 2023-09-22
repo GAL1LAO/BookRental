@@ -89,7 +89,7 @@ async function deleteItem(){
         <ActivityIndicator/>
       ) : (
         <ScrollView>
-            <View style={styles.userDetails}>
+          <View style={styles.userDetails}>
             <View style={styles.column1}>
               <Text style={styles.text}>Typ:</Text>  
             </View>
@@ -129,22 +129,25 @@ async function deleteItem(){
             <TextInput style={styles.text} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
             </View>
           </View>
-          <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await editUser()}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Updaten
-                </Text>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={[styles.column1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
+              <Text style={styles.subCaptionTextWhite}>
+                  Updaten
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('Item Administration')}}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Abbrechen
-                </Text>
+            <TouchableOpacity style={[styles.column2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
+              <Text style={styles.subCaptionTextWhite}>
+                  Abbrechen
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={async() => await deleteItem() }>
-                <Text style={styles.subCaptionTextWhite}>
-                    Löschen
-                </Text>
+            <TouchableOpacity style={[styles.column2, styles.fakeButtonRed]} onPress={async() => await deleteItem() }>
+              <Text style={styles.subCaptionTextWhite}>
+                  Löschen
+              </Text>
             </TouchableOpacity>
-        </ScrollView>)}
+          </View>
+        </ScrollView>
+      )}
     </View>
   ); 
 }
@@ -153,8 +156,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
       },
       captionContainer: {
         paddingLeft: 20,
@@ -162,19 +163,29 @@ const styles = StyleSheet.create({
       },
       userDetails: {
         flexDirection: 'row',
-        paddingLeft: 10,
+        paddingLeft: '10%',
         paddingTop: 10,
         alignItems: 'flex-start'
       },
+      buttonRow: {
+        flexDirection: 'row',
+        paddingTop: 10,
+        marginLeft:'10%',
+        alignItems: 'flex-start'
+      },
       column1: {
-        width: '50%',
+        width: '30%',
         paddingLeft: 10,
         paddingTop: 10,
+        marginRight:5,
+        marginLeft: -5
       },
       column2: {
-        width: '50%',
+        color: 'red',
+        width: '30%',
         paddingLeft: 10,
         paddingTop: 10,
+        marginRight:5
       },
       titelAndText: {
         flexDirection: 'column',
@@ -219,4 +230,21 @@ const styles = StyleSheet.create({
       text: {
         
       },
+      fakeButtonGreen: {
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#3EB489',
+      },
+      fakeButtonRed: {
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: 'red',
+      },
+      subCaptionTextWhite: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white'
+      }
     });  
