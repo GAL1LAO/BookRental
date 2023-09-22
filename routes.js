@@ -72,6 +72,42 @@ app.post('/editUser', (req, res) => {
 });
 })
 
+app.post('/editItem', (req, res) => {
+  connection.getConnection(function (err, connection) {
+  const updateItemQuery = 'UPDATE Items SET '+
+  'type = "' + req.body.type + '",'+
+  'name = "' + req.body.name + '",'+
+  'description = "' + req.body.description + '",'+
+  'storageSite = "' + req.body.storageSite + '",'+
+  'dateOfPurchase = "' + req.body.dateOfPurchase + '" ' +
+  'WHERE ID = "' + req.body.id + '"' 
+  console.log(updateItemQuery)
+  connection.query(updateItemQuery, function (error, results, fields) {
+    if (error) throw error;
+    console.log(results)
+    res.send(results)
+  });
+});
+})
+
+app.post('/deleteItem', (req, res) => {
+  connection.getConnection(function (err, connection) {
+  const queries = [
+  'DELETE FROM Audit WHERE item_ID = "' + req.body.id+ '"',
+  'DELETE FROM Damages WHERE item_ID = "' + req.body.id+ '"',
+  'DELETE FROM Reservations WHERE item_ID = "' + req.body.id+ '"',
+  'DELETE FROM Items WHERE ID = "' + req.body.id+ '"'
+  ]
+  console.log(queries)
+  for(const query of queries){
+    connection.query(query, function (error, results, fields) {
+      if (error) throw error;
+      console.log(results)
+    });
+  }
+});
+})
+
 app.post('/addUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const existingUserQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"'
