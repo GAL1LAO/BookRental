@@ -154,16 +154,16 @@ export default function AddUserScreen({navigation}){
                 />
             </View>
             <View style={styles.buttonAlignment}>
-            <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await addUser()}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Hinzufügen
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('UserAdministration')}}>
-                <Text style={styles.subCaptionTextWhite}>
-                    Abbrechen
-                </Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.column1} type='submit' onPress={async() => await addUser()}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Hinzufügen
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('UserAdministration')}}>
+                    <Text style={styles.subCaptionTextWhite}>
+                        Abbrechen
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -228,33 +228,30 @@ const styles = StyleSheet.create({
     },
     buttonAlignment: { 
     flexDirection: 'row',
-    paddingLeft: 10,
     paddingTop: 10,
     alignItems: 'flex-start',
     width: '100%',
   },
   column1: {
     width: '50%',
-    padding: 10,
     marginTop: 20,
-    marginRight: 10,
-        borderRadius: 10,
-        paddingVertical: 5,
-        marginVertical: 5,
-        alignItems: 'center',
-        backgroundColor: '#3EB489',
-        padding: 10
+    borderRadius: 10,
+    paddingVertical: 5,
+    marginVertical: 5,
+    alignItems: 'center',
+    backgroundColor: '#3EB489',
+    marginRight: 5,
+    marginLeft: -5
   },
   column2: {
     width: '50%',
-    padding: 10, 
     marginTop: 20,
-    marginLeft: 10,
-        borderRadius: 10,
-        paddingVertical: 5,
-        marginVertical: 5,
-        alignItems: 'center',
-        backgroundColor: 'red',
-        padding: 10
+    borderRadius: 10,
+    paddingVertical: 5,
+    marginVertical: 5,
+    marginLeft: 5,
+    alignItems: 'center',
+    backgroundColor: 'red',
+    
   },
 });
