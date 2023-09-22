@@ -47,7 +47,6 @@ export default function UserAdministrationScreen({navigation}){
     userList.push(
         <TouchableOpacity style={styles.fakeButton} key={user.short} onPress={() => {
             navigation.navigate("UserDetail", { short: user.short });
-            alert(user.short)
         }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
@@ -59,27 +58,29 @@ export default function UserAdministrationScreen({navigation}){
     })
 
     return(
-        <View>
-            {isLoading ? (
-                <ActivityIndicator/>
-            ) : (
-            <View>
-                <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('AddUser')}}>
-                        <Text style={styles.subCaptionTextWhite}>
-                            Benutzer hinzufügen
-                        </Text>
-                </TouchableOpacity>
-                <ScrollView>
-                    <View style={styles.centerItems}>
-                    <Text style={styles.subCaptionTextLentAndReserved}>
-                        Benutzer
-                    </Text>
-                        {userList}
-                    </View>
-                </ScrollView>
-            </View>
-            )}
+      <ScrollView>
+        <View style={styles.centerItems}>
+          <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddUser')}}>
+            <Text style={styles.subCaptionTextWhite}>
+                Benutzer hinzufügen
+            </Text>
+          </TouchableOpacity>
         </View>
+        <View
+          style={styles.line}
+        />
+        {isLoading ? (
+          <ActivityIndicator/>
+        ) : (
+          <View style={styles.centerItems}>
+            <Text style={styles.subCaptionText}>
+                Benutzer
+            </Text>
+            {userList}
+          </View>
+        )}
+      </ScrollView>
+
     )
 }
 
@@ -95,13 +96,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: '5%',
         
     },
-    fakeButton: {
+    fakeButtonAdd: {
         marginTop: 20,
         borderRadius: 10,
-        paddingVertical: 5,
+        paddingVertical: 15,
         marginVertical: 5,
         alignItems: 'center',
-        width: '100%',
+        width: '90%',
         backgroundColor: '#3EB489',
         padding: 10
     },
@@ -115,10 +116,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 10
     },
-    subCaptionTextWhite: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        color: 'white'
+    subCaptionText: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      marginBottom: 15
     },
     inputContainer: {
         marginBottom: 10,
@@ -181,7 +182,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   centerItems: {
-    flex: 1,
     alignItems: "center",
   },
   fakeButton: {
@@ -235,5 +235,11 @@ const styles = StyleSheet.create({
   inputIcon: {
     padding: 10,
     color: "#FFFFFF",
+  },
+  line: {
+    marginHorizontal: 10,
+    marginVertical: 20,
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
