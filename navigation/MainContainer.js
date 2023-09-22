@@ -5,17 +5,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
-import AdminScreen from './screens/Admin';
+import AdminScreen from './screens/administrationScreens/Admin';
 import DetailScreen from './screens/Detail';
 import App, { UserContext } from '../App';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AddUserScreen from './screens/AddUser';
-import AddItemScreen from './screens/AddItem';
-import ViewDamageScreen from './screens/ViewDamages';
-import UserAdministrationScreen from './screens/UserAdministration';
+import AddUserScreen from './screens/administrationScreens/AddUser';
+import AddItemScreen from './screens/administrationScreens/AddItem';
+import ViewDamageScreen from './screens/administrationScreens/ViewDamages';
+import UserAdministrationScreen from './screens/administrationScreens/UserAdministration';
 import UserDetailScreen from './screens/UserDetail';
-import ItemAdministrationScreen from './screens/ItemAdministration';
-import ItemAdministrationDetailScreen from './screens/ItemAdministrationDetail';
+import ItemAdministrationScreen from './screens/administrationScreens/ItemAdministration';
+import ItemAdministrationDetailScreen from './screens/administrationScreens/ItemAdministrationDetail';
 
 
 
