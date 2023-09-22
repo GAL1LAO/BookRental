@@ -51,7 +51,7 @@ export default function AddItemScreen({navigation}){
             storageSite : storageSite,
         }
         for(const field in itemData){
-            if(field != damages && (itemData[field] == null || !itemData[field])){
+            if(field != 'damages' && (itemData[field] == null || !itemData[field])){
                 alert("Alle Felder müssen befüllt sein: Folgendes Feld ist leer: " + field)
                 return
             }
