@@ -61,9 +61,9 @@ function AdminStack() {
           component={AdminScreen}
           
         />
-        <Stack.Screen name="UserAdministration" component={UserAdministrationStack} options={{headerShown: false}}/>
-        <Stack.Screen name="ItemAdministration" component={ItemAdministrationStack} options={{headerShown: false}}/>
-        <Stack.Screen name="ViewDamages" component={ViewDamageScreen}/>
+        <Stack.Screen name="User Administration" component={UserAdministrationStack} options={{headerShown: false}}/>
+        <Stack.Screen name="Item Administration" component={ItemAdministrationStack} options={{headerShown: false}}/>
+        <Stack.Screen name="View Damages" component={ViewDamageScreen}/>
       </Stack.Navigator>
   );
 }
@@ -72,11 +72,11 @@ function UserAdministrationStack() {
   return (
     <Stack.Navigator>
         <Stack.Screen
-          name="UserAdministration"
+          name="User Administration"
           component={UserAdministrationScreen}
         />
-        <Stack.Screen name="AddUser" component={AddUserScreen}/>
-        <Stack.Screen name="UserDetail" component={UserDetailScreen}/>
+        <Stack.Screen name="Add User" component={AddUserScreen}/>
+        <Stack.Screen name="User Detail" component={UserDetailScreen}/>
       </Stack.Navigator>
   );
 }
@@ -85,11 +85,11 @@ function ItemAdministrationStack() {
   return (
     <Stack.Navigator>
         <Stack.Screen
-          name="ItemAdministration"
+          name="Item Administration"
           component={ItemAdministrationScreen}
         />
-        <Stack.Screen name="AddItem" component={AddItemScreen}/>
-        <Stack.Screen name="ItemAdminDetail" component={ItemAdministrationDetailScreen}/>
+        <Stack.Screen name="Add Item" component={AddItemScreen}/>
+        <Stack.Screen name="Item Admin Detail" component={ItemAdministrationDetailScreen}/>
       </Stack.Navigator>
   );
 }

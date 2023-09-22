@@ -6,17 +6,17 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 
   return (
     <View style={styles.container}>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('ItemAdministration')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('Item Administration')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Itemverwaltung
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('UserAdministration')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('User Administration')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Nutzerverwaltung
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('ViewDamages')}}>
+        <TouchableOpacity style={styles.fakeButton} onPress={() => {navigation.navigate('View Damages')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Ausleihen und Schäden ansehen
             </Text>

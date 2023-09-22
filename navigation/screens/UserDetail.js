@@ -141,7 +141,7 @@ export default function UserDetailScreen({ route }) {
                     Updaten
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('UserAdministration')}}>
+            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('User Administration')}}>
                 <Text style={styles.subCaptionTextWhite}>
                     Abbrechen
                 </Text>

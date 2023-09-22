@@ -80,7 +80,7 @@ async function deleteItem(){
       .then(serverResponse => {
         console.log(serverResponse)
     })
-    navigation.navigate('ItemAdministration')
+    navigation.navigate('Item Administration')
 }
 
   return (
@@ -134,7 +134,7 @@ async function deleteItem(){
                     Updaten
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('ItemAdministration')}}>
+            <TouchableOpacity style={styles.column2} onPress={() => {navigation.navigate('Item Administration')}}>
                 <Text style={styles.subCaptionTextWhite}>
                     Abbrechen
                 </Text>

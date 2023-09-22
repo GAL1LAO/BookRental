@@ -87,7 +87,7 @@ import {
         <TouchableOpacity
           style={styles.fakeButton}
           onPress={() => {
-            navigation.navigate("ItemAdminDetail", { itemId: item.ID });
+            navigation.navigate("Item Admin Detail", { itemId: item.ID });
             // Handle the button click here
             // You can use item.id or item.text to identify the clicked item
           }}
@@ -164,7 +164,7 @@ import {
   
     return (
       <View style={styles.container}>
-         <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddItem')}}>
+         <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('Add Item')}}>
             <Text style={styles.subCaptionTextWhite}>
                 Items hinzufügen
             </Text>

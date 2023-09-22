@@ -46,7 +46,7 @@ export default function UserAdministrationScreen({navigation}){
     data.forEach((user) => {
     userList.push(
         <TouchableOpacity style={styles.fakeButton} key={user.short} onPress={() => {
-            navigation.navigate("UserDetail", { short: user.short });
+            navigation.navigate("User Detail", { short: user.short });
         }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
@@ -64,7 +64,7 @@ export default function UserAdministrationScreen({navigation}){
         ) : (
         <View>
           <View style={styles.centerItems}>
-            <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('AddUser')}}>
+            <TouchableOpacity style={[styles.fakeButtonAdd, {marginTop: 20, alignItems: 'center'}]} onPress={() => {navigation.navigate('Add User')}}>
               <Text style={styles.subCaptionTextWhite}>
                   Benutzer hinzufügen
               </Text>
