@@ -122,7 +122,6 @@ app.put('/lendItem', (req, res) => {
   });
 });
 
-
 app.post('/deleteItem', (req, res) => {
   connection.getConnection(function (err, connection) {
   const queries = [
@@ -203,7 +202,6 @@ app.post('/addItem', async (req, res) => {
     });
   });
 });
-
 
 app.get('/itemsList', async (req, res) => {
   // Connecting to the database.

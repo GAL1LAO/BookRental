@@ -1,15 +1,16 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MainContainer from './navigation/MainContainer';
 import LoginScreen from './navigation/screens/Login';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LoadingScreen from './navigation/screens/LoadingScreen';
-import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const AuthContext = React.createContext();
 export const UserContext = React.createContext()
 
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const serverUrl = 'http://'+ process.env.localIP +':3000'
   const [short, setShort] = useState(null);
   const [state, dispatch] = React.useReducer(
@@ -18,15 +19,29 @@ export default function App() {
         case 'RESTORE_TOKEN':
           return {
             ...prevState,
-            userToken: action.token,
             isLoading: false,
+            isSignout: false,
+            userToken: action.token,
+            role: action.role,
+            lastName: action.lastName,
+            firstName: action.firstName,
+            title: action.title,
+            mailAddress: action.mailAddress,
+            phoneNumber: action.phoneNumber,
+            birthDate: action.birthDate,
           };
         case 'SIGN_IN':
           return {
             ...prevState,
             isSignout: false,
             userToken: action.token,
-            role: action.role
+            role: action.role,
+            lastName: action.lastName,
+            firstName: action.firstName,
+            title: action.title,
+            mailAddress: action.mailAddress,
+            phoneNumber: action.phoneNumber,
+            birthDate: action.birthDate,
           };
         case 'SIGN_OUT':
           return {
@@ -34,6 +49,13 @@ export default function App() {
             isSignout: true,
             userToken: null,
           };
+        case 'NO_TOKEN' : 
+          return{
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+            isLoading: false,
+          }
       }
     },
     {
@@ -42,25 +64,37 @@ export default function App() {
       userToken: null,
     }
   );
-  React.useEffect(() => {//TODO: not used yet, maybe needed to 'keep logged in'
+  React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken;
-      try {
-        // Restore token stored in `SecureStore` or any other encrypted storage
-        // userToken = await SecureStore.getItemAsync('userToken');
-      } catch (e) {
-        // Restoring token failed
+      let userToken = await AsyncStorage.getItem("token")
+      console.log(userToken)
+      userToken = JSON.parse(userToken)
+      console.log(userToken)
+      if(userToken){
+        let result
+        await fetch(serverUrl + '/userByShort',{
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({ 
+              "short": userToken,
+          })
+        })
+        .then(response => response.json()) 
+        .then(serverResponse => {
+          console.log(serverResponse)
+          result = serverResponse[0]
+      })
+      console.log(result)
+        dispatch({ type: 'RESTORE_TOKEN', token: userToken, role: result.role, title: result.title, firstName: result.firstName, lastName: result.lastName, mailAddress: result.mailAddress, phoneNumber: result.phoneNumber, birthDate: result.birthDate });
+      }else{
+        dispatch({ type : 'NO_TOKEN'})
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
     bootstrapAsync();
   }, []);
+  console.log(state.userToken)
+  console.log(state.isLoading)
   const authContext = React.useMemo(
     () => ({
       signIn: async (shortValue, password) => {
@@ -109,6 +143,12 @@ export default function App() {
     role : state.role,
     short,
     setShort,
+    lastName: state.lastName,
+    firstName: state.firstName,
+    title: state.title,
+    mailAddress: state.mailAddress,
+    phoneNumber: state.phoneNumber,
+    birthDate: state.birthDate
   }
 
   return (

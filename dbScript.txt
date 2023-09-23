@@ -45,13 +45,30 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Items` (
                                                  `description` LONGTEXT NULL DEFAULT NULL,
                                                  `image` VARCHAR(45) NULL DEFAULT NULL,
                                                  `user_short` VARCHAR(4) NULL DEFAULT NULL,
-                                                 `damages` LONGTEXT NULL DEFAULT NULL,
                                                  `dateOfPurchase` DATE NOT NULL,
                                                  `storageSite` VARCHAR(45) NOT NULL,
+                                                 `qrCode` VARCHAR(45) NULL DEFAULT NULL,
                                                  PRIMARY KEY (`ID`),
                                                  CONSTRAINT `Items_user`
 												 FOREIGN KEY (`user_short`)
 												 REFERENCES `mydb`.`Users` (`short`))
+                                                 
+    ENGINE = InnoDB;
+    
+    -- -----------------------------------------------------
+-- Table `mydb`.`Damages`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Damages` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Damages` (
+                                                 `ID` INT NOT NULL AUTO_INCREMENT,                                                 
+                                                 `damageDescription` LONGTEXT NULL DEFAULT NULL,
+                                                 `date` DATE NOT NULL,
+                                                 `item_ID` INT NOT NULL,
+                                                 PRIMARY KEY (`ID`),
+                                                 CONSTRAINT `damages_Item`
+												 FOREIGN KEY (`item_ID`)
+												 REFERENCES `mydb`.`Items` (`ID`))
     ENGINE = InnoDB;
     
 -- -----------------------------------------------------
@@ -108,18 +125,18 @@ VALUES
 ('ghij', 'Koch', 'Martin', 'Mr', 'martin.koch@example.com', '+49123456781', '1995-02-18', 'password9', 'adm'),
 ('klmn', 'Lehmann', 'Laura', 'Mrs', 'laura.lehmann@example.com', '+49123456780', '1983-08-03', 'password10', 'use');
 
-INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `damages`, `dateOfPurchase`, `storageSite`)
+INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `dateOfPurchase`, `storageSite`, `qrCode`)
 VALUES
-('Book', 'Math Workbook', 'Math workbook for primary school students.', 'math_workbook.jpg', 'abcd', 'None', '2021-01-15', 'Storage Room 1'),
-('Book', 'English Textbook', 'English textbook for Grade 4.', 'english_textbook.jpg', 'efgh', 'Minor wear', '2020-08-20', 'Storage Room 2'),
-('Book', 'Science Workbook', 'Science workbook with interactive experiments.', 'science_workbook.jpg', 'ijkl', 'None', '2021-03-10', 'Storage Room 1'),
-('Book', 'History Textbook', 'History textbook covering ancient civilizations.', 'history_textbook.jpg', 'mnop', 'None', '2019-12-05', 'Storage Room 2'),
-('Book', 'Art Supplies Catalog', 'Catalog of art supplies for creative projects.', 'art_supplies_catalog.jpg', 'qrst', 'Torn pages', '2020-05-25', 'Storage Room 1'),
-('Book', 'Music Textbook', 'Music textbook for learning musical notation.', 'music_textbook.jpg', 'uvwx', 'None', '2021-02-10', 'Storage Room 2'),
-('Book', 'Geography Workbook', 'Geography workbook with maps and quizzes.', 'geography_workbook.jpg', 'yzab', 'Water damage', '2020-09-30', 'Storage Room 1'),
-('Book', 'Physical Education Manual', 'Manual for physical education teachers.', 'pe_manual.jpg', 'cdef', 'None', '2021-04-18', 'Storage Room 2'),
-('Book', 'German Language Workbook', 'Workbook for learning the German language.', 'german_workbook.jpg', 'ghij', 'None', '2020-11-12', 'Storage Room 1'),
-('Book', 'Computer Science Textbook', 'Textbook covering computer science concepts.', 'computer_science_textbook.jpg', 'klmn', 'Missing cover', '2021-07-22', 'Storage Room 2');
+('Book', 'Math Workbook', 'Math workbook for primary school students.', 'math_workbook.jpg', 'abcd', '2021-01-15', 'Storage Room 1', 'QR12345'),
+('Book', 'English Textbook', 'English textbook for Grade 4.', 'english_textbook.jpg', 'efgh', '2020-08-20', 'Storage Room 2', 'QR67890'),
+('Book', 'Science Workbook', 'Science workbook with interactive experiments.', 'science_workbook.jpg', 'ijkl', '2021-03-10', 'Storage Room 1', 'QR24680'),
+('Book', 'History Textbook', 'History textbook covering ancient civilizations.', 'history_textbook.jpg', 'mnop', '2019-12-05', 'Storage Room 2', 'QR13579'),
+('Book', 'Art Supplies Catalog', 'Catalog of art supplies for creative projects.', 'art_supplies_catalog.jpg', 'qrst', '2020-05-25', 'Storage Room 1', 'QR54321'),
+('Book', 'Music Textbook', 'Music textbook for learning musical notation.', 'music_textbook.jpg', 'uvwx', '2021-02-10', 'Storage Room 2', 'QR98765'),
+('Book', 'Geography Workbook', 'Geography workbook with maps and quizzes.', 'geography_workbook.jpg', 'yzab', '2020-09-30', 'Storage Room 1', 'QR11111'),
+('Book', 'Physical Education Manual', 'Manual for physical education teachers.', 'pe_manual.jpg', 'cdef', '2021-04-18', 'Storage Room 2', 'QR22222'),
+('Book', 'German Language Workbook', 'Workbook for learning the German language.', 'german_workbook.jpg', 'ghij', '2020-11-12', 'Storage Room 1', 'QR33333'),
+('Book', 'Computer Science Textbook', 'Textbook covering computer science concepts.', 'computer_science_textbook.jpg', 'klmn', '2021-07-22', 'Storage Room 2', 'QR44444');
 
 
 INSERT INTO `Audit` (`user_short`, `item_ID`, `date`, `type`, `remarks`)
@@ -144,3 +161,16 @@ VALUES
 ('qrst', 5, '2023-02-09 08:00:00', '2023-02-13 10:00:00'),
 ('uvwx', 6, '2023-02-11 12:00:00', '2023-02-15 14:00:00'),
 ('yzab', 7, '2023-02-13 07:00:00', '2023-02-17 09:00:00');
+
+INSERT INTO `Damages` (`damageDescription`, `date`, `item_ID`)
+VALUES
+    ('Torn pages', '2023-09-01', 1),
+    ('Water damage', '2023-08-15', 2),
+    ('Ink stains', '2023-08-20', 3),
+    ('Broken spine', '2023-09-05', 4),
+    ('Missing cover', '2023-09-02', 1),
+    ('Dog-eared pages', '2023-08-28', 2),
+    ('Coffee stains', '2023-09-10', 3),
+    ('Highlighter marks', '2023-08-25', 4),
+    ('Torn dust jacket', '2023-09-08', 1),
+    ('Frayed edges', '2023-09-12', 2);

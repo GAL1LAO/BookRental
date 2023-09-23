@@ -5,103 +5,110 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  TextInput,
 } from "react-native";
-// import { TextInput } from "react-native-web";
-
-import SearchBar from "react-native-dynamic-search-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import DropDownPicker from "react-native-dropdown-picker";
+import { RefreshControl } from "react-native";
 
 export default function HomeScreen({ navigation }) {
-  // const data = [
-  //   { text: "Deutsch", id: 1 },
-  //   { text: "Erdkunde", id: 2 },
-  //   { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-  //   { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-  //   { text: "Hip", id: 5 },
-  //   { text: "Hip", id: 6 },
-  //   { text: "Hip", id: 7 },
-  //   { text: "Hip", id: 8 },
-  //   { text: "Hip", id: 9 },
-  //   { text: "Hip", id: 10 },
-  // ];
-  const [data, setData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
-  const [oldData, setOldData] = useState([
-    { text: "Deutsch", id: 1 },
-    { text: "Erdkunde", id: 2 },
-    { text: "Arbeitsblätter zur Beschäftigung", id: 3 },
-    { text: "Hippopotomonstrosesquippedaliophobie", id: 4 },
-    { text: "Hip", id: 5 },
-    { text: "Hip", id: 6 },
-    { text: "Hip", id: 7 },
-    { text: "Hip", id: 8 },
-    { text: "Hip", id: 9 },
-    { text: "Hip", id: 10 },
-  ]);
+  const [oldData, setOldData] = useState([]);
+  const [fetchData, setFetchData] = useState([]); // Use a different state variable name
+  const [data, setData] = useState([]);
+  const url = "http://" + process.env.localIP + ":3000";
+  const [refreshing, setRefreshing] = useState(false);
 
-  // const [fetchDate, setFetchDate] = useState([]);
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      console.log("fetching data");
+      try {
+        // Fetch the book data
+        const response = await fetch(url + "/itemsList");
+        console.log("response: ", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
-  // const url = 'http://'+ process.env.localIP +':3000'
-    
-  // useEffect(() => {
-  //       fetch(url + '/items')
-  //       .then(response => response.json()) 
-  //         .then(serverResponse => {
-  //           console.log(serverResponse)
-  //           result = serverResponse
-  //         })
-  //       // .then((response) => {
-  //       //   // Assuming the API response is an array of objects containing "type" and "user_short"
-  //       //   setFetchDate(response.fetchDate);
-  //       // })
-  //       .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   }, []);
+        // Parse the response data
+        const fetchData = await response.json();
+        console.log("server response: ", fetchData);
 
-  // handleOnChangeText = (text) => {
-  //   // ? Visible the spinner
-  //   this.setState({
-  //     searchText: text,
-  //     spinnerVisibility: true,
-  //   });
+        // Create the 'books' array with 'name' and 'ID' properties
+        const books = fetchData.map((book) => ({
+          ID: book.ID,
+          type: book.type,
+          name: book.name,
+          user_short: book.user_short,
+        }));
 
-  //   // ? After you've done to implement your use-case
-  //   // ? Do not forget to set false to spinner's visibility
-  //   // this.setState({
-  //   //   spinnerVisibility: false,
-  //   // });
-  // };
+        // Set 'data' once with the 'books' array
+        setData(books);
+        setOldData(books);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDataAsync();
+  }, []);
 
-  // const { spinnerVisibility } = this.state;
+  const onRefresh = () => {
+    setRefreshing(true); // Set refreshing to true to show the loading indicator
+    // Fetch new data here, similar to your existing fetchDataAsync logic
+    const fetchDataAsync = async () => {
+      try {
+        const response = await fetch(url + "/itemsList");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+  
+        const fetchData = await response.json();
+  
+        const books = fetchData.map((book) => ({
+          ID: book.ID,
+          type: book.type,
+          name: book.name,
+          user_short: book.user_short,
+        }));
+  
+        setData(books);
+        setOldData(books);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setRefreshing(false); // Set refreshing to false to hide the loading indicator
+      }
+    };
+  
+    fetchDataAsync();
+  };
+  
 
   const renderItem = ({ item }) => (
     <View style={styles.centerItems}>
       <TouchableOpacity
         style={styles.fakeButton}
         onPress={() => {
-          alert(item.id);
+          navigation.navigate("Detail", { itemId: item.ID });
           // Handle the button click here
           // You can use item.id or item.text to identify the clicked item
         }}
       >
         <View style={styles.fakeButtonText}>
           <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
-            {item.text}
+            {item.name}
           </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require("../../assets/favicon.png")} />
+          {/* Conditionally render the icon with red color if user_short is not empty */}
+          <Ionicons
+            style={[
+              styles.inputIcon,
+              item.user_short ? { color: "red" } : null,
+            ]}
+            size={50}
+            name={item.type === "Book" ? "book-sharp" : "cube"}
+          />
         </View>
       </TouchableOpacity>
     </View>
@@ -110,40 +117,87 @@ export default function HomeScreen({ navigation }) {
   const onSearch = (text) => {
     if (text == "") {
       setData(oldData);
-    } 
-    else {
+    } else {
       let tempList = data.filter((item) => {
-        return item.text.toLowerCase().indexOf(text.toLowerCase()) > -1;
+        return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
       });
       setData(tempList);
     }
   };
+  const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
+
+  const filterData = () => {
+    console.log("filtering data");
+    switch (filterOption) {
+      case "Only Books":
+        setData(oldData.filter((item) => item.type === "Book"));
+        break;
+      case "Only Boxes":
+        setData(oldData.filter((item) => item.type !== "Book"));
+        break;
+      case "Not Borrowed":
+        setData(oldData.filter((item) => !item.user_short));
+        break;
+      case "Borrowed":
+        setData(oldData.filter((item) => item.user_short));
+        break;
+      default:
+        setData(oldData); // Default option, show all data
+        break;
+    }
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [filterOption]);
+  
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+      { label: "Alle", value: "All" },
+      { label: "Bücger", value: "Only Books" },
+      { label: "Kisten", value: "Only Boxes" },
+      { label: "Verfügbar", value: "Not Borrowed" },
+      { label: "Ausgeliehen", value: "Borrowed" },
+    ]);
+  
+  
+
 
   return (
     <View style={styles.container}>
-      {/* <TextInput placeholder="Suche" style={styles.searchBox} clearButtonMode="always"/>
-       */}
-      <SearchBar
-        placeholder="Search here"
-        onPress={() => alert("onPress")}
-        onChangeText={(text) => onSearch(text)} //console.log(text)}
-        style={styles.searchBox}
-      />
-      <TouchableOpacity  style={styles.filterBar}>
-        <View style={styles.filterBarText}>
-        <Text>Filter auswählen</Text>
-        </View>
-        <View>
-          {/* <Image source={require("../../assets/favicon.png")}/> */}
-        </View>
-      </TouchableOpacity>
-
+      <View style={styles.searchBar}>
+        <TextInput
+          style={{ width: "100%" }}
+          placeholder="Suche"
+          onChangeText={(text) => onSearch(text)}
+        />
+      </View>
+      <View style={styles.filter}>
+        <DropDownPicker 
+          style={{borderColor: "#ccc"}}
+          open={open}
+          value={value}
+          items={items}
+          placeholder="Filter auswählen"
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          
+          onChangeValue={(item) => {setFilterOption(item);}}
+        />
+      </View>
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.ID.toString()}
         style={styles.flatList}
-        //showsHorizontalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} // Define the onRefresh function
+          />
+        }
       />
     </View>
   );
@@ -179,42 +233,38 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "20%",
   },
-  searchBox: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  filterBar: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    width: "90%",
-   
-  },
-  filterBarText: {
-    alignItems: "flex-start",
-    width: "80%",
-  },
   subCaptionTextWhite: {
     fontWeight: "bold",
     fontSize: 30,
     color: "white",
   },
-  flatList:{
+  flatList: {
     width: "100%",
-  }
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+  },
+  searchBar: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: "flex-start",
+    width: "90%",
+  },
+  filter: {
+    zIndex: 1, 
+    elevation: 2,
+    marginVertical: 10,
+    width: "90%",
+  },
+  inputIcon: {
+    padding: 10,
+    color: "#FFFFFF",
+  },
 
-  // subCaptionTextLentAndReserved: {
-  //   fontWeight: "bold",
-  //   fontSize: 20,
-  //   marginBottom: 15,
-  // },
 });

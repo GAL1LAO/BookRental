@@ -1,24 +1,45 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { UserContext } from '../../App';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import dayjs from 'dayjs';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const serverUrl = 'http://'+ process.env.localIP +':3000'
-  const adress = 'Prof. Dr. Med'
-  const userName = 'Max Mustermann'
-  const role = 'Schulleiter'
-  const mail = 'max.mustermann@bestegrundschule.de'
-  const phoneNumber = '0176 12345678'
-  const birthDate = '01.11.1478'
+
+  const {userToken, title, lastName, firstName, role, mailAddress, phoneNumber, birthDate} = React.useContext(UserContext)
 
   let itemList = []
+  let reservedItemList = []
+
   const [isLoading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [reservedItems, setReservedItems] = useState([]);
+
 
   const getItems = async () => {
     try {
-      const response = await fetch(serverUrl + '/items')
+      console.log("fetching data?????????");
+      const response = await fetch(serverUrl + '/itemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
       const json = await response.json();
       setItems(json);
+
+      const reservedResponse = await fetch(serverUrl + '/reservedItemsForUser', { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ 
+        "short": userToken,
+        })
+      })
+      console.log(reservedResponse)
+      const reservedJson = await reservedResponse.json();
+      setReservedItems(reservedJson);
     } catch (error) {
       console.error(error);
     } finally {
@@ -31,19 +52,51 @@ export default function ProfileScreen() {
   }, [])
   
   
-
-  console.log(items)
-
   items.forEach((item) => {
+    console.log('items')
+    console.log(item)
     itemList.push(
-      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {alert(item.ID)}}>
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {
+        navigation.navigate("Detail", { itemId: item.ID });
+      }}>
         <View style={styles.fakeButtonText}>
             <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
               {item.name}
             </Text>
         </View>
         <View style={styles.fakeButtonImage}>
-          <Image source={require('../../assets/favicon.png')}/>
+          <Ionicons
+            style={[
+              styles.inputIcon,
+              item.user_short ? { color: 'red' } : null,
+            ]}
+            size={50}
+            name={item.type === 'Book' ? 'book-sharp' : 'cube'}
+          />        
+        </View>
+      </TouchableOpacity>
+    )
+  })
+
+  reservedItems.forEach((item) => {
+    reservedItemList.push(
+      <TouchableOpacity style={styles.fakeButton} key={item.ID} onPress={() => {
+        navigation.navigate("Detail", { itemId: item.ID });
+      }}>
+        <View style={styles.fakeButtonText}>
+            <Text style={styles.subCaptionTextWhite} numberOfLines={1}>
+              {item.name}
+            </Text>
+        </View>
+        <View style={styles.fakeButtonImage}>
+          <Ionicons
+              style={[
+                styles.inputIcon,
+                item.user_short ? { color: 'red' } : null,
+              ]}
+              size={50}
+              name={item.type === 'Book' ? 'book-sharp' : 'cube'}
+          />              
         </View>
       </TouchableOpacity>
     )
@@ -52,7 +105,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.captionContainer}>
-        <Text style={styles.subCaptionText}>{adress} {userName}</Text>
+        <Text style={styles.subCaptionText}>{title} {firstName} {lastName}</Text>
       </View>
       {isLoading ? (
         <ActivityIndicator/>
@@ -71,7 +124,7 @@ export default function ProfileScreen() {
             <Text style={styles.text}>E-Mail:</Text>
           </View>
           <View style={styles.column2}>
-            <Text style={styles.text}>{mail}</Text>
+            <Text style={styles.text}>{mailAddress}</Text>
           </View>
         </View><View style={styles.userDetails}>
           <View style={styles.column1}>
@@ -86,7 +139,7 @@ export default function ProfileScreen() {
             <Text style={styles.text}>Geburtsdatum:</Text>
           </View>
           <View style={styles.column2}>
-            <Text style={styles.text}>{birthDate}</Text>
+            <Text style={styles.text}>{dayjs(birthDate).format("DD.MM.YYYY")}</Text>
           </View>
         </View>
         <View
@@ -106,7 +159,7 @@ export default function ProfileScreen() {
           <Text style={styles.subCaptionTextLentAndReserved}>
             Reserviert
           </Text>
-              {itemList}
+              {reservedItemList}
         </View>
       </ScrollView>
       )}
@@ -140,8 +193,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   centerItems: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
   },
   captionText: {
@@ -168,21 +219,22 @@ const styles = StyleSheet.create({
   },
   fakeButton: {
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 15,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     marginVertical: 5,
     paddingVertical: 15,
-    width: '90%',
-    backgroundColor: '#3EB489',
+    width: "90%",
+    alignItems: "center",
+    backgroundColor: "#3EB489",
   },
   fakeButtonText: {
-    alignItems: 'flex-start',
-    width: '80%',
+    alignItems: "flex-start",
+    width: "80%",
   },
   fakeButtonImage: {
-    alignItems: 'flex-end',
-    width: '20%',
+    alignItems: "flex-end",
+    width: "20%",
   },
   subCaptionTextWhite: {
     fontWeight: 'bold',
