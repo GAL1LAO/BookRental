@@ -101,12 +101,12 @@ export default function App() {
         console.log("in method signIn");
       
         if(!password || password === null){
-          Alert.alert("Passwort leer.","Bitte geben sie ein Passwort ein.");
+          alert("Passwort leer.","Bitte geben sie ein Passwort ein.");
           return;
         }
       
         if(!shortValue || shortValue === null){ 
-          Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.");
+          alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.");
           return;
         }
       
@@ -126,7 +126,7 @@ export default function App() {
         });
       
         if(result === null || result.length === 0){
-          Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.");
+          alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.");
           return;
         } else {
           //TODO: keep logged in

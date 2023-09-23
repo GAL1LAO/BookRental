@@ -155,7 +155,7 @@ export default function HomeScreen({ navigation }) {
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
       { label: "Alle", value: "All" },
-      { label: "Bücger", value: "Only Books" },
+      { label: "Bücher", value: "Only Books" },
       { label: "Kisten", value: "Only Boxes" },
       { label: "Verfügbar", value: "Not Borrowed" },
       { label: "Ausgeliehen", value: "Borrowed" },
