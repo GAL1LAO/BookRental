@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import GreenButton from '../lib/Button';
 
 export default function LendScreen({navigation}){

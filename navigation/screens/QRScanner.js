@@ -4,7 +4,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import GreenButton from '../lib/Button';
 import { UserContext } from '../../App';
 
-export default function QRScannerScreen() {
+export default function QRScannerScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const {short} = useContext(UserContext);
@@ -21,7 +21,7 @@ export default function QRScannerScreen() {
     console.log('Scanned data: ', data);
     console.log("Current user: ", short);
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
 
     //make API call to DB
     fetch(serverUrl + '/lendItem', {
@@ -37,7 +37,7 @@ export default function QRScannerScreen() {
     .then(response => response.json())
     .then(data => {
       console.log('Success:', data);
-      //navigate to success screen
+      navigation.navigate('Success');
     })
     .catch((error) => {
       console.error('Error:', error);

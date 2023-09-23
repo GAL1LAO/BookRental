@@ -8,6 +8,7 @@ import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
 import LoginScreen from './screens/Login';
 import QRScannerScreen from './screens/QRScanner';
+import SuccessScreen from './screens/Success';
 
 const homeName = "Home";
 const lendName = "Leihen";
@@ -21,6 +22,7 @@ function LendNavigator() {
     <Stack.Navigator initialRouteName={lendName} headerMode="none">
       <Stack.Screen name={lendName} component={LendScreen} />
       <Stack.Screen name="QRScanner" component={QRScannerScreen} />
+      <Stack.Screen name="Success" component={SuccessScreen} />
     </Stack.Navigator>
   );
 }
