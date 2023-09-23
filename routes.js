@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
 const dayjs = require('dayjs');
@@ -14,6 +15,7 @@ const connection = mysql.createPool({
 const app = express();
 app.use(cors())
 app.use(express.json())
+app.use(bodyParser.json());
 // Creating a GET route that returns data from the 'users' table.
 app.get('/users', function (req, res) {
     // Connecting to the database.
@@ -91,19 +93,35 @@ app.post('/editItem', (req, res) => {
 })
 
 app.put('/lendItem', (req, res) => {
-  connection.getConnection(function (err, connection) {
-  const lendItemQuery = 'UPDATE Items SET '+
-  'user_short = "' + req.body.short + '"'+
-  'WHERE ID = "' + req.body.id + '"'
-  console.log(lendItemQuery)
-  connection.query(lendItemQuery, function (error, results, fields) {
-    if (error) throw error;
-    console.log(results)
-    res.send(results)
-  }
-  );
+  console.log(req.body);
+  connection.getConnection(function(err, connection) {
+      if (err) {
+          console.error("Error establishing connection:", err);
+          res.status(500).send('Error establishing connection to database');
+          return;
+      }
+
+      const lendItemQuery = 'UPDATE Items SET ' +
+          'user_short = ? ' +
+          'WHERE ID = ?';
+      console.log(lendItemQuery);
+
+      connection.query(lendItemQuery, [req.body.user_short, req.body.id], function(error, results, fields) {
+          // Release the connection
+          connection.release();
+
+          if (error) {
+              console.error("Error executing query:", error);
+              res.status(500).send('Error executing query');
+              return;
+          }
+
+          console.log(results);
+          res.send(results);
+      });
+  });
 });
-})
+
 
 app.post('/deleteItem', (req, res) => {
   connection.getConnection(function (err, connection) {

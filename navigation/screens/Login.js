@@ -2,11 +2,11 @@ import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
-import { AuthContext } from '../../App';
+import { AuthContext, UserContext } from '../../App';
 export default function LoginScreen() {
     const { signIn } = React.useContext(AuthContext);
     const serverUrl = 'http://'+ process.env.localIP +':3000'
-    const [short, setShort] = useState('');
+    const {short, setShort} = React.useContext(UserContext);
     const [password, setPassword] = useState('')
 
     return (
@@ -17,7 +17,7 @@ export default function LoginScreen() {
                     style={styles.input}
                     placeholder="Benutzername"
                     underlineColorAndroid="transparent"
-                    onChangeText={short =>setShort(short)}
+                    onChangeText={value =>setShort(value)}
                 />
             </View>
             <View style={styles.inputContainer}>
