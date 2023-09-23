@@ -53,13 +53,14 @@ export default function QRScannerScreen({navigation}) {
   }
 
   return (
-    <View >
+    <View className="p-4 rounded-lg overflow-hidden w-full h-7/8 mb-4">
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        className="w-full h-full"
+        className="rounded-lg w-full h-5/6 mb-4"
       />
 
       {scanned && <GreenButton title={'Scannen'} onPress={() => setScanned(false)} />}
+      <GreenButton title={'Manuelle Eingabe'} onPress={() => navigation.navigate('Home')} />
     </View>
   );
 }

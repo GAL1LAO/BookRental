@@ -13,8 +13,8 @@ export default function LendScreen({navigation}){
                 }}
             />
             <GreenButton
-                title={"Manuelle Eingabe"}
-                accessibilityLabel={"Manuelle Eingabe"}
+                title={"Rückgabe"}
+                accessibilityLabel={"Rückgabe"}
                 onPress={() => {
                     navigation.navigate('Home');
                 }}

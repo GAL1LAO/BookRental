@@ -31,18 +31,13 @@ const Stack = createNativeStackNavigator();
 
 function LendNavigator() {
   return (
-    <Stack.Navigator initialRouteName={lendName} headerMode="none">
+    <Stack.Navigator>
       <Stack.Screen name={lendName} component={LendScreen} />
       <Stack.Screen name="QRScanner" component={QRScannerScreen} />
       <Stack.Screen name="Success" component={SuccessScreen} />
     </Stack.Navigator>
   );
 }
-
-const adminName = "Admin";
-
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 function HomeStack() {
   return (
@@ -111,9 +106,6 @@ function ItemAdministrationStack() {
   );
 }
 
-function MainContainer() {
-  const {role} = React.useContext(UserContext)
-  return (
 function MainContainer() {
   const {role} = React.useContext(UserContext);
   return (
