@@ -12,6 +12,7 @@ export const UserContext = React.createContext()
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const serverUrl = 'http://'+ process.env.localIP +':3000'
+  const [short, setShort] = useState(null);
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -96,44 +97,43 @@ export default function App() {
   console.log(state.isLoading)
   const authContext = React.useMemo(
     () => ({
-      signIn: async (short, password) => {
-        console.log("in method signIn")
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-        // In the example, we'll use a dummy token
-        if(!password ||password === null){
-          alert("Passwort leer.","Bitte geben sie ein Passwort ein.")
-          return
+      signIn: async (shortValue, password) => {
+        console.log("in method signIn");
+      
+        if(!password || password === null){
+          Alert.alert("Passwort leer.","Bitte geben sie ein Passwort ein.");
+          return;
         }
-        if(!short ||short === null){
-            alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.")
-            return
+      
+        if(!shortValue || shortValue === null){ 
+          Alert.alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.");
+          return;
         }
-        let result
-        console.log("fetching??")
-        await fetch(serverUrl + '/login',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-            body: JSON.stringify({ 
-                "short": short,
-                "password": password
-            })
+      
+        let result;
+        await fetch(serverUrl + '/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({ 
+            "short": shortValue, 
+            "password": password
           })
-          .then(response => response.json()) 
-          .then(serverResponse => {
-            console.log(serverResponse)
-            result = serverResponse
         })
+        .then(response => response.json()) 
+        .then(serverResponse => {
+          console.log(serverResponse);
+          result = serverResponse;
+        });
+      
         if(result === null || result.length === 0){
-            alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.")
-            return
-        }else{
-            //TODO: keep logged in
-            AsyncStorage.setItem('token', JSON.stringify(short))
-            dispatch({ type: 'SIGN_IN', token: short, role:result[0].role, lastName:result[0].lastName, firstName:result[0].firstName, title:result[0].title, mailAddress:result[0].mailAddress, phoneNumber:result[0].phoneNumber, birthDate:result[0].birthDate });
+          Alert.alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.");
+          return;
+        } else {
+          //TODO: keep logged in
+          dispatch({ type: 'SIGN_IN', token: shortValue, role:result[0].role }); // Use shortValue here
         }
       },
+      
       signOut: () => dispatch({ type: 'SIGN_OUT' }), //TODO: use signOut
     }),
     []
@@ -141,6 +141,8 @@ export default function App() {
   const userContext = {
     userToken : state.userToken,
     role : state.role,
+    short,
+    setShort,
     lastName: state.lastName,
     firstName: state.firstName,
     title: state.title,
