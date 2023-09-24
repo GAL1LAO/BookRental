@@ -24,8 +24,12 @@ app.get('/users', function (req, res) {
     connection.query('SELECT * FROM Users', function (error, results, fields) {
       connection.release();
       // If some error occurs, we throw an error.
-      if (error) throw error;
-      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
+          // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
     });
   });
@@ -38,7 +42,11 @@ app.post('/login', (req, res) => {
   const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '" AND password = "' +req.body.password + '"' 
   connection.query(loginQuery, function (error, results, fields) {
     connection.release();
-    if (error) throw error;
+    if (error) {
+      console.error("Error executing query:", error);
+      res.status(500).send('Error executing query');
+      return;
+    }
     console.log(results)
     res.send(results)
   });
@@ -50,7 +58,11 @@ app.post('/userByShort', (req, res) => {
   const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"' 
   connection.query(loginQuery, function (error, results, fields) {
     connection.release();
-    if (error) throw error;
+    if (error) {
+      console.error("Error executing query:", error);
+      res.status(500).send('Error executing query');
+      return;
+    }
     console.log(results)
     res.send(results)
   });
@@ -70,7 +82,11 @@ app.post('/editUser', (req, res) => {
   'WHERE short = "' + req.body.short + '"' 
   connection.query(loginQuery, function (error, results, fields) {
     connection.release();
-    if (error) throw error;
+    if (error) {
+      console.error("Error executing query:", error);
+      res.status(500).send('Error executing query');
+      return;
+    }
     console.log(results)
     res.send(results)
   });
@@ -89,7 +105,11 @@ app.post('/editItem', (req, res) => {
   console.log(updateItemQuery)
   connection.query(updateItemQuery, function (error, results, fields) {
     connection.release();
-    if (error) throw error;
+    if (error) {
+      console.error("Error executing query:", error);
+      res.status(500).send('Error executing query');
+      return;
+    }
     console.log(results)
     res.send(results)
   });
@@ -137,7 +157,12 @@ app.post('/deleteItem', (req, res) => {
   console.log(queries)
   for(const query of queries){
     connection.query(query, function (error, results, fields) {
-      if (error) throw error;
+      if (error) {
+        connection.release()
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       console.log(results)
     });
   connection.release();
@@ -149,7 +174,12 @@ app.post('/addUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const existingUserQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"'
     connection.query(existingUserQuery, function (error, existingUserResults, fields) {
-      if (error) throw error;
+      if (error) {
+        connection.release()
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       console.log(existingUserResults)
       if(existingUserResults.length>0){
         connection.release();
@@ -169,7 +199,11 @@ app.post('/addUser', async (req, res) => {
         console.log(addUserQuery)
         connection.query(addUserQuery, function (error, results, fields) {
           connection.release();
-          if (error) throw error;
+          if (error) {
+            console.error("Error executing query:", error);
+            res.status(500).send('Error executing query');
+            return;
+          }
           console.log(results)
           res.send(results)
         });
@@ -188,9 +222,13 @@ app.post('/addItem', async (req, res) => {
     + req.body.dateOfPurchase+'","'
     + req.body.storageSite+'")'
     console.log(addItemQuery)
-    let result
     connection.query(addItemQuery, function (error, results, fields) {
-      if (error) throw error;
+      if (error) {
+        connection.release()
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       console.log(results)
       if(results && req.body.damages && req.body.damages != null){
         let itemID = results.insertId
@@ -202,8 +240,13 @@ app.post('/addItem', async (req, res) => {
         }
         addDamagesQuery = addDamagesQuery.substring(0,addDamagesQuery.length-1)
         connection.query(addDamagesQuery, function (error, results, fields) {
-          if (error) throw error;
-          console.log(results)
+          if (error) {
+            connection.release()
+            console.error("Error executing query:", error);
+            res.status(500).send('Error executing query');
+            return;
+          }
+        console.log(results)
         });
         }
       connection.release();
@@ -219,7 +262,11 @@ app.get('/itemsList', async (req, res) => {
     connection.query('SELECT ID, type, name, user_short FROM Items', function (error, results, fields) {
       connection.release();
       // If some error occurs, we throw an error.
-      if (error) throw error;
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
     });
@@ -231,7 +278,11 @@ app.post('/itemsForUser', async (req, res) => {
     const itemForUserQuery = 'SELECT * FROM Items WHERE user_short = "' + req.body.short + '"'
     connection.query(itemForUserQuery, function (error, results, fields) {
       connection.release();
-      if (error) throw error;
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       console.log(results)
       res.send(results)
     });
@@ -243,7 +294,11 @@ app.post('/reservedItemsForUser', async (req, res) => {
     const itemForUserQuery = 'SELECT i.ID, i.name, i.type, r.ID AS reservationID FROM Items i INNER JOIN Reservations r ON i.ID = r.item_ID WHERE r.user_short = "' + req.body.short +  '" AND r.dateFrom >="' + dayjs().format('YYYY-MM-DD') + '"'
     connection.query(itemForUserQuery, function (error, results, fields) {
       connection.release();
-      if (error) throw error;
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       console.log(results)
       res.send(results)
     });
@@ -259,7 +314,11 @@ app.post('/itemById', async (req, res) => {
     console.log(itemsQuery)
     connection.query(itemsQuery, function (error, results, fields) {
       connection.release();
-      if (error) throw error;
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
       // If some error occurs, we throw an error.
       console.log(results)
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
