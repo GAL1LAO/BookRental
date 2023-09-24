@@ -93,11 +93,9 @@ export default function App() {
     };
     bootstrapAsync();
   }, []);
-  console.log(state.userToken)
-  console.log(state.isLoading)
   const authContext = React.useMemo(
     () => ({
-      signIn: async (shortValue, password) => {
+      signIn: async (short, password) => {
         console.log("in method signIn");
       
         if(!password || password === null){
@@ -105,7 +103,7 @@ export default function App() {
           return;
         }
       
-        if(!shortValue || shortValue === null){ 
+        if(!short || short === null){ 
           alert("Benutzername leer.","Bitte geben sie ihren Benutzernamen ein.");
           return;
         }
@@ -115,7 +113,7 @@ export default function App() {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
           body: JSON.stringify({ 
-            "short": shortValue, 
+            "short": short, 
             "password": password
           })
         })
@@ -129,12 +127,14 @@ export default function App() {
           alert("Login fehlgeschlagen","Falscher Benutzername oder falsches Passwort.");
           return;
         } else {
-          //TODO: keep logged in
-          dispatch({ type: 'SIGN_IN', token: shortValue, role:result[0].role }); // Use shortValue here
+          AsyncStorage.setItem('token', JSON.stringify(short))
+          dispatch({ type: 'SIGN_IN', token: short, role:result[0].role, lastName:result[0].lastName, firstName:result[0].firstName, title:result[0].title, mailAddress:result[0].mailAddress, phoneNumber:result[0].phoneNumber, birthDate:result[0].birthDate }); // Use shortValue here
         }
       },
       
-      signOut: () => dispatch({ type: 'SIGN_OUT' }), //TODO: use signOut
+      signOut: () => {
+
+        dispatch({ type: 'SIGN_OUT' })}, //TODO: use signOut
     }),
     []
   );
