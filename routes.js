@@ -22,9 +22,9 @@ app.get('/users', function (req, res) {
     connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
     connection.query('SELECT * FROM Users', function (error, results, fields) {
+      connection.release();
       // If some error occurs, we throw an error.
       if (error) throw error;
-
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results)
     });
@@ -37,6 +37,7 @@ app.post('/login', (req, res) => {
   connection.getConnection(function (err, connection) {
   const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '" AND password = "' +req.body.password + '"' 
   connection.query(loginQuery, function (error, results, fields) {
+    connection.release();
     if (error) throw error;
     console.log(results)
     res.send(results)
@@ -48,6 +49,7 @@ app.post('/userByShort', (req, res) => {
   connection.getConnection(function (err, connection) {
   const loginQuery = 'SELECT * FROM Users WHERE short = "' + req.body.short + '"' 
   connection.query(loginQuery, function (error, results, fields) {
+    connection.release();
     if (error) throw error;
     console.log(results)
     res.send(results)
@@ -67,6 +69,7 @@ app.post('/editUser', (req, res) => {
   'role = "' + req.body.role + '"'+
   'WHERE short = "' + req.body.short + '"' 
   connection.query(loginQuery, function (error, results, fields) {
+    connection.release();
     if (error) throw error;
     console.log(results)
     res.send(results)
@@ -85,6 +88,7 @@ app.post('/editItem', (req, res) => {
   'WHERE ID = "' + req.body.id + '"' 
   console.log(updateItemQuery)
   connection.query(updateItemQuery, function (error, results, fields) {
+    connection.release();
     if (error) throw error;
     console.log(results)
     res.send(results)
@@ -136,6 +140,7 @@ app.post('/deleteItem', (req, res) => {
       if (error) throw error;
       console.log(results)
     });
+  connection.release();
   }
 });
 })
@@ -147,6 +152,7 @@ app.post('/addUser', async (req, res) => {
       if (error) throw error;
       console.log(existingUserResults)
       if(existingUserResults.length>0){
+        connection.release();
         res.send({existingUser : true})
         return
       }else{
@@ -162,6 +168,7 @@ app.post('/addUser', async (req, res) => {
         + req.body.role+'")'
         console.log(addUserQuery)
         connection.query(addUserQuery, function (error, results, fields) {
+          connection.release();
           if (error) throw error;
           console.log(results)
           res.send(results)
@@ -199,6 +206,7 @@ app.post('/addItem', async (req, res) => {
           console.log(results)
         });
         }
+      connection.release();
     });
   });
 });
@@ -209,6 +217,7 @@ app.get('/itemsList', async (req, res) => {
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
     connection.query('SELECT ID, type, name, user_short FROM Items', function (error, results, fields) {
+      connection.release();
       // If some error occurs, we throw an error.
       if (error) throw error;
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
@@ -221,6 +230,7 @@ app.post('/itemsForUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const itemForUserQuery = 'SELECT * FROM Items WHERE user_short = "' + req.body.short + '"'
     connection.query(itemForUserQuery, function (error, results, fields) {
+      connection.release();
       if (error) throw error;
       console.log(results)
       res.send(results)
@@ -232,6 +242,7 @@ app.post('/reservedItemsForUser', async (req, res) => {
   connection.getConnection(function (err, connection) {
     const itemForUserQuery = 'SELECT i.ID, i.name, i.type, r.ID AS reservationID FROM Items i INNER JOIN Reservations r ON i.ID = r.item_ID WHERE r.user_short = "' + req.body.short +  '" AND r.dateFrom >="' + dayjs().format('YYYY-MM-DD') + '"'
     connection.query(itemForUserQuery, function (error, results, fields) {
+      connection.release();
       if (error) throw error;
       console.log(results)
       res.send(results)
@@ -247,6 +258,7 @@ app.post('/itemById', async (req, res) => {
     const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
     console.log(itemsQuery)
     connection.query(itemsQuery, function (error, results, fields) {
+      connection.release();
       if (error) throw error;
       // If some error occurs, we throw an error.
       console.log(results)
@@ -273,6 +285,7 @@ app.get('/damagesList', async (req, res) => {
 
     // Run the query
     connection.query(query, function (error, results, fields) {
+      connection.release();
       if (error) {
         throw error;
       }
@@ -285,17 +298,6 @@ app.get('/damagesList', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-  
-//   try {
-//     const items = await db.Item.findAll({
-//       attributes: ['type', 'user_short'],
-//     });
-//     res.json(items);
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
 
 
 // Starting our server.
