@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
-import LoginScreen from './screens/Login';
 import QRScannerScreen from './screens/QRScanner';
 import SuccessScreen from './screens/Success';
 import AdminScreen from './screens/administrationScreens/Admin';
 import DetailScreen from './screens/Detail';
-import App, { UserContext } from '../App';
+import { AuthContext, UserContext } from '../App';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddUserScreen from './screens/administrationScreens/AddUser';
 import AddItemScreen from './screens/administrationScreens/AddItem';
@@ -20,6 +18,7 @@ import UserAdministrationScreen from './screens/administrationScreens/UserAdmini
 import UserDetailScreen from './screens/UserDetail';
 import ItemAdministrationScreen from './screens/administrationScreens/ItemAdministration';
 import ItemAdministrationDetailScreen from './screens/administrationScreens/ItemAdministrationDetail';
+import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 
 const homeName = "Home";
 const lendName = "Leihen";
@@ -53,12 +52,22 @@ function HomeStack() {
 }
 
 function ProfileStack() {
+  const { signOut } = React.useContext(AuthContext);
   return (
     <Stack.Navigator>
         <Stack.Screen
           name="Profil"
           component={ProfileScreen}
-          
+          options={{
+            headerRight: () => (
+              <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signOut()}>
+                  <Ionicons style={styles.inputIcon} name="log-out" size={20} color="#000"/>
+                  <Text style={styles.subCaptionTextWhite}>
+                      Ausloggen
+                  </Text>
+              </TouchableOpacity>
+            ),
+          }}
         />
         <Stack.Screen name="Detail" component={DetailScreen}/>
       </Stack.Navigator>
@@ -145,3 +154,58 @@ function MainContainer() {
 }
 
 export default MainContainer;
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: '#246EE9',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: '5%',
+  },
+  loginContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: '5%',
+  },
+  fakeButton: {
+      marginBottom: 10,
+      borderRadius: 10,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#3EB489',
+  },
+  subCaptionTextWhite: {
+      flex: 1,
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 0,
+      fontWeight: 'bold',
+      fontSize: 30,
+      color: 'white'
+  },
+  inputContainer: {
+      padding: 5,
+      marginBottom: 10,
+      borderRadius: 10,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+  },
+  inputIcon: {
+      padding: 10,
+  },
+  input: {
+      flex: 1,
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 0,
+      color: '#424242',
+  },
+});

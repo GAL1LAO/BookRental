@@ -48,6 +48,13 @@ export default function App() {
             ...prevState,
             isSignout: true,
             userToken: null,
+            role: null,
+            lastName: null,
+            firstName: null,
+            title: null,
+            mailAddress: null,
+            phoneNumber: null,
+            birthDate: null,
           };
         case 'NO_TOKEN' : 
           return{
@@ -133,8 +140,8 @@ export default function App() {
       },
       
       signOut: () => {
-
-        dispatch({ type: 'SIGN_OUT' })}, //TODO: use signOut
+        AsyncStorage.setItem('token', null)
+        dispatch({ type: 'SIGN_OUT' })},
     }),
     []
   );
