@@ -48,9 +48,9 @@ export default function UserDetailScreen({ route }) {
       setTitle(json[0].title.toString())
       setMailAddress(json[0].mailAddress)
       setPhoneNumber(json[0].phoneNumber)
-      setYear(birthDate.year())
-      setMonth(birthDate.month()+1)
-      setDay(birthDate.date())
+      setYear("" + birthDate.year())
+      setMonth("" + birthDate.month()+1)
+      setDay("" + birthDate.date())
       setRole(json[0].role)
     } catch (error) {
       console.error(error);
@@ -110,104 +110,103 @@ export default function UserDetailScreen({ route }) {
       ) : (
         <ScrollView>
           <View style={{alignItems: 'center'}}>
-          <View style={{alignItems: 'center'}}>
-
-          <View style={styles.filter}>
-              <DropDownPicker 
-              style={{borderColor: "#ccc"}}
-              open={open}
-              value={role}
-              items={items}
-              placeholder="Filter auswählen"
-              setOpen={setOpen}
-              setValue={setRole}
-              setItems={setItems}
-              onChangeValue={(item) => {setRole(item);}}
-              />
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Anrede:</Text>  
+            <View style={{alignItems: 'center'}}>
+              <View style={styles.filter}>
+                  <DropDownPicker 
+                  style={{borderColor: "#ccc"}}
+                  open={open}
+                  value={role}
+                  items={items}
+                  placeholder="Filter auswählen"
+                  setOpen={setOpen}
+                  setValue={setRole}
+                  setItems={setItems}
+                  onChangeValue={(item) => {setRole(item);}}
+                  />
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Anrede:</Text>  
+                </View>
+                <View style={styles.column2}>
+                  <TextInput style={styles.input} value={title} onChangeText={title=>{setTitle(title)}}/>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Vorname:</Text>  
+                </View>
+                <View style={styles.column2}>
+                <TextInput style={styles.input} value={firstName} onChangeText={title=>{setFirstName(title)}}/>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Nachname:</Text>  
+                </View>
+                <View style={styles.column2}>
+                <TextInput style={styles.input} value={lastName} onChangeText={lastName=>{setLastName(lastName)}}/>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Geburtsdatum:</Text>  
+                </View>
+                <View style={styles.column2}>
+                  <View style={styles.containerForDate}>
+                  <TextInput
+                      style={styles.inputDate}
+                      placeholder="Tag"
+                      underlineColorAndroid="transparent"
+                      value = {day}
+                      onChangeText={birthDate =>setDay(birthDate)}//TODO: change to date picker
+                    />
+                    <TextInput
+                      style={styles.inputDate}
+                      placeholder="Monat"
+                      underlineColorAndroid="transparent"
+                      value={month}
+                      onChangeText={birthDate =>setMonth(birthDate)}//TODO: change to date picker
+                    />
+                    <TextInput
+                      style={styles.inputDate}
+                      placeholder="Jahr"
+                      underlineColorAndroid="transparent"
+                      value={year}
+                      onChangeText={birthDate =>setYear(birthDate)}//TODO: change to date picker
+                    />
+                </View>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Email Adresse:</Text>
+                </View>
+                <View style={styles.column2}>
+                <TextInput style={styles.input} value={mailAddress} onChangeText={title=>{setMailAddress(title)}}/>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.column1}>
+                  <Text style={styles.text}>Telephonnummer</Text>
+                </View>
+                <View style={styles.column2}>
+                <TextInput style={styles.input} value={phoneNumber} onChangeText={title=>{setPhoneNumber(title)}}/>
+                </View>
+              </View>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.fakeButtonGreen} type='submit' onPress={async() => await editUser()}>
+                  <Text style={styles.subCaptionTextWhite}>
+                      Bestätigen
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.fakeButtonRed} onPress={() => {navigation.navigate('Item Administration')}}>
+                  <Text style={styles.subCaptionTextWhite}>
+                      Abbrechen
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.column2}>
-              <TextInput style={styles.input} value={title} onChangeText={title=>{setTitle(title)}}/>
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Vorname:</Text>  
-            </View>
-            <View style={styles.column2}>
-            <TextInput style={styles.input} value={firstName} onChangeText={title=>{setFirstName(title)}}/>
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Nachname:</Text>  
-            </View>
-            <View style={styles.column2}>
-            <TextInput style={styles.input} value={lastName} onChangeText={lastName=>{setLastName(lastName)}}/>
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Geburtsdatum:</Text>  
-            </View>
-            <View style={styles.column2}>
-              <View style={styles.containerForDate}>
-              <TextInput
-                  style={styles.inputDate}
-                  placeholder="Tag"
-                  underlineColorAndroid="transparent"
-                  value = {day}
-                  onChangeText={birthDate =>setDay(birthDate)}//TODO: change to date picker
-                />
-                <TextInput
-                  style={styles.inputDate}
-                  placeholder="Monat"
-                  underlineColorAndroid="transparent"
-                  value={month}
-                  onChangeText={birthDate =>setMonth(birthDate)}//TODO: change to date picker
-                />
-                <TextInput
-                  style={styles.inputDate}
-                  placeholder="Jahr"
-                  underlineColorAndroid="transparent"
-                  value={year}
-                  onChangeText={birthDate =>setYear(birthDate)}//TODO: change to date picker
-                />
-            </View>
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Email Adresse:</Text>
-            </View>
-            <View style={styles.column2}>
-            <TextInput style={styles.input} value={mailAddress} onChangeText={title=>{setMailAddress(title)}}/>
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.column1}>
-              <Text style={styles.text}>Telephonnummer</Text>
-            </View>
-            <View style={styles.column2}>
-            <TextInput style={styles.input} value={phoneNumber} onChangeText={title=>{setPhoneNumber(title)}}/>
-            </View>
-          </View>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.buttonCol1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
-              <Text style={styles.subCaptionTextWhite}>
-                  Bestätigen
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.buttonCol2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
-              <Text style={styles.subCaptionTextWhite}>
-                  Abbrechen
-              </Text>
-            </TouchableOpacity>
-          </View>
-          </View>
           </View>
         </ScrollView>
       )}
@@ -235,20 +234,28 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     paddingTop: 10,
-    marginLeft:'10%',
-    alignItems: 'flex-start'
+    width: '100%',
+    justifyContent: 'center'
   },
   fakeButtonGreen: {
     padding: 10,
     borderRadius: 10,
     alignItems: 'center',
     backgroundColor: '#3EB489',
+    width: '50%',
+    paddingLeft: 10,
+    paddingTop: 10,
+    marginRight:5,
   },
   fakeButtonRed: {
     padding: 10,
     borderRadius: 10,
     alignItems: 'center',
     backgroundColor: 'red',
+    width: '50%',
+    paddingLeft: 10,
+    paddingTop: 10,
+
   },
   column1: {
     width: '37%',
@@ -258,19 +265,6 @@ const styles = StyleSheet.create({
   },
   column2: {
     width: '63%',
-    paddingTop: 10,
-    marginRight:5
-  },
-  buttonCol1: {
-    width: '45%',
-    paddingLeft: 10,
-    paddingTop: 10,
-    marginRight:5,
-    marginLeft: -5
-  },
-  buttonCol2: {
-    width: '45%',
-    paddingLeft: 10,
     paddingTop: 10,
     marginRight:5
   },
@@ -320,7 +314,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   inputDate: {
-    width: '100%',
+    width: '33%',
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
