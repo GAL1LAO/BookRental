@@ -105,7 +105,7 @@ export default function DetailScreen({ route }) {
               <Text style={styles.subCaptionText}>Code für manuelle Eingabe beim Ausleihen:</Text>
             </View>
             <View style={styles.row2}>
-              <Text style={styles.text}>{data.qrCode}</Text>
+              <Text style={styles.text}>{itemId}</Text>
             </View>
           </View>
         </ScrollView>
