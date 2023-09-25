@@ -213,8 +213,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#246EE9',
-      alignItems: 'center',
-      justifyContent: 'center',
       paddingHorizontal: '5%',
       paddingTop: '5%'
     },
