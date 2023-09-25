@@ -49,7 +49,7 @@ export default function UserDetailScreen({ route }) {
       setMailAddress(json[0].mailAddress)
       setPhoneNumber(json[0].phoneNumber)
       setYear("" + birthDate.year())
-      setMonth("" + birthDate.month()+1)
+      setMonth("" + (birthDate.month()+1))
       setDay("" + birthDate.date())
       setRole(json[0].role)
     } catch (error) {
