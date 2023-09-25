@@ -7,7 +7,8 @@ import { UserContext } from '../../App';
 export default function QRScannerScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const {short} = useContext(UserContext);
+  const {userToken} = React.useContext(UserContext);
+
   const serverUrl = 'http://'+ process.env.localIP +':3000'
 
   useEffect(() => {
@@ -19,7 +20,8 @@ export default function QRScannerScreen({navigation}) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     console.log('Scanned data: ', data);
-    console.log("Current user: ", short);
+    console.log("Current user: ", userToken);
+
     setScanned(true);
     //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
 
@@ -30,7 +32,7 @@ export default function QRScannerScreen({navigation}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_short: short,
+        user_short: userToken,
         id: data,
       })
     })

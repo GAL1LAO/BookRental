@@ -19,7 +19,7 @@ export default function ProfileScreen({navigation}) {
 
   const getItems = async () => {
     try {
-      console.log("fetching data?????????");
+      console.log("fetching data????????");
       const response = await fetch(serverUrl + '/itemsForUser', { 
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},

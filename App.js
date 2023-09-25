@@ -80,6 +80,7 @@ export default function App() {
       console.log(userToken)
       if(userToken){
         let result
+        console.log("beofre fetch userbyshort")
         await fetch(serverUrl + '/userByShort',{
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
