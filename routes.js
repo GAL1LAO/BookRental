@@ -186,7 +186,7 @@ app.put('/returnItem', (req, res) => {
     }
 
     const returnItemQuery = 'UPDATE Items SET ' +
-        'user_short = null ' +
+        'user_short = null, ' +
         'storageSite = "Storage Room 2" ' +
         'WHERE ID = ?';
     console.log(returnItemQuery);
