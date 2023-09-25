@@ -15,7 +15,7 @@ import AddUserScreen from './screens/administrationScreens/AddUser';
 import AddItemScreen from './screens/administrationScreens/AddItem';
 import ViewDamageScreen from './screens/administrationScreens/ViewDamages';
 import UserAdministrationScreen from './screens/administrationScreens/UserAdministration';
-import UserDetailScreen from './screens/UserDetail';
+import UserDetailScreen from './screens/administrationScreens/UserDetail';
 import ItemAdministrationScreen from './screens/administrationScreens/ItemAdministration';
 import ItemAdministrationDetailScreen from './screens/administrationScreens/ItemAdministrationDetail';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';

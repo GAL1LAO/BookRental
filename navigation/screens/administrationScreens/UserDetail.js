@@ -109,6 +109,9 @@ export default function UserDetailScreen({ route }) {
         <ActivityIndicator/>
       ) : (
         <ScrollView>
+          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'center'}}>
+
           <View style={styles.filter}>
               <DropDownPicker 
               style={{borderColor: "#ccc"}}
@@ -151,23 +154,23 @@ export default function UserDetailScreen({ route }) {
               <Text style={styles.text}>Geburtsdatum:</Text>  
             </View>
             <View style={styles.column2}>
-              <View style={styles.inputContainer}>
+              <View style={styles.containerForDate}>
               <TextInput
-                  style={styles.input}
+                  style={styles.inputDate}
                   placeholder="Tag"
                   underlineColorAndroid="transparent"
                   value = {day}
                   onChangeText={birthDate =>setDay(birthDate)}//TODO: change to date picker
                 />
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputDate}
                   placeholder="Monat"
                   underlineColorAndroid="transparent"
                   value={month}
                   onChangeText={birthDate =>setMonth(birthDate)}//TODO: change to date picker
                 />
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputDate}
                   placeholder="Jahr"
                   underlineColorAndroid="transparent"
                   value={year}
@@ -193,137 +196,167 @@ export default function UserDetailScreen({ route }) {
             </View>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.column1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
+            <TouchableOpacity style={[styles.buttonCol1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
               <Text style={styles.subCaptionTextWhite}>
                   Bestätigen
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.column2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
+            <TouchableOpacity style={[styles.buttonCol2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
               <Text style={styles.subCaptionTextWhite}>
                   Abbrechen
               </Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>)}
+          </View>
+          </View>
+        </ScrollView>
+      )}
     </View>
   ); 
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#246EE9',
-      paddingHorizontal: '5%',
-      paddingTop: '5%'
-    },
-      captionContainer: {
-        paddingLeft: 20,
-        paddingTop: 10,
-      },
-      userDetails: {
-        flexDirection: 'row',
-        paddingLeft: '10%',
-        paddingTop: 10,
-        alignItems: 'flex-start'
-      },
-      buttonRow: {
-        flexDirection: 'row',
-        paddingTop: 10,
-        marginLeft:'10%',
-        alignItems: 'flex-start'
-      },
-      fakeButtonGreen: {
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: '#3EB489',
-      },
-      fakeButtonRed: {
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: 'red',
-      },
-      column1: {
-        width: '45%',
-        paddingLeft: 10,
-        paddingTop: 10,
-        marginRight:5,
-        marginLeft: -5
-      },
-      column2: {
-        color: 'red',
-        width: '45%',
-        paddingLeft: 10,
-        paddingTop: 10,
-        marginRight:5
-      },
-      titelAndText: {
-        flexDirection: 'column',
-        paddingLeft: 10,
-        paddingTop: 10,
-        alignItems: 'flex-start'
-      },
-      row1: {
-      },
-      row2: {
+  container: {
+    flex: 1,
+    backgroundColor: '#246EE9',
+    paddingHorizontal: '5%',
+    paddingTop: '5%'
+  },
+  captionContainer: {
+    paddingLeft: 20,
+    paddingTop: 10,
+  },
+  userDetails: {
+    flexDirection: 'row',
+    paddingLeft: '10%',
+    paddingTop: 10,
+    alignItems: 'flex-start'
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    marginLeft:'10%',
+    alignItems: 'flex-start'
+  },
+  fakeButtonGreen: {
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: '#3EB489',
+  },
+  fakeButtonRed: {
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: 'red',
+  },
+  column1: {
+    width: '37%',
+    paddingTop: 10,
+    marginRight:5,
+    marginLeft: -5
+  },
+  column2: {
+    width: '63%',
+    paddingTop: 10,
+    marginRight:5
+  },
+  buttonCol1: {
+    width: '45%',
+    paddingLeft: 10,
+    paddingTop: 10,
+    marginRight:5,
+    marginLeft: -5
+  },
+  buttonCol2: {
+    width: '45%',
+    paddingLeft: 10,
+    paddingTop: 10,
+    marginRight:5
+  },
+  titelAndText: {
+    flexDirection: 'column',
+    paddingLeft: 10,
+    paddingTop: 10,
+    alignItems: 'flex-start'
+  },
+  row1: {
+  },
+  row2: {
 
-         paddingTop: 10,
-      },
-      centerItems: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-      },
-      captionText: {
-        fontWeight: 'bold',
-        fontSize: 30,
-      },
-      subCaptionText: {
-        fontWeight: 'bold',
-        fontSize: 15,
-      },
-      inputIcon: {
-        padding: 10, 
-        color: "#000",
-    },
-    fakeButtonImage: {
-        alignItems: 'center',
-        width: '100%',
-        color: "#000",
-      },
-      line: {
-        marginHorizontal: 10,
-        marginVertical: 20,
-        borderBottomColor: 'black',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-      },
-      subCaptionTextWhite: {
-        fontWeight: 'bold',
-        fontSize: 15,
-        color: 'white'
-      },
-      input: {
-        flex: 1,
-        paddingTop: 10,
-        paddingRight: 10,
-        paddingBottom: 10,
-        paddingLeft: 0,
-        color: '#424242',
-    },
-    inputContainer: {
-      marginBottom: 10,
-      borderRadius: 10,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      width: '100%',
+      paddingTop: 10,
+  },
+  centerItems: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+  captionText: {
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  subCaptionText: {
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  inputIcon: {
+    padding: 10, 
+    color: "#000",
+  },
+  fakeButtonImage: {
+    alignItems: 'center',
+    width: '100%',
+    color: "#000",
+  },
+  line: {
+    marginHorizontal: 10,
+    marginVertical: 20,
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  subCaptionTextWhite: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'white'
+  },
+  inputDate: {
+    width: '100%',
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    color: '#424242',
+  },
+  input: {
+    flex: 1,
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 0,
+      color: '#424242',
+  },
+  inputContainer: {
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingLeft: 15,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    width: '100%',
+  },
+  containerForDate: {
+    marginBottom: 10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    width: '100%',
   },
   filter: {
     zIndex: 1, 
     elevation: 2,
     marginVertical: 10,
     width: '100%',
-},
-    });  
+  },
+});  
