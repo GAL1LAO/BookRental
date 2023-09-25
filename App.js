@@ -3,10 +3,15 @@ import LoginScreen from './navigation/screens/Login';
 import React, { useState } from 'react';
 import LoadingScreen from './navigation/screens/LoadingScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NativeWindStyleSheet } from "nativewind";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
 
 
 export const AuthContext = React.createContext();
-export const UserContext = React.createContext()
+export const UserContext = React.createContext();
 
 
 export default function App() {
