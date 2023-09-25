@@ -468,7 +468,7 @@ app.post('/itemById', async (req, res) => {
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
+    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
     console.log(itemsQuery)
     connection.query(itemsQuery, function (error, results, fields) {
       connection.release();
