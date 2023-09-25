@@ -8,6 +8,8 @@ import ProfileScreen from './screens/Profile';
 import QRScannerScreen from './screens/QRScanner';
 import SuccessScreen from './screens/Success';
 import AdminScreen from './screens/administrationScreens/Admin';
+import ReturnItemScreen from './screens/ReturnItem';
+import ReturnType from './screens/ReturnType';
 import DetailScreen from './screens/Detail';
 import { AuthContext, UserContext } from '../App';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -34,6 +36,16 @@ function LendNavigator() {
       <Stack.Screen name={lendName} component={LendScreen} />
       <Stack.Screen name="QRScanner" component={QRScannerScreen} />
       <Stack.Screen name="Success" component={SuccessScreen} />
+      <Stack.Screen name="ReturnItem" component={ReturnItemNavigator} />
+    </Stack.Navigator>
+  );
+}
+
+function ReturnItemNavigator() {
+  return (
+    <Stack.Navigator options={{headerShown: false}}>
+      <Stack.Screen name="ReturnItem" component={ReturnItemScreen} options={{headerShown: false}}/>
+      <Stack.Screen name='ReturnType' component={ReturnType} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }
@@ -140,7 +152,7 @@ function MainContainer() {
         })}
       >
         <Tab.Screen name={homeName} component={HomeStack} options={{headerShown: false}}/>
-        <Tab.Screen name={lendName} component={LendNavigator} />
+        <Tab.Screen name={lendName} component={LendNavigator} options={{headerShown: false}} />
         <Tab.Screen name={profileName} component={ProfileStack} options={{headerShown: false}}/>
         {role == "adm" && (
           <Tab.Screen name={adminName} component={AdminStack} options={{headerShown: false}} />

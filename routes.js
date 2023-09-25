@@ -156,6 +156,7 @@ app.put('/lendItem', (req, res) => {
 
       const lendItemQuery = 'UPDATE Items SET ' +
           'user_short = ? ' +
+          'storageSite = "lent" ' +
           'WHERE ID = ?';
       console.log(lendItemQuery);
 
@@ -174,6 +175,118 @@ app.put('/lendItem', (req, res) => {
       });
   });
 });
+
+app.put('/returnItem', (req, res) => {
+  console.log(req.body);
+  connection.getConnection(function(err, connection) {
+    if (err) {
+        console.error("Error establishing connection:", err);
+        res.status(500).send('Error establishing connection to database');
+        return;
+    }
+
+    const returnItemQuery = 'UPDATE Items SET ' +
+        'user_short = null ' +
+        'storageSite = "Storage Room 2" ' +
+        'WHERE ID = ?';
+    console.log(returnItemQuery);
+
+    connection.query(returnItemQuery, [req.body.id], function(error, results, fields) {
+        // Release the connection
+        connection.release();
+
+        if (error) {
+            console.error("Error executing query:", error);
+            res.status(500).send('Error executing query');
+            return;
+        }
+
+        console.log(results);
+        res.send(results);
+    }
+    );
+  });
+});
+
+
+app.put('/returnItemFast', (req, res) => {
+  console.log(req.body);
+  connection.getConnection(function(err, connection) {
+      if (err) {
+          console.error("Error establishing connection:", err);
+          res.status(500).send('Error establishing connection to database');
+          return;
+      }
+
+      const lendItemQuery = 'UPDATE Items SET ' +
+          'user_short = ?, ' +
+          'storageSite = "lent" ' +
+          'WHERE ID = ?';
+      console.log(lendItemQuery);
+
+      connection.query(lendItemQuery, [req.body.user_short, req.body.id], function(error, results, fields) {
+          if (error) {
+              console.error("Error executing query:", error);
+              res.status(500).send('Error executing query');
+              return;
+          }
+
+         
+          const updateUserPointsQuery = 'UPDATE Users SET ' +
+              'fastReturnPoints = fastReturnPoints - 1 ' +
+              'WHERE short = ?';
+          
+          connection.query(updateUserPointsQuery, [req.body.user_short], function(error, userResults) {
+              connection.release();
+
+              if (error) {
+                  console.error("Error executing query on Users table:", error);
+                  res.status(500).send('Error executing query on Users table');
+                  return;
+              }
+
+              console.log(userResults);
+              res.send(results);
+          });
+      });
+  });
+});
+
+app.get('/getFastReturnPoints', (req, res) => {
+  const userShort = req.query.user_short; 
+
+  if (!userShort) {
+      return res.status(400).send('Missing user_short parameter');
+  }
+
+  connection.getConnection(function(err, connection) {
+      if (err) {
+          console.error("Error establishing connection:", err);
+          res.status(500).send('Error establishing connection to database');
+          return;
+      }
+
+      const getPointsQuery = 'SELECT fastReturnPoints FROM Users WHERE short = ?';
+
+      connection.query(getPointsQuery, [userShort], function(error, results, fields) {
+          connection.release();
+
+          if (error) {
+              console.error("Error executing query:", error);
+              res.status(500).send('Error executing query');
+              return;
+          }
+
+          if (results.length > 0) {
+              res.json({ fastReturnPoints: results[0].fastReturnPoints });
+          } else {
+              res.status(404).send('User not found');
+          }
+      });
+  });
+});
+
+
 
 app.post('/deleteItem', (req, res) => {
   connection.getConnection(function (err, connection) {

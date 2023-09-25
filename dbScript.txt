@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Users` (
                                                  `birthDate` DATE NULL DEFAULT NULL,
                                                  `password` VARCHAR(80) NOT NULL,
                                                  `role` VARCHAR(3) NOT NULL,
+                                                 `fastReturnPoints` SMALLINT NOT NULL,
                                                  PRIMARY KEY (`short`))
     ENGINE = InnoDB;
    
@@ -112,18 +113,18 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Reservations` (
 												 REFERENCES `mydb`.`Items` (`ID`))
     ENGINE = InnoDB;
 
-INSERT INTO `Users` (`short`, `lastName`, `firstName`, `title`, `mailAddress`, `phoneNumber`, `birthDate`, `password`, `role`)
+INSERT INTO `Users` (`short`, `lastName`, `firstName`, `title`, `mailAddress`, `phoneNumber`, `birthDate`, `password`, `role`, `fastReturnPoints`)
 VALUES
-('abcd', 'Mustermann', 'Max', 'Mr', 'max.mustermann@example.com', '+49123456789', '1980-01-15', 'password1', 'adm'),
-('efgh', 'Musterfrau', 'Anna', 'Mrs', 'anna.musterfrau@example.com', '+49123456788', '1985-03-20', 'password2', 'use'),
-('ijkl', 'Schmidt', 'Peter', 'Dr.', 'peter.schmidt@example.com', '+49123456787', '1972-09-10', 'password3', 'adm'),
-('mnop', 'Müller', 'Lisa', 'Mrs', 'lisa.mueller@example.com', '+49123456786', '1990-07-05', 'password4', 'use'),
-('qrst', 'Becker', 'Thomas', 'Mr', 'thomas.becker@example.com', '+49123456785', '1988-12-28', 'password5', 'adm'),
-('uvwx', 'Schulz', 'Julia', 'Mrs', 'julia.schulz@example.com', '+49123456784', '1982-06-14', 'password6', 'use'),
-('yzab', 'Hofmann', 'Michael', 'Mr', 'michael.hofmann@example.com', '+49123456783', '1976-11-22', 'password7', 'adm'),
-('cdef', 'Wagner', 'Sarah', 'Mrs', 'sarah.wagner@example.com', '+49123456782', '1987-04-30', 'password8', 'use'),
-('ghij', 'Koch', 'Martin', 'Mr', 'martin.koch@example.com', '+49123456781', '1995-02-18', 'password9', 'adm'),
-('klmn', 'Lehmann', 'Laura', 'Mrs', 'laura.lehmann@example.com', '+49123456780', '1983-08-03', 'password10', 'use');
+('abcd', 'Mustermann', 'Max', 'Mr', 'max.mustermann@example.com', '+49123456789', '1980-01-15', 'password1', 'adm', 3),
+('efgh', 'Musterfrau', 'Anna', 'Mrs', 'anna.musterfrau@example.com', '+49123456788', '1985-03-20', 'password2', 'use', 3),
+('ijkl', 'Schmidt', 'Peter', 'Dr.', 'peter.schmidt@example.com', '+49123456787', '1972-09-10', 'password3', 'adm', 3),
+('mnop', 'Müller', 'Lisa', 'Mrs', 'lisa.mueller@example.com', '+49123456786', '1990-07-05', 'password4', 'use', 3),
+('qrst', 'Becker', 'Thomas', 'Mr', 'thomas.becker@example.com', '+49123456785', '1988-12-28', 'password5', 'adm', 3),
+('uvwx', 'Schulz', 'Julia', 'Mrs', 'julia.schulz@example.com', '+49123456784', '1982-06-14', 'password6', 'use', 3),
+('yzab', 'Hofmann', 'Michael', 'Mr', 'michael.hofmann@example.com', '+49123456783', '1976-11-22', 'password7', 'adm', 3),
+('cdef', 'Wagner', 'Sarah', 'Mrs', 'sarah.wagner@example.com', '+49123456782', '1987-04-30', 'password8', 'use', 3),
+('ghij', 'Koch', 'Martin', 'Mr', 'martin.koch@example.com', '+49123456781', '1995-02-18', 'password9', 'adm', 3),
+('klmn', 'Lehmann', 'Laura', 'Mrs', 'laura.lehmann@example.com', '+49123456780', '1983-08-03', 'password10', 'use', 3);
 
 INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `dateOfPurchase`, `storageSite`, `qrCode`)
 VALUES
