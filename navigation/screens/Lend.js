@@ -16,7 +16,7 @@ export default function LendScreen({navigation}){
                 title={"Rückgabe"}
                 accessibilityLabel={"Rückgabe"}
                 onPress={() => {
-                    navigation.navigate('Home');
+                    navigation.navigate('ReturnItem');
                 }}
             />
         </View>
