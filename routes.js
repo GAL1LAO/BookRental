@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
 const dayjs = require('dayjs');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto')
 require('dotenv').config({path: './.env'});
 const connection = mysql.createPool({
   host     : 'localhost',
@@ -10,6 +12,33 @@ const connection = mysql.createPool({
   password : process.env.dbPassword,
   database : process.env.dbName
 });
+
+const sendEmail = (mailOptions)=>{
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'kinobuchung@gmail.com',
+      pass: 'zqwhrsqhtcnunefq'
+    }
+  });
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+  const generatePassword = (
+    length = 10,
+    characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$'
+  ) =>{
+    return Array.from(crypto.randomFillSync(new Uint32Array(length)))
+      .map((x) => characters[x % characters.length])
+      .join('')
+  }
 
 // Starting our app.
 const app = express();
@@ -186,6 +215,8 @@ app.post('/addUser', async (req, res) => {
         res.send({existingUser : true})
         return
       }else{
+        const password = generatePassword() 
+        console.log(password)
         const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
         + req.body.short +'","'
         + req.body.lastName+'","'
@@ -194,7 +225,7 @@ app.post('/addUser', async (req, res) => {
         + req.body.mailAddress+'","'
         + req.body.phoneNumber+'","'
         + req.body.birthDate+'","'
-        + req.body.password+'","'
+        + password+'","'
         + req.body.role+'")'
         console.log(addUserQuery)
         connection.query(addUserQuery, function (error, results, fields) {
@@ -205,6 +236,16 @@ app.post('/addUser', async (req, res) => {
             return;
           }
           console.log(results)
+          //Send Email with login data
+          const text = 'Sehr geehrte:r '+ req.body.title + " " + req.body.firstName + " " + req.body.lastName + "\nSie wurden erfolgreich dem Leihverwaltungssystem ihrer Schule hinzugefügt. Im Folgenden finde sie ihre Anmeldedaten: \nKürzel: " + req.body.short + "\nPasswort: " + password
+          const mailOptions = {
+            from: 'kinobuchung@gmail.com',
+            to: req.body.mailAddress,
+            subject: 'Sie wurden erfolgreich für das Verleihsystem registriert',
+            text: text
+          };
+          sendEmail(mailOptions)
+          
           res.send(results)
         });
       }

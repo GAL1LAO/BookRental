@@ -30,6 +30,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.1",
     "nativewind": "^2.0.11",
+    "nodemailer": "^6.9.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.4",

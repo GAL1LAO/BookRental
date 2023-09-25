@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const serverUrl = 'http://'+ process.env.localIP +':3000'
 export default function AddUserScreen({navigation}){
     const [short, setShort] = useState('');
-    const [password, setPassword] = useState('')
     const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('')
     const [title, setTitle] = useState('');
@@ -46,7 +45,6 @@ export default function AddUserScreen({navigation}){
     async function addUser(){
         const userData = {
             short : short,
-            password : password,
             lastName : lastName,
             firstName : firstName,
             title : title,
@@ -168,16 +166,6 @@ export default function AddUserScreen({navigation}){
                 placeholder="Jahr"
                 underlineColorAndroid="transparent"
                 onChangeText={birthDate =>setYear(birthDate)}//TODO: change to date picker
-                />
-            </View>
-            <View style={styles.inputContainer}>
-                <Ionicons style={styles.inputIcon} name="person" size={20} color="#000"/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Passwort"
-                    underlineColorAndroid="transparent"
-                    secureTextEntry
-                    onChangeText={password =>setPassword(password)}
                 />
             </View>
             <View style={styles.buttonAlignment}>
