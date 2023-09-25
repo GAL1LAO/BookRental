@@ -193,12 +193,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         alignItems: 'flex-start'
       },
-      row1: {
-      },
-      row2: {
-
-         paddingTop: 10,
-      },
       centerItems: {
         flex: 1,
         backgroundColor: '#fff',
