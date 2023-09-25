@@ -329,29 +329,31 @@ app.post('/itemById', async (req, res) => {
 
 app.get('/damagesList', async (req, res) => {
   try {
-    // Execute a SQL query to join the Items and Damages tables
-    const query = `
-      SELECT 
-        Damages.damageDescription, 
-        Damages.ID AS damageID,
-        Damages.date AS damageDate, 
-        Items.name AS itemName, 
-        Items.description AS itemDescription 
-      FROM Damages
-      INNER JOIN Items ON Damages.item_ID = Items.ID
-      ORDER BY Damages.date DESC
-    `;
+    connection.getConnection(function (err, connection) {
+      // Execute a SQL query to join the Items and Damages tables
+      const query = `
+        SELECT 
+          Damages.damageDescription, 
+          Damages.ID AS damageID,
+          Damages.date AS damageDate, 
+          Items.name AS itemName, 
+          Items.description AS itemDescription 
+        FROM Damages
+        INNER JOIN Items ON Damages.item_ID = Items.ID
+        ORDER BY Damages.date DESC
+      `;
 
-    // Run the query
-    connection.query(query, function (error, results, fields) {
-      connection.release();
-      if (error) {
-        throw error;
-      }
+      // Run the query
+      connection.query(query, function (error, results, fields) {
+        connection.release();
+        if (error) {
+          throw error;
+        }
 
-      // Send the results as JSON response
-      res.json(results);
-    });
+        // Send the results as JSON response
+        res.json(results);
+      });
+    })
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal server error' });
