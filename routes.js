@@ -155,7 +155,7 @@ app.put('/lendItem', (req, res) => {
       }
 
       const lendItemQuery = 'UPDATE Items SET ' +
-          'user_short = ? ' +
+          'user_short = ?, ' +
           'storageSite = "lent" ' +
           'WHERE ID = ?';
       console.log(lendItemQuery);
