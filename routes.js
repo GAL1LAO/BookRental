@@ -333,7 +333,7 @@ app.post('/addUser', async (req, res) => {
       }else{
         const password = generatePassword() 
         console.log(password)
-        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
+        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role, fastReturnPoints) VALUES("'
         + req.body.short +'","'
         + req.body.lastName+'","'
         + req.body.firstName+'","'
@@ -342,7 +342,7 @@ app.post('/addUser', async (req, res) => {
         + req.body.phoneNumber+'","'
         + req.body.birthDate+'","'
         + password+'","'
-        + req.body.role+'")'
+        + req.body.role+'", "3")'
         console.log(addUserQuery)
         connection.query(addUserQuery, function (error, results, fields) {
           connection.release();

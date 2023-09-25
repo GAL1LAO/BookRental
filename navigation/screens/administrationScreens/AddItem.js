@@ -15,23 +15,7 @@ export default function AddItemScreen({navigation}){
     const [month, setMonth] = useState('')    
     const [year, setYear] = useState('')   
 
-    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
 
-    const filterData = () => {
-      switch (filterOption) {
-        case "Kiste":
-            setType("Kiste");
-          break;
-        case "Buch":
-            setType("Buch");
-
-      }
-    };
-  
-    useEffect(() => {
-      filterData();
-    }, [filterOption]);
-    
       const [open, setOpen] = useState(false);
       const [items, setItems] = useState([
         { label: "Kiste", value: "Chest" },
@@ -76,7 +60,7 @@ export default function AddItemScreen({navigation}){
             open={open}
             value={type}
             items={items}
-            placeholder="Filter auswählen"
+            placeholder="Itemtyp"
             setOpen={setOpen}
             setValue={setType}
             setItems={setItems}

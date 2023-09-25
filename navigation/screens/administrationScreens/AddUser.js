@@ -19,25 +19,8 @@ export default function AddUserScreen({navigation}){
     const [year, setYear] = useState('')    
     const [role, setRole] = useState('')
 
-    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
-
-    const filterData = () => {
-      switch (filterOption) {
-        case "adm":
-            setRole("adm");
-          break;
-        case "use":
-            setRole("use");
-
-      }
-    };
-  
-    useEffect(() => {
-      filterData();
-    }, [filterOption]);
     
       const [open, setOpen] = useState(false);
-      const [value, setValue] = useState(null);
       const [items, setItems] = useState([
         { label: "Administrator", value: "adm" },
         { label: "Benutzer", value: "use" },

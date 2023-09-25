@@ -18,18 +18,7 @@ export default function UserDetailScreen({ route, navigation }) {
     let { short } = route.params;
     const [isLoading, setLoading] = useState(true);
     const url = 'http://' + process.env.localIP + ':3000';
-    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
 
-    const filterData = () => {
-      switch (filterOption) {
-        case "adm":
-            setRole("adm");
-          break;
-        case "use":
-            setRole("use");
-
-      }
-    };
   const getUser = async () => {
     try {
       console.log("fetching data???????");
@@ -62,10 +51,6 @@ export default function UserDetailScreen({ route, navigation }) {
     getUser()
   }, [])
 
-  useEffect(() => {
-    filterData()
-  }, [filterOption])
-  
 
   async function editUser(){
     const userData = {
@@ -118,7 +103,7 @@ export default function UserDetailScreen({ route, navigation }) {
                   open={open}
                   value={role}
                   items={items}
-                  placeholder="Filter auswählen"
+                  placeholder="Rolle auswählen"
                   setOpen={setOpen}
                   setValue={setRole}
                   setItems={setItems}

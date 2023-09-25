@@ -103,7 +103,7 @@ async function deleteItem(){
             open={open}
             value={type}
             items={items}
-            placeholder="Filter auswählen"
+            placeholder="Itemtyp"
             setOpen={setOpen}
             setValue={setType}
             setItems={setItems}
