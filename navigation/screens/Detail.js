@@ -86,7 +86,7 @@ export default function DetailScreen({ route }) {
           />
           <View style={styles.titelAndText}>
             <View style={styles.row1}>
-              <Text style={styles.subCaptionText}>Schaden:</Text>
+              <Text style={styles.subCaptionText}>Schäden:</Text>
             </View>
             <View style={styles.row2}>
               <Text style={styles.text}>{data.damages}</Text>

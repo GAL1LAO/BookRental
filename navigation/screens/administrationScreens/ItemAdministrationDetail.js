@@ -132,7 +132,7 @@ async function deleteItem(){
           <View style={styles.buttonRow}>
             <TouchableOpacity style={[styles.column1, styles.fakeButtonGreen]} type='submit' onPress={async() => await editUser()}>
               <Text style={styles.subCaptionTextWhite}>
-                  Updaten
+                Bestätigen
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.column2, styles.fakeButtonRed]} onPress={() => {navigation.navigate('Item Administration')}}>
