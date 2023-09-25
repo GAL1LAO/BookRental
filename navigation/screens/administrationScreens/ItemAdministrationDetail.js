@@ -115,7 +115,7 @@ async function deleteItem(){
               <Text style={styles.text}>Name:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
+            <TextInput placeholder='Name' style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -123,7 +123,7 @@ async function deleteItem(){
               <Text style={styles.text}>Beschreibung:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
+            <TextInput placeholder='Beschreibung' style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -161,7 +161,7 @@ async function deleteItem(){
               <Text style={styles.text}>Lagerort</Text>
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
+            <TextInput placeholder='Lagerort' style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
             </View>
           </View>
           <View style={styles.buttonRow}>
