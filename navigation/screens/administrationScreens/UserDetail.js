@@ -259,13 +259,11 @@ const styles = StyleSheet.create({
   },
   column1: {
     width: '37%',
-    paddingTop: 10,
     marginRight:5,
     marginLeft: -5
   },
   column2: {
     width: '63%',
-    paddingTop: 10,
     marginRight:5
   },
   titelAndText: {
@@ -325,7 +323,6 @@ const styles = StyleSheet.create({
       paddingTop: 10,
       paddingRight: 10,
       paddingBottom: 10,
-      paddingLeft: 0,
       color: '#424242',
   },
   inputContainer: {
@@ -339,7 +336,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   containerForDate: {
-    marginBottom: 10,
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'center',
