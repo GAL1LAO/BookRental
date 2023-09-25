@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -14,6 +13,7 @@ export default function AddItemScreen({navigation}){
     const [day, setDay] = useState('')    
     const [month, setMonth] = useState('')    
     const [year, setYear] = useState('')   
+    
 
 
       const [open, setOpen] = useState(false);
@@ -39,6 +39,7 @@ export default function AddItemScreen({navigation}){
         }
         itemData.dateOfPurchase = dayjs(itemData.dateOfPurchase).format('YYYY-DD-MM')
         console.log(itemData)
+        let itemId
         await fetch(serverUrl + '/addItem',{
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
@@ -47,9 +48,10 @@ export default function AddItemScreen({navigation}){
           .then(response => response.json()) 
           .then(serverResponse => {
             console.log(serverResponse)
+            itemId = serverResponse
         })
-        console.log("ahhhhhhh")
-        navigation.navigate('Item Administration')
+        console.log("navigate")
+        navigation.navigate('QR-Code', { itemId: itemId.results.insertId })
     }
     return(
     <View style={styles.container}> 
@@ -130,7 +132,7 @@ export default function AddItemScreen({navigation}){
             </View>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => {await addItem(); console.log("AHHHHH");navigation.navigate('Item Administration')}}>
+            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => {await addItem()}}>
               <Text style={styles.subCaptionTextWhite}>
                 Hinzufügen
               </Text>

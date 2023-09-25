@@ -371,6 +371,7 @@ app.post('/addUser', async (req, res) => {
 
 app.post('/addItem', async (req, res) => {
   connection.getConnection(function (err, connection) {
+    let results
     const addItemQuery = 'Insert INTO Items (type, name, description, image, dateOfPurchase, storageSite) VALUES("'
     + req.body.type +'","'
     + req.body.name+'","'
@@ -404,10 +405,12 @@ app.post('/addItem', async (req, res) => {
             return;
           }
         console.log(results)
+
+        results = results
         });
         }
       connection.release();
-      res.status(200).send({'Response':'Succesfully inserted Item'})
+      res.status(200).send({results})
     });
   });
 });
