@@ -297,6 +297,7 @@ app.post('/deleteItem', (req, res) => {
   'DELETE FROM Items WHERE ID = "' + req.body.id+ '"'
   ]
   console.log(queries)
+  let result
   for(const query of queries){
     connection.query(query, function (error, results, fields) {
       if (error) {
@@ -306,9 +307,10 @@ app.post('/deleteItem', (req, res) => {
         return;
       }
       console.log(results)
+      result=results
     });
+  res.status(200).send()
   connection.release();
-  res.status(400).send()
   }
 });
 })
@@ -405,7 +407,7 @@ app.post('/addItem', async (req, res) => {
         });
         }
       connection.release();
-      res.status(400).send({'Response':'Succesfully inserted Item'})
+      res.status(200).send({'Response':'Succesfully inserted Item'})
     });
   });
 });
