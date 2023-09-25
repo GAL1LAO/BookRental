@@ -41,12 +41,16 @@ export default function DetailScreen({ route }) {
       ) : (
       <View >
         <View style={styles.captionContainer}>
-          <Text style={styles.captionText}>{data.type} {data.name}</Text>
+          <Text style={styles.captionText}>{data.type}: {data.name}</Text>
         </View>
         <ScrollView>
         {/* TODO: PHOTO HINZUFÜGEN? */}
         <View style={styles.fakeButtonImage}>
-        <Ionicons style={styles.inputIcon} size={50} name="cube"/>
+        <Ionicons style={[styles.inputIcon,
+              data.firstName ? { color: "red" } : null,
+            ]}
+            size={50}
+            name={data.type === "Book" ? "book-sharp" : "cube"}/>
           </View> 
           {/* <View style={styles.fakeButtonImage}>
             <Image source={require('../../assets/favicon.png')}/>
