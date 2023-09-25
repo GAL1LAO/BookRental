@@ -60,12 +60,9 @@ function ProfileStack() {
           component={ProfileScreen}
           options={{
             headerRight: () => (
-              <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signOut()}>
-                  <Ionicons style={styles.inputIcon} name="log-out" size={20} color="#000"/>
-                  <Text style={styles.subCaptionTextWhite}>
-                      Ausloggen
-                  </Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.fakeButton} onPress={async ()=>await signOut()}>
+                    <Ionicons style={styles.inputIcon} name="log-out" size={20} color="#000"/>
+                </TouchableOpacity>
             ),
           }}
         />
@@ -170,9 +167,9 @@ const styles = StyleSheet.create({
       paddingHorizontal: '5%',
   },
   fakeButton: {
-      marginBottom: 10,
+      marginVertical: 5,
+      marginRight: '0.5%',
       borderRadius: 10,
-      width: '100%',
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
