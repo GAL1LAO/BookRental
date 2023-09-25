@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     const fetchDataAsync = async () => {
-      console.log("fetching data");
+      console.log("fetching data?");
       try {
         // Fetch the book data
         const response = await fetch(url + "/itemsList");

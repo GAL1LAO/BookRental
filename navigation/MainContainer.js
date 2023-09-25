@@ -122,7 +122,7 @@ function MainContainer() {
           tabBarActiveTintColor: "#3EB489",
           tabBarInactiveTintColor: "white",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 15 },
-          tabBarStyle: { backgroundColor: '#246EE9', padding: 10, height: 80 },
+          tabBarStyle: { backgroundColor: '#246EE9', padding: 10, height: 100 },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let rn = route.name;
