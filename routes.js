@@ -195,6 +195,7 @@ app.post('/deleteItem', (req, res) => {
       console.log(results)
     });
   connection.release();
+  res.status(400).send()
   }
 });
 })
@@ -291,6 +292,7 @@ app.post('/addItem', async (req, res) => {
         });
         }
       connection.release();
+      res.status(400).send({'Response':'Succesfully inserted Item'})
     });
   });
 });

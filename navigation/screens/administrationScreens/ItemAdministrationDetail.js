@@ -4,7 +4,7 @@ import { ActivityIndicator } from 'react-native';
 import dayjs from 'dayjs';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-export default function ItemAdministrationDetailScreen({ route }) {
+export default function ItemAdministrationDetailScreen({ route, navigation }) {
     const [type, setType] = useState('');
     const [name, setName] = useState('')
     const [description, setDescription] = useState('');
@@ -17,8 +17,8 @@ export default function ItemAdministrationDetailScreen({ route }) {
     const url = 'http://' + process.env.localIP + ':3000';
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
-      { label: "Kiste", value: "Kiste" },
-      { label: "Buch", value: "Buch" },
+      { label: "Kiste", value: "Chest" },
+      { label: "Buch", value: "Book" },
     ]);
   const getUser = async () => {
     try {
@@ -76,6 +76,7 @@ export default function ItemAdministrationDetailScreen({ route }) {
         console.log(serverResponse)
     })
     await getUser()//to get updated data
+    alert("Erfolgreich aktualisiert")
 }
 
 async function deleteItem(){

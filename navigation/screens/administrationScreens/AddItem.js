@@ -34,8 +34,8 @@ export default function AddItemScreen({navigation}){
     
       const [open, setOpen] = useState(false);
       const [items, setItems] = useState([
-        { label: "Kiste", value: "Kiste" },
-        { label: "Buch", value: "Buch" },
+        { label: "Kiste", value: "Chest" },
+        { label: "Buch", value: "Book" },
       ]);
 
     async function addItem(){
@@ -64,7 +64,8 @@ export default function AddItemScreen({navigation}){
           .then(serverResponse => {
             console.log(serverResponse)
         })
-        dispatch({type : 'Home'})//to return back at the end*/
+        console.log("ahhhhhhh")
+        navigation.navigate('Item Administration')
     }
     return(
     <View style={styles.container}> 
@@ -145,7 +146,7 @@ export default function AddItemScreen({navigation}){
             </View>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => await addItem()}>
+            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => {await addItem(); console.log("AHHHHH");navigation.navigate('Item Administration')}}>
               <Text style={styles.subCaptionTextWhite}>
                 Hinzufügen
               </Text>

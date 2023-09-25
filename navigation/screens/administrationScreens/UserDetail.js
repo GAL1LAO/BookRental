@@ -4,7 +4,7 @@ import { ActivityIndicator } from 'react-native';
 import dayjs from 'dayjs';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-export default function UserDetailScreen({ route }) {
+export default function UserDetailScreen({ route, navigation }) {
     const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('')
     const [title, setTitle] = useState('');
@@ -96,6 +96,7 @@ export default function UserDetailScreen({ route }) {
         console.log(serverResponse)
     })
     await getUser()//to get updated data
+    alert('erfolgreich aktualisiert')
 }
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -200,7 +201,7 @@ export default function UserDetailScreen({ route }) {
                       Bestätigen
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.fakeButtonRed} onPress={() => {navigation.navigate('Item Administration')}}>
+                <TouchableOpacity style={styles.fakeButtonRed} onPress={() => {navigation.navigate('Nutzer Administration')}}>
                   <Text style={styles.subCaptionTextWhite}>
                       Abbrechen
                   </Text>
