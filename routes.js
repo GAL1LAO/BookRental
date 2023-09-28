@@ -320,6 +320,7 @@ app.post('/deleteItem', (req, res) => {
   'DELETE FROM Items WHERE ID = "' + req.body.id+ '"'
   ]
   console.log(queries)
+  let result
   for(const query of queries){
     connection.query(query, function (error, results, fields) {
       if (error) {
@@ -329,9 +330,10 @@ app.post('/deleteItem', (req, res) => {
         return;
       }
       console.log(results)
+      result=results
     });
+  res.status(200).send()
   connection.release();
-  res.status(400).send()
   }
 });
 })
@@ -354,7 +356,7 @@ app.post('/addUser', async (req, res) => {
       }else{
         const password = generatePassword() 
         console.log(password)
-        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role) VALUES("'
+        const addUserQuery = 'Insert INTO Users (short, lastName, firstName, title, mailAddress, phoneNumber, birthDate, password, role, fastReturnPoints) VALUES("'
         + req.body.short +'","'
         + req.body.lastName+'","'
         + req.body.firstName+'","'
@@ -363,7 +365,7 @@ app.post('/addUser', async (req, res) => {
         + req.body.phoneNumber+'","'
         + req.body.birthDate+'","'
         + password+'","'
-        + req.body.role+'")'
+        + req.body.role+'", "3")'
         console.log(addUserQuery)
         connection.query(addUserQuery, function (error, results, fields) {
           connection.release();
@@ -392,6 +394,7 @@ app.post('/addUser', async (req, res) => {
 
 app.post('/addItem', async (req, res) => {
   connection.getConnection(function (err, connection) {
+    let results
     const addItemQuery = 'Insert INTO Items (type, name, description, image, dateOfPurchase, storageSite) VALUES("'
     + req.body.type +'","'
     + req.body.name+'","'
@@ -425,10 +428,12 @@ app.post('/addItem', async (req, res) => {
             return;
           }
         console.log(results)
+
+        results = results
         });
         }
       connection.release();
-      res.status(400).send({'Response':'Succesfully inserted Item'})
+      res.status(200).send({results})
     });
   });
 });
@@ -489,7 +494,7 @@ app.post('/itemById', async (req, res) => {
   // Connecting to the database.
   connection.getConnection(function (err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, i.qrCode, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
+    const itemsQuery = 'SELECT i.type, i.name, i.description, i.image, i.dateOfPurchase, i.storageSite, u.title, u.firstName, u.lastName, (SELECT GROUP_CONCAT(damageDescription SEPARATOR "\n") FROM damages WHERE item_ID = "'+ req.body.id+'") AS damages FROM Items i LEFT JOIN users u on i.user_short = u.short WHERE i.id = "' + req.body.id + '"'
     console.log(itemsQuery)
     connection.query(itemsQuery, function (error, results, fields) {
       connection.release();

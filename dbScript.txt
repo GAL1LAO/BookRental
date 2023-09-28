@@ -24,13 +24,13 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Users` (
                                                  `short` VARCHAR(4) NOT NULL,
                                                  `lastName` VARCHAR(45) NULL DEFAULT NULL,
                                                  `firstName` VARCHAR(45) NULL DEFAULT NULL,
-                                                 `title` VARCHAR(3) NULL DEFAULT NULL,
+                                                 `title` VARCHAR(45) NULL DEFAULT NULL,
                                                  `mailAddress` VARCHAR(45) NULL DEFAULT NULL,
                                                  `phoneNumber` VARCHAR(45) NULL DEFAULT NULL,
                                                  `birthDate` DATE NULL DEFAULT NULL,
                                                  `password` VARCHAR(80) NOT NULL,
                                                  `role` VARCHAR(3) NOT NULL,
-                                                 `fastReturnPoints` SMALLINT NOT NULL,
+                                                 `fastReturnPoints` SMALLINT NULL DEFAULT NULL,
                                                  PRIMARY KEY (`short`))
     ENGINE = InnoDB;
    
@@ -46,9 +46,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Items` (
                                                  `description` LONGTEXT NULL DEFAULT NULL,
                                                  `image` VARCHAR(45) NULL DEFAULT NULL,
                                                  `user_short` VARCHAR(4) NULL DEFAULT NULL,
-                                                 `dateOfPurchase` DATE NOT NULL,
-                                                 `storageSite` VARCHAR(45) NOT NULL,
-                                                 `qrCode` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `dateOfPurchase` DATE NULL DEFAULT NULL,
+                                                 `storageSite` VARCHAR(45) NULL DEFAULT NULL,
                                                  PRIMARY KEY (`ID`),
                                                  CONSTRAINT `Items_user`
 												 FOREIGN KEY (`user_short`)
@@ -126,18 +125,18 @@ VALUES
 ('ghij', 'Koch', 'Martin', 'Mr', 'martin.koch@example.com', '+49123456781', '1995-02-18', 'password9', 'adm', 3),
 ('klmn', 'Lehmann', 'Laura', 'Mrs', 'laura.lehmann@example.com', '+49123456780', '1983-08-03', 'password10', 'use', 3);
 
-INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `dateOfPurchase`, `storageSite`, `qrCode`)
+INSERT INTO `Items` (`type`, `name`, `description`, `image`, `user_short`, `dateOfPurchase`, `storageSite`)
 VALUES
-('Book', 'Math Workbook', 'Math workbook for primary school students.', 'math_workbook.jpg', 'abcd', '2021-01-15', 'Storage Room 1', 'QR12345'),
-('Book', 'English Textbook', 'English textbook for Grade 4.', 'english_textbook.jpg', 'efgh', '2020-08-20', 'Storage Room 2', 'QR67890'),
-('Book', 'Science Workbook', 'Science workbook with interactive experiments.', 'science_workbook.jpg', 'ijkl', '2021-03-10', 'Storage Room 1', 'QR24680'),
-('Book', 'History Textbook', 'History textbook covering ancient civilizations.', 'history_textbook.jpg', 'mnop', '2019-12-05', 'Storage Room 2', 'QR13579'),
-('Book', 'Art Supplies Catalog', 'Catalog of art supplies for creative projects.', 'art_supplies_catalog.jpg', 'qrst', '2020-05-25', 'Storage Room 1', 'QR54321'),
-('Book', 'Music Textbook', 'Music textbook for learning musical notation.', 'music_textbook.jpg', 'uvwx', '2021-02-10', 'Storage Room 2', 'QR98765'),
-('Book', 'Geography Workbook', 'Geography workbook with maps and quizzes.', 'geography_workbook.jpg', 'yzab', '2020-09-30', 'Storage Room 1', 'QR11111'),
-('Book', 'Physical Education Manual', 'Manual for physical education teachers.', 'pe_manual.jpg', 'cdef', '2021-04-18', 'Storage Room 2', 'QR22222'),
-('Book', 'German Language Workbook', 'Workbook for learning the German language.', 'german_workbook.jpg', 'ghij', '2020-11-12', 'Storage Room 1', 'QR33333'),
-('Book', 'Computer Science Textbook', 'Textbook covering computer science concepts.', 'computer_science_textbook.jpg', 'klmn', '2021-07-22', 'Storage Room 2', 'QR44444');
+('Book', 'Math Workbook', 'Math workbook for primary school students.', 'math_workbook.jpg', 'abcd', '2021-01-15', 'Storage Room 1'),
+('Book', 'English Textbook', 'English textbook for Grade 4.', 'english_textbook.jpg', 'efgh', '2020-08-20', 'Storage Room 2'),
+('Book', 'Science Workbook', 'Science workbook with interactive experiments.', 'science_workbook.jpg', 'ijkl', '2021-03-10', 'Storage Room 1'),
+('Book', 'History Textbook', 'History textbook covering ancient civilizations.', 'history_textbook.jpg', 'mnop', '2019-12-05', 'Storage Room 2'),
+('Book', 'Art Supplies Catalog', 'Catalog of art supplies for creative projects.', 'art_supplies_catalog.jpg', 'qrst', '2020-05-25', 'Storage Room 1'),
+('Book', 'Music Textbook', 'Music textbook for learning musical notation.', 'music_textbook.jpg', 'uvwx', '2021-02-10', 'Storage Room 2'),
+('Book', 'Geography Workbook', 'Geography workbook with maps and quizzes.', 'geography_workbook.jpg', 'yzab', '2020-09-30', 'Storage Room 1'),
+('Book', 'Physical Education Manual', 'Manual for physical education teachers.', 'pe_manual.jpg', 'cdef', '2021-04-18', 'Storage Room 2'),
+('Book', 'German Language Workbook', 'Workbook for learning the German language.', 'german_workbook.jpg', 'ghij', '2020-11-12', 'Storage Room 1'),
+('Book', 'Computer Science Textbook', 'Textbook covering computer science concepts.', 'computer_science_textbook.jpg', 'klmn', '2021-07-22', 'Storage Room 2');
 
 
 INSERT INTO `Audit` (`user_short`, `item_ID`, `date`, `type`, `remarks`)

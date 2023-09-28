@@ -18,18 +18,7 @@ export default function UserDetailScreen({ route, navigation }) {
     let { short } = route.params;
     const [isLoading, setLoading] = useState(true);
     const url = 'http://' + process.env.localIP + ':3000';
-    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
 
-    const filterData = () => {
-      switch (filterOption) {
-        case "adm":
-            setRole("adm");
-          break;
-        case "use":
-            setRole("use");
-
-      }
-    };
   const getUser = async () => {
     try {
       console.log("fetching data???????");
@@ -62,10 +51,6 @@ export default function UserDetailScreen({ route, navigation }) {
     getUser()
   }, [])
 
-  useEffect(() => {
-    filterData()
-  }, [filterOption])
-  
 
   async function editUser(){
     const userData = {
@@ -118,7 +103,7 @@ export default function UserDetailScreen({ route, navigation }) {
                   open={open}
                   value={role}
                   items={items}
-                  placeholder="Filter auswählen"
+                  placeholder="Rolle auswählen"
                   setOpen={setOpen}
                   setValue={setRole}
                   setItems={setItems}
@@ -130,7 +115,7 @@ export default function UserDetailScreen({ route, navigation }) {
                   <Text style={styles.text}>Anrede:</Text>  
                 </View>
                 <View style={styles.column2}>
-                  <TextInput style={styles.input} value={title} onChangeText={title=>{setTitle(title)}}/>
+                  <TextInput placeholder='Anrede' style={styles.input} value={title} onChangeText={title=>{setTitle(title)}}/>
                 </View>
               </View>
               <View style={styles.inputContainer}>
@@ -138,7 +123,7 @@ export default function UserDetailScreen({ route, navigation }) {
                   <Text style={styles.text}>Vorname:</Text>  
                 </View>
                 <View style={styles.column2}>
-                <TextInput style={styles.input} value={firstName} onChangeText={title=>{setFirstName(title)}}/>
+                <TextInput placeholder='Vorname' style={styles.input} value={firstName} onChangeText={title=>{setFirstName(title)}}/>
                 </View>
               </View>
               <View style={styles.inputContainer}>
@@ -146,7 +131,7 @@ export default function UserDetailScreen({ route, navigation }) {
                   <Text style={styles.text}>Nachname:</Text>  
                 </View>
                 <View style={styles.column2}>
-                <TextInput style={styles.input} value={lastName} onChangeText={lastName=>{setLastName(lastName)}}/>
+                <TextInput placeholder='Nachname' style={styles.input} value={lastName} onChangeText={lastName=>{setLastName(lastName)}}/>
                 </View>
               </View>
               <View style={styles.inputContainer}>
@@ -184,15 +169,15 @@ export default function UserDetailScreen({ route, navigation }) {
                   <Text style={styles.text}>Email Adresse:</Text>
                 </View>
                 <View style={styles.column2}>
-                <TextInput style={styles.input} value={mailAddress} onChangeText={title=>{setMailAddress(title)}}/>
+                <TextInput placeholder='Email Adresse' style={styles.input} value={mailAddress} onChangeText={title=>{setMailAddress(title)}}/>
                 </View>
               </View>
               <View style={styles.inputContainer}>
                 <View style={styles.column1}>
-                  <Text style={styles.text}>Telephonnummer</Text>
+                  <Text style={styles.text}>Telefonnummer</Text>
                 </View>
                 <View style={styles.column2}>
-                <TextInput style={styles.input} value={phoneNumber} onChangeText={title=>{setPhoneNumber(title)}}/>
+                <TextInput placeholder='Telefonnummer' style={styles.input} value={phoneNumber} onChangeText={title=>{setPhoneNumber(title)}}/>
                 </View>
               </View>
               <View style={styles.buttonRow}>

@@ -6,6 +6,7 @@ import HomeScreen from './screens/Home';
 import LendScreen from './screens/Lend';
 import ProfileScreen from './screens/Profile';
 import QRScannerScreen from './screens/QRScanner';
+import QRGeneratorScreen from './screens/administrationScreens/QRGenerator';
 import SuccessScreen from './screens/Success';
 import AdminScreen from './screens/administrationScreens/Admin';
 import ReturnItemScreen from './screens/ReturnItem';
@@ -118,8 +119,17 @@ function ItemAdministrationStack() {
           name="Item Administration"
           component={ItemAdministrationScreen}
         />
-        <Stack.Screen name="Add Item" component={AddItemScreen}/>
+        <Stack.Screen name="Add Item" component={AddItemStack} options={{headerShown: false}}/>
         <Stack.Screen name="Item Admin Detail" component={ItemAdministrationDetailScreen}/>
+      </Stack.Navigator>
+  );
+}
+
+function AddItemStack() {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen name="Add Item" component={AddItemScreen}/>
+        <Stack.Screen name="QR-Code" component={QRGeneratorScreen}/>
       </Stack.Navigator>
   );
 }

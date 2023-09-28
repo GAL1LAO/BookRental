@@ -87,10 +87,7 @@ async function deleteItem(){
             'id' : itemId
         })
       })
-      .then(response => response.json()) 
-      .then(serverResponse => {
-        console.log(serverResponse)
-    })
+      .then(response => console.log(response)) 
     navigation.navigate('Item Administration')
 }
 
@@ -106,7 +103,7 @@ async function deleteItem(){
             open={open}
             value={type}
             items={items}
-            placeholder="Filter auswählen"
+            placeholder="Itemtyp"
             setOpen={setOpen}
             setValue={setType}
             setItems={setItems}
@@ -118,7 +115,7 @@ async function deleteItem(){
               <Text style={styles.text}>Name:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
+            <TextInput placeholder='Name' style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -126,7 +123,7 @@ async function deleteItem(){
               <Text style={styles.text}>Beschreibung:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
+            <TextInput placeholder='Beschreibung' style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -164,7 +161,7 @@ async function deleteItem(){
               <Text style={styles.text}>Lagerort</Text>
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
+            <TextInput placeholder='Lagerort' style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
             </View>
           </View>
           <View style={styles.buttonRow}>

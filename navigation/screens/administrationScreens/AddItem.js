@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -14,24 +13,9 @@ export default function AddItemScreen({navigation}){
     const [day, setDay] = useState('')    
     const [month, setMonth] = useState('')    
     const [year, setYear] = useState('')   
-
-    const [filterOption, setFilterOption] = useState("All"); // Initialize with "All" as the default filter
-
-    const filterData = () => {
-      switch (filterOption) {
-        case "Kiste":
-            setType("Kiste");
-          break;
-        case "Buch":
-            setType("Buch");
-
-      }
-    };
-  
-    useEffect(() => {
-      filterData();
-    }, [filterOption]);
     
+
+
       const [open, setOpen] = useState(false);
       const [items, setItems] = useState([
         { label: "Kiste", value: "Chest" },
@@ -55,6 +39,7 @@ export default function AddItemScreen({navigation}){
         }
         itemData.dateOfPurchase = dayjs(itemData.dateOfPurchase).format('YYYY-DD-MM')
         console.log(itemData)
+        let itemId
         await fetch(serverUrl + '/addItem',{
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
@@ -63,9 +48,10 @@ export default function AddItemScreen({navigation}){
           .then(response => response.json()) 
           .then(serverResponse => {
             console.log(serverResponse)
+            itemId = serverResponse
         })
-        console.log("ahhhhhhh")
-        navigation.navigate('Item Administration')
+        console.log("navigate")
+        navigation.navigate('QR-Code', { itemId: itemId.results.insertId })
     }
     return(
     <View style={styles.container}> 
@@ -76,7 +62,7 @@ export default function AddItemScreen({navigation}){
             open={open}
             value={type}
             items={items}
-            placeholder="Filter auswählen"
+            placeholder="Itemtyp"
             setOpen={setOpen}
             setValue={setType}
             setItems={setItems}
@@ -88,7 +74,7 @@ export default function AddItemScreen({navigation}){
               <Text style={styles.text}>Name:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
+            <TextInput placeholder='Name' style={styles.input} value={name} onChangeText={name=>{setName(name)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -96,7 +82,7 @@ export default function AddItemScreen({navigation}){
               <Text style={styles.text}>Beschreibung:</Text>  
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
+            <TextInput placeholder='Beschreibung' style={styles.input} value={description} onChangeText={description=>{setDescription(description)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -134,7 +120,7 @@ export default function AddItemScreen({navigation}){
               <Text style={styles.text}>Lagerort</Text>
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
+            <TextInput placeholder='Lagerort' style={styles.input} value={storageSite} onChangeText={storageSite=>{setStorageSite(storageSite)}}/>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -142,11 +128,11 @@ export default function AddItemScreen({navigation}){
               <Text style={styles.text}>Schäden</Text>
             </View>
             <View style={styles.column2}>
-            <TextInput style={styles.input} multiline={true} value={damages} onChangeText={damages=>{setDamages(damages)}}/>
+            <TextInput placeholder='Schäden' style={styles.input} multiline={true} value={damages} onChangeText={damages=>{setDamages(damages)}}/>
             </View>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => {await addItem(); console.log("AHHHHH");navigation.navigate('Item Administration')}}>
+            <TouchableOpacity style={ styles.fakeButtonGreen} type='submit' onPress={async() => {await addItem()}}>
               <Text style={styles.subCaptionTextWhite}>
                 Hinzufügen
               </Text>
