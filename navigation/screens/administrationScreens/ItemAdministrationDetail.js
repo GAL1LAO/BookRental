@@ -1,8 +1,11 @@
 import { StyleSheet, Text, TextInput, View, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { ActivityIndicator } from 'react-native';
 import dayjs from 'dayjs';
 import DropDownPicker from 'react-native-dropdown-picker';
+import QRCode from 'react-native-qrcode-svg';
+import * as Print from 'expo-print';
+import { captureRef } from 'react-native-view-shot';
 
 export default function ItemAdministrationDetailScreen({ route, navigation }) {
     const [type, setType] = useState('');
@@ -20,6 +23,25 @@ export default function ItemAdministrationDetailScreen({ route, navigation }) {
       { label: "Kiste", value: "Chest" },
       { label: "Buch", value: "Book" },
     ]);
+    const qrRef = useRef(null);
+
+    const printQRCode = async () => {
+      try {
+        // Capture the QR code as an image
+        const uri = await captureRef(qrRef, {
+          format: 'png',
+          quality: 1,
+        });
+  
+        // Print the captured image
+        await Print.printAsync({
+          uri
+        });
+      } catch (error) {
+        console.error("Failed to print QR code:", error);
+      }
+    };
+
   const getUser = async () => {
     try {
       console.log("fetching data???????");
@@ -97,6 +119,20 @@ async function deleteItem(){
         <ActivityIndicator/>
       ) : (
         <ScrollView>
+          <View ref={qrRef} className="items-center">
+            <QRCode 
+              id="qr-gen"
+              value={itemId.toString()}
+              size={200}
+           />
+            <TouchableOpacity className="mt-4" style={ styles.fakeButtonGreen} onPress={printQRCode}>
+              <Text style={styles.subCaptionTextWhite}>
+                QR code drucken
+              </Text>
+            </TouchableOpacity>
+          </View>
+          
+
           <View style={styles.filter}>
             <DropDownPicker 
             style={{borderColor: "#ccc"}}

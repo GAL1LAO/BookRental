@@ -1,26 +1,41 @@
-import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity  } from 'react-native';
+import React, { useRef } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import * as Print from 'expo-print';
+import { captureRef } from 'react-native-view-shot';
 
-
-export default function QRGeneratorScreen({navigation, route}){
+export default function QRGeneratorScreen({ navigation, route }) {
   const { itemId } = route.params;
-  console.log()
+  const qrRef = useRef(null);
+
+  const printQRCode = async () => {
+    try {
+      // Capture the QR code as an image
+      const uri = await captureRef(qrRef, {
+        format: 'png',
+        quality: 1,
+      });
+
+      // Print the captured image
+      await Print.printAsync({
+        uri
+      });
+    } catch (error) {
+      console.error("Failed to print QR code:", error);
+    }
+  };
 
   return (
-  <View style={styles.container}>
-    <Text style={styles.qrText}>QR Code</Text>
-  <QRCode 
-      id="qr-gen"
-      value={itemId.toString()}
-  />
-  <TouchableOpacity 
-      style={styles.button}
-      onPress={() => { console.log('print')}}>
-    <Text style={styles.save}>Save to Gallery</Text>
-  </TouchableOpacity>
-  </View>
-  )
+    <View style={styles.container}>
+      <Text style={styles.qrText}>QR Code</Text>
+      <View ref={qrRef}>
+        <QRCode id="qr-gen" value={itemId.toString()} />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={printQRCode}>
+        <Text style={styles.save}>drucken</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
