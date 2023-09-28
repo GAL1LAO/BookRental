@@ -155,7 +155,7 @@ app.put('/lendItem', (req, res) => {
       }
 
       const lendItemQuery = 'UPDATE Items SET ' +
-          'user_short = ? ' +
+          'user_short = ?, ' +
           'storageSite = "lent" ' +
           'WHERE ID = ?';
       console.log(lendItemQuery);
@@ -286,6 +286,29 @@ app.get('/getFastReturnPoints', (req, res) => {
   });
 });
 
+app.put('/resetFastReturnPoints', (req, res) => {
+  connection.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error establishing connection:", err);
+      res.status(500).send('Error establishing connection to database');
+      return;
+    }
+
+    const resetPointsQuery = 'UPDATE Users SET fastReturnPoints = 3';
+
+    connection.query(resetPointsQuery, (error, results) => {
+      connection.release();
+
+      if (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send('Error executing query');
+        return;
+      }
+
+      res.send(`Updated ${results.affectedRows} rows.`);
+    });
+  });
+});
 
 
 app.post('/deleteItem', (req, res) => {
