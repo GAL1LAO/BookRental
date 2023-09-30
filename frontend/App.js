@@ -17,6 +17,7 @@ export const UserContext = React.createContext();
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const serverUrl = 'http://'+ process.env.localIP +':3000'
+  console.log(process.env.localIP);
   const [short, setShort] = useState(null);
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {

@@ -5,9 +5,9 @@ const cors = require('cors');
 const dayjs = require('dayjs');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto')
-require('dotenv').config({path: './.env'});
+require('dotenv').config();
 const connection = mysql.createPool({
-  host     : 'localhost',
+  host     : process.env.dbHost,
   user     : process.env.dbUser,
   password : process.env.dbPassword,
   database : process.env.dbName
@@ -546,6 +546,7 @@ app.get('/damagesList', async (req, res) => {
 
 
 // Starting our server.
-app.listen(3000, () => {
- console.log('Go to http://localhost:3000/users so you can see the data.');
-});
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Server started on http://0.0.0.0:3000');
+ });
+ 
